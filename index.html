@@ -2,6 +2,29 @@
 <html lang="en">
 <head>
     <title>My First Website</title>
+    <style>
+        ul {
+            border: 3px solid black;
+            padding: 10px;
+            width: fit-content;
+            position: relative;
+        }
+        ul li {
+            position: relative;
+            list-style-type: none;
+            padding: 5px 0;
+        }
+        ul li::before {
+            content: "";
+            position: absolute;
+            left: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background-color: green;
+        }
+    </style>
 </head>
 <body>
     <h1>I am Carter Lynn and this is my first website!</h1>
@@ -27,6 +50,7 @@
         <li><a href="https://piplynnn.itch.io/hackathon" target="_blank">SpartaDrift</a></li>
         <li><a href="https://piplynnn.itch.io/fs" target="_blank">Mechanical Ascension</a></li>
     </ul>
+    
     <h2>
         Some of My future projects include:
         <h4>
@@ -36,7 +60,7 @@
             A first person shooter with online multiplayer
         </h4>
         <h5>
-            A cat game where you take care of cats(with friends)
+            A cat game where you take care of cats (with friends)
         </h5>
     </h2>
 </body>
