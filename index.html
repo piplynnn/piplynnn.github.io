@@ -4,7 +4,6 @@
     <title>My First Website</title>
     <style>
         ul {
-            border: 3px solid black;
             padding: 10px;
             width: fit-content;
             position: relative;
@@ -12,17 +11,17 @@
         ul li {
             position: relative;
             list-style-type: none;
-            padding: 5px 0;
-        }
-        ul li::before {
-            content: "";
-            position: absolute;
-            left: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 15px;
-            height: 15px;
+            padding: 5px 10px;
             background-color: green;
+            border: 3px solid black;
+            margin-bottom: 5px;
+        }
+        ul li a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 5px;
         }
     </style>
 </head>
