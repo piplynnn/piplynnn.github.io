@@ -3,25 +3,34 @@
 <head>
     <title>My First Website</title>
     <style>
-        .game-list {
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
             background-color: green;
             border: 3px solid black;
-            padding: 10px;
+            padding: 20px;
             width: fit-content;
+            margin: auto;
         }
-        .game-list ul {
-            padding: 0;
-            margin: 0;
-            list-style-type: none;
+
+        .box {
+            width: 150px;
+            height: 100px;
+            background-color: steelblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 10px;
         }
-        .game-list ul li {
-            padding: 5px 10px;
-        }
-        .game-list ul li a {
+
+        .box a {
             color: white;
             text-decoration: none;
-            display: block;
-            padding: 5px;
+            font-weight: bold;
+            padding: 10px;
         }
     </style>
 </head>
@@ -42,28 +51,18 @@
         I'm also working on a slime game with Spartasoft Studio.
     </p>
 
-    <div class="game-list">
-        <ul>
-            <li><a href="https://piplynnn.itch.io/pokemon" target="_blank">Pallet Town Rework</a></li>
-            <li><a href="https://piplynnn.itch.io/the-last-trick-v10" target="_blank">The Last Trick</a></li>
-            <li><a href="https://piplynnn.itch.io/fprugby" target="_blank">FPRugby</a></li>
-            <li><a href="https://piplynnn.itch.io/hackathon" target="_blank">SpartaDrift</a></li>
-            <li><a href="https://piplynnn.itch.io/fs" target="_blank">Mechanical Ascension</a></li>
-        </ul>
+    <div class="container">
+        <div class="box"><a href="https://piplynnn.itch.io/pokemon" target="_blank">Pallet Town Rework</a></div>
+        <div class="box"><a href="https://piplynnn.itch.io/the-last-trick-v10" target="_blank">The Last Trick</a></div>
+        <div class="box"><a href="https://piplynnn.itch.io/fprugby" target="_blank">FPRugby</a></div>
+        <div class="box"><a href="https://piplynnn.itch.io/hackathon" target="_blank">SpartaDrift</a></div>
+        <div class="box"><a href="https://piplynnn.itch.io/fs" target="_blank">Mechanical Ascension</a></div>
     </div>
     
-    <h2>
-        Some of My future projects include:
-        <h4>
-            A space horror game
-        </h4>
-        <h4>
-            A first person shooter with online multiplayer
-        </h4>
-        <h5>
-            A cat game where you take care of cats (with friends)
-        </h5>
-    </h2>
+    <h2>Some of My Future Projects Include:</h2>
+    <h4>A space horror game</h4>
+    <h4>A first-person shooter with online multiplayer</h4>
+    <h5>A cat game where you take care of cats (with friends)</h5>
+
 </body>
 </html>
-
