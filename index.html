@@ -65,9 +65,9 @@
         }
         .box {
             position: relative;
-            
-                width: 250px;
-                height: 140px; /* Adjust height to fit images */
+                width: 100%;
+                max-width: 250px;
+                height: auto; /* Adjust height to fit images */
                 background: none; /* Remove background color */
                 display: flex;
                 justify-content: center;
@@ -93,10 +93,9 @@
 }               
 
             .box img {
-                width: 100%; /* Ensures the image fits the box */
-                height: 100%;
-                object-fit: cover; /* Keeps the image properly scaled */
-                border-radius: 10px; /* Matches box corners */
+                width: 100%; /* Makes images fully responsive */
+                height: auto; /* Keeps the aspect ratio */
+                object-fit: cover; /* Ensures consistent appearance */
             }
 
             .box:hover {
@@ -157,7 +156,7 @@
             My name is Carter Lynn. I'm a student at Michigan State University and a member of Spartasoft Studio.
             I love video games, snowboarding, and creating unique experiences for players.
         </p>
-        <img src="carter.png" alt="Carter Lynn" style="width: 100%; max-width: 300px; border-radius: 10px; margin-top: 10px;">
+        <img src="carter.png" alt="Carter Lynn" style="width: 100%; max-width: 600px; border-radius: 10px; margin-top: 10px;">
     </div>
 
     <div class="skills">
