@@ -225,18 +225,22 @@
 
     </div>
     <script>
-        async function updateVisitCount() {
-            try {
-                const response = await fetch('counter.php'); // Call PHP script
-                const data = await response.json();
-                document.getElementById("visit-count").innerText = data.value;
-            } catch (error) {
-                console.error("Error fetching visit count:", error);
-                document.getElementById("visit-count").innerText = "Error";
-            }
+        // Check if visit count exists in localStorage
+        let visitCount = localStorage.getItem("visitCount");
+    
+        if (visitCount === null) {
+            visitCount = 1; // First visit
+        } else {
+            visitCount = parseInt(visitCount) + 1; // Increment visit count
         }
-        updateVisitCount();
+    
+        // Store the updated visit count in localStorage
+        localStorage.setItem("visitCount", visitCount);
+    
+        // Display the visit count in the Contact section
+        document.getElementById("visit-count").innerText = visitCount;
     </script>
+    
     
     
     
