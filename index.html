@@ -63,24 +63,45 @@
             margin-top: 80px; /* Adjust for navbar */
             padding: 20px;
         }
-
         .box {
-            width: 250px;
-            height: 100px;
-            background: linear-gradient(135deg, #333, #555);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            transition: transform 0.3s ease-in-out;
-            margin-bottom: 20px;
-        }
+            position: relative;
+                width: 250px;
+                height: 140px; /* Adjust height to fit images */
+                background: none; /* Remove background color */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                border-radius: 10px;
+                transition: transform 0.3s ease-in-out;
+                overflow : hidden; /* Hide overflow content */
+            }
+            .overlay {
+                    position: absolute;
+                    bottom: 10px; /* Adjust position */
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+                    color: white;
+                    font-size: 14px;
+                    font-weight: bold;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    width: 80%;
+                    text-align: center;
+}               
 
-        .box:hover {
-            transform: scale(1.05);
-        }
+            .box img {
+                width: 100%; /* Ensures the image fits the box */
+                height: 100%;
+                object-fit: cover; /* Keeps the image properly scaled */
+                border-radius: 10px; /* Matches box corners */
+            }
+
+            .box:hover {
+                transform: scale(1.05);
+                box-shadow: 0 0 15px rgba(0, 255, 255, 0.7);
+            }
 
         .box a {
             color: white;
@@ -149,15 +170,41 @@
     </div>
 
     
-    <h2>Games I've Made </h2>
-    
+    <h2>Games I've Made</h2>
+
     <div class="container">
-        <div class="box"><a href="https://piplynnn.itch.io/pokemon" target="_blank">Pallet Town Rework</a></div>
-        <div class="box"><a href="https://piplynnn.itch.io/the-last-trick-v10" target="_blank">The Last Trick</a></div>
-        <div class="box"><a href="https://piplynnn.itch.io/fprugby" target="_blank">FPRugby</a></div>
-        <div class="box"><a href="https://piplynnn.itch.io/hackathon" target="_blank">SpartaDrift</a></div>
-        <div class="box"><a href="https://piplynnn.itch.io/fs" target="_blank">Mechanical Ascension</a></div>
+        <div class="box">
+            <a href="https://piplynnn.itch.io/pokemon" target="_blank">
+                <img src="pallet-town.png" alt="Pallet Town Rework">
+                <div class="overlay">Pallet Town Rework</div>
+            </a>
+        </div>
+        <div class="box">
+            <a href="https://piplynnn.itch.io/the-last-trick-v10" target="_blank">
+                <img src="last-trick.png" alt="The Last Trick">
+                <div class="overlay">The Last Trick</div>
+            </a>
+        </div>
+        <div class="box">
+            <a href="https://piplynnn.itch.io/fprugby" target="_blank">
+                <img src="fprugby.png" alt="FPRugby">
+                <div class="overlay">FPRugby</div>
+            </a>
+        </div>
+        <div class="box">
+            <a href="https://piplynnn.itch.io/hackathon" target="_blank">
+                <img src="spartadrift.png" alt="SpartaDrift">
+                <div class="overlay">SpartaDrift</div>
+            </a>
+        </div>
+        <div class="box">
+            <a href="https://piplynnn.itch.io/fs" target="_blank">
+                <img src="mechanical-ascension.png" alt="Mechanical Ascension">
+                <div class="overlay">Mechanical Ascension</div>
+            </a>
+        </div>
     </div>
+    
 
     <div class="projects">
         <h2>Future Projects</h2>
@@ -166,15 +213,32 @@
         <h5>A cat game where you take care of cats (with friends)</h5>
     </div>
   
-<div class="contact">
-    <h3>Contact Me</h3>
-    <p>
-        Feel free to reach out!  
-        <a href="mailto:carterlynnmsu@gmail.com" style="color: #0dcaf0; text-decoration: none; font-weight: bold;">
-            carterlynnmsu@gmail.com
-        </a>
-    </p>
-</div>
+    <div class="contact">
+        <h3>Contact Me</h3>
+        <p>
+            Feel free to reach out!  
+            <a href="mailto:carterlynnmsu@gmail.com" style="color: #0dcaf0; text-decoration: none; font-weight: bold;">
+                carterlynnmsu@gmail.com
+            </a>
+        </p>
+        <p>Website Visits: <span id="visit-count">Loading...</span></p>
+
+    </div>
+    <script>
+        async function updateVisitCount() {
+            try {
+                const response = await fetch('https://api.countapi.xyz/hit/carterlynn-portfolio/visits');
+                const data = await response.json();
+                document.getElementById("visit-count").innerText = data.value;
+            } catch (error) {
+                console.error("Error fetching visit count:", error);
+                document.getElementById("visit-count").innerText = "Error";
+            }
+        }
+        updateVisitCount();
+    </script>
+    
+    
 
 </body>
 </html>
