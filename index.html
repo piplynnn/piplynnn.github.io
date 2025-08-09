@@ -44,6 +44,10 @@
       .section-title{position:relative;display:inline-block}
       .section-title::after{content:"";position:absolute;left:0;bottom:-8px;height:2px;width:0;background:linear-gradient(90deg,#00E0FF,transparent);transition:width .6s cubic-bezier(.2,.7,.2,1)}
       .section-title.underline-on::after{width:100%}
+
+      /* Toast */
+      #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);padding:.75rem 1rem;border-radius:.75rem;background:#0ea5e9;color:#031318;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s}
+      #toast.show{opacity:1;transform:translateX(-50%) translateY(-6px)}
     </style>
   </head>
   <body class="antialiased bg-zinc-950 text-zinc-100">
@@ -138,6 +142,10 @@
           <form id="contactForm" class="mt-8 max-w-xl grid gap-3" method="POST" data-endpoint="https://formspree.io/f/mblkqdgv">
             <!-- Honeypot -->
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+            <!-- Helpful metadata for your inbox -->
+            <input type="hidden" name="subject" value="New message from piplynn.com" />
+            <input type="hidden" name="_origin" value="piplynn.com/contact" />
+
             <input class="focus-ring rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3" type="text" name="name" placeholder="Your name" required>
             <input class="focus-ring rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3" type="email" name="email" placeholder="Email" required>
             <textarea class="focus-ring rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3" name="message" rows="5" placeholder="Message" required></textarea>
@@ -158,6 +166,8 @@
         </div>
       </div>
     </footer>
+
+    <div id="toast" role="status" aria-live="polite">Message sent ✅</div>
 
     <script>
       // YOUR PROJECTS (left untouched)
@@ -203,24 +213,36 @@
         observer.observe(el);
       });
 
-      // Formspree async submit with friendly status
+      // Formspree async submit with friendly status & console details
       const form = document.getElementById('contactForm');
+      const toast = document.getElementById('toast');
+      function showToast(){ toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 2000); }
+
       if(form){
         form.addEventListener('submit', async (e)=>{
           e.preventDefault();
           const status = document.getElementById('formStatus');
           status.textContent = 'Sending…';
-          const endpoint = form.dataset.endpoint;
+          const endpoint = (form.dataset.endpoint || '').trim();
+          if(!endpoint){
+            status.textContent = 'No endpoint configured.';
+            console.error('Missing Formspree endpoint in data-endpoint attribute.');
+            return;
+          }
           try{
             const res = await fetch(endpoint, { method:'POST', body: new FormData(form), headers:{ 'Accept':'application/json' }});
+            const bodyText = await res.text();
             if(res.ok){
               status.textContent = 'Thanks! I\'ll get back to you soon.';
+              showToast();
               form.reset();
             } else {
-              status.textContent = 'Couldn\'t send via Formspree yet. Double-check the endpoint ID.';
+              status.textContent = 'Form error. See console for details.';
+              console.error('Formspree error', res.status, bodyText);
             }
           }catch(err){
             status.textContent = 'Network error. Please try again later or email me directly.';
+            console.error('Network error', err);
           }
         });
       }
