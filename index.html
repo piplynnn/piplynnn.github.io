@@ -14,7 +14,7 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="icon" href="/favicon.ico" />
-    <link rel="preload" as="image" href="/assets/projects/cardes.jpg" />
+    <link rel="preload" as="image" href="/assets/hero-shot.jpg" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -56,6 +56,10 @@
       .card-bg::before{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(9,9,11,.7), rgba(9,9,11,.35), transparent);z-index:4}
       .card-bg>.absolute{z-index:5}
       .card-bg>h3,.card-bg>p{position:relative;z-index:10}
+      /* Collage cells keep layout stable */
+      .collage-cell{position:relative;overflow:hidden}
+      .collage-cell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:transform 6s linear, opacity .4s ease}
+      .collage-cell:hover img{transform:scale(1.06)}
     </style>
   </head>
   <body class="antialiased bg-zinc-950 text-zinc-100">
@@ -84,7 +88,10 @@
           </div>
         </div>
         <div data-reveal>
-          <img src="/assets/projects/cardes.jpg" alt="Project collage" class="rounded-2xl border border-zinc-800 shadow-soft" />
+          <!-- Dynamic hero collage -->
+          <div id="heroCollage" class="rounded-2xl border border-zinc-800 shadow-soft overflow-hidden aspect-[4/3] grid grid-cols-3 gap-1 bg-zinc-900">
+            <!-- Populated by JS from heroImages[] -->
+          </div>
         </div>
       </div>
     </section>
@@ -178,6 +185,48 @@
     <div id="toast" role="status" aria-live="polite">Message sent ✅</div>
 
     <script>
+      // HERO COLLAGE IMAGES (separate from projects)
+      // Add or reorder paths; these are independent of the Projects array
+      const heroImages = [
+        '/assets/projects/dashboard.jpg',
+        '/assets/projects/vr.jpg'
+      ];
+
+      (function buildHeroCollage(){
+        const mount = document.getElementById('heroCollage');
+        if(!mount) return;
+        const CELLS = 6; // 3x2 grid
+        const frag = document.createDocumentFragment();
+        for(let i=0;i<CELLS;i++){
+          const idx = i % Math.max(heroImages.length,1);
+          const cell = document.createElement('div');
+          cell.className = 'collage-cell aspect-square bg-zinc-800';
+          const img = document.createElement('img');
+          img.src = heroImages[idx];
+          img.alt = '';
+          img.setAttribute('aria-hidden','true');
+          cell.appendChild(img);
+          frag.appendChild(cell);
+        }
+        mount.appendChild(frag);
+
+        // Simple rotation: swap a random cell every 4s
+        if(heroImages.length > 1){
+          let pointer = CELLS % heroImages.length;
+          setInterval(()=>{
+            const cells = mount.querySelectorAll('.collage-cell img');
+            if(!cells.length) return;
+            const target = Math.floor(Math.random()*cells.length);
+            cells[target].style.opacity = '0';
+            setTimeout(()=>{
+              cells[target].src = heroImages[pointer % heroImages.length];
+              cells[target].style.opacity = '1';
+              pointer++;
+            }, 300);
+          }, 4000);
+        }
+      })();
+
       // YOUR PROJECTS (left untouched)
       const projects = [
         { title: 'Esacpe Velocity', href: 'https://piplynnn.itch.io/escape-velocity', img: '/assets/projects/escapevelocity.jpg', tags: ['Unity', 'C#', 'Enemy AI'], desc: 'Spartasoft team project with grapple and turret mechanics' },
