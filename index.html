@@ -186,50 +186,66 @@
     <script>
       // HERO ROTATOR IMAGES (separate from projects)
       const heroImages = [
-        '/assets/projects/gifvideo1.gif',
+        '/assets/projects/gifvideo1.mp4',
         '/assets/projects/escapevelocity.jpg', // example image, replace with your own
         '/assets/projects/spartadrift.jpg',
         '/assets/projects/slimegame.jpg',
       ];
 
       (function buildHeroRotator(){
-        const mount = document.getElementById('heroRotator');
-        if(!mount || heroImages.length===0) return;
+  const mount = document.getElementById('heroRotator');
+  if(!mount || heroImages.length===0) return;
 
-        // two layers for a smooth crossfade
-        const a = document.createElement('img');
-        const b = document.createElement('img');
-        a.alt = b.alt = '';
-        a.setAttribute('aria-hidden','true');
-        b.setAttribute('aria-hidden','true');
+  // helper to create either img or video
+  function createMedia(src) {
+    if (src.endsWith('.mp4')) {
+      const v = document.createElement('video');
+      v.src = src;
+      v.muted = true;
+      v.loop = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      v.className = '';
+      return v;
+    } else {
+      const i = document.createElement('img');
+      i.src = src;
+      return i;
+    }
+  }
 
-        a.className = 'active';
-        a.src = heroImages[0];
-        b.src = heroImages[1] || heroImages[0];
+  let a = createMedia(heroImages[0]); a.classList.add('active');
+  let b = createMedia(heroImages[1] || heroImages[0]);
+  mount.appendChild(a);
+  mount.appendChild(b);
 
-        mount.appendChild(a);
-        mount.appendChild(b);
+  let i = 1;
+  let showingA = true;
 
-        let i = 1;
-        let showingA = true;
+  if (heroImages.length > 1) {
+    setInterval(() => {
+      const next = heroImages[i % heroImages.length];
+      const nextEl = createMedia(next);
 
-        if (heroImages.length > 1) {
-          setInterval(() => {
-            const next = heroImages[i % heroImages.length];
-            if (showingA) {
-              b.src = next;
-              b.classList.add('active');
-              a.classList.remove('active');
-            } else {
-              a.src = next;
-              a.classList.add('active');
-              b.classList.remove('active');
-            }
-            showingA = !showingA;
-            i++;
-          }, 6000);
-        }
-      })();
+      if (showingA) {
+        mount.replaceChild(nextEl, b);
+        b = nextEl;
+        b.classList.add('active');
+        a.classList.remove('active');
+        if (b.play) b.play().catch(()=>{});
+      } else {
+        mount.replaceChild(nextEl, a);
+        a = nextEl;
+        a.classList.add('active');
+        b.classList.remove('active');
+        if (a.play) a.play().catch(()=>{});
+      }
+      showingA = !showingA;
+      i++;
+    }, 6000);
+  }
+})();
+
 
       // YOUR PROJECTS (left untouched)
       const projects = [
