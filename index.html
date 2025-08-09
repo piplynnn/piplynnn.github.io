@@ -184,16 +184,22 @@
     </main>
 
     <footer class="border-t border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 text-sm text-zinc-500 flex justify-between">
-        <p>© <span id="y"></span> Carter Lynn</p>
-        <div class="flex gap-4">
-            <p id="visitCounter" class="text-xs text-zinc-500">Times visited: …</p>
-          <a href="https://github.com/piplynn" class="hover:text-accent">GitHub</a>
-          <a href="https://piplynnn.itch.io" class="hover:text-accent">Itch.io</a>
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 text-sm text-zinc-500 flex flex-col items-center gap-3">
+          
+          <p>© <span id="y"></span> Carter Lynn</p>
+      
+          <!-- Centered counter -->
+          <p id="visitCounter" class="text-xs text-zinc-500">Times visited: …</p>
+      
+          <!-- Links row -->
+          <div class="flex gap-4">
+            <a href="https://github.com/piplynn" class="hover:text-accent">GitHub</a>
+            <a href="https://piplynnn.itch.io" class="hover:text-accent">Itch.io</a>
+          </div>
+          
         </div>
-      </div>
-    </footer>
-
+      </footer>
+      
     <div id="toast" role="status" aria-live="polite">Message sent ✅</div>
 
     <script>
