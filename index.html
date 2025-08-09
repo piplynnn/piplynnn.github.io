@@ -187,6 +187,7 @@
       <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 text-sm text-zinc-500 flex justify-between">
         <p>© <span id="y"></span> Carter Lynn</p>
         <div class="flex gap-4">
+            <p id="visitCounter" class="text-xs text-zinc-500">Times visited: …</p>
           <a href="https://github.com/piplynn" class="hover:text-accent">GitHub</a>
           <a href="https://piplynnn.itch.io" class="hover:text-accent">Itch.io</a>
         </div>
@@ -292,10 +293,10 @@
 <script>
   // YOUR PROJECTS (left untouched)
   const projects = [
-    { title: 'Esacpe Velocity', href: 'https://piplynnn.itch.io/escape-velocity', img: '/assets/projects/escapevelocity.jpg', tags: ['Unity', 'C#', 'Enemy AI'], desc: 'Spartasoft team project with grapple and turret mechanics' },
+    { title: 'Escape Velocity', href: 'https://piplynnn.itch.io/escape-velocity', img: '/assets/projects/escapevelocity.jpg', tags: ['Unity', 'C#', 'Enemy AI'], desc: 'Spartasoft team project with grapple and turret mechanics' },
     { title: 'SpartaDrift', href: 'https://piplynnn.itch.io/hackathon', img: '/assets/projects/spartadrift.jpg', tags: ['Unity', 'C#', 'Racing UI'], desc: 'Arcade drifting prototype built in 24 hours during Spartahack 2025' },
     { title: 'Slime Game', href: 'https://piplynnn.itch.io/slime-game', img: '/assets/projects/slimegame.jpg', tags: ['Unity', '2D'], desc: 'timed 2D Platformer made as a Spartasoft project' },
-    { title: 'The Last Trick', href: 'https://piplynnn.itch.io/the-last-trick-v10', img: '/assets/projects/thelasttrick.jpg', tags: ['Unity', 'Card Game'], desc: 'Trick taking card game made with collegues' }
+    { title: 'The Last Trick', href: 'https://piplynnn.itch.io/the-last-trick-v10', img: '/assets/projects/thelasttrick.jpg', tags: ['Unity', 'Card Game'], desc: 'Trick taking card game made with colleagues' }
   ];
 
   const el = document.getElementById('projectGrid');
@@ -316,6 +317,8 @@
 
   // Footer year
   document.getElementById('y').textContent = new Date().getFullYear();
+ 
+
 
   // reveal-on-scroll and underline sync
   const observer = new IntersectionObserver((entries)=>{
@@ -375,3 +378,65 @@
     });
   }
 </script>
+<!-- Firebase global visit counter -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, runTransaction, increment } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  
+    // Your config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBaFvlwY5AICG8m9pZBCg_UKY1OOlD0Fng",
+      authDomain: "carter-website-57e61.firebaseapp.com",
+      databaseURL: "https://carter-website-57e61-default-rtdb.firebaseio.com",
+      projectId: "carter-website-57e61",
+      storageBucket: "carter-website-57e61.firebasestorage.app",
+      messagingSenderId: "579842561951",
+      appId: "1:579842561951:web:afad008bdbdc66334e4faa",
+      measurementId: "G-6BTRVXW09G"
+    };
+  
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const counterRef = doc(db, "counters", "visits");
+    const counterEl = document.getElementById("visitCounter");
+    const SESSION_KEY = "visited_this_session";
+  
+    async function showCount() {
+      try {
+        const snap = await getDoc(counterRef);
+        if (snap.exists()) {
+          counterEl.textContent = `Times visited: ${snap.data().count}`;
+        } else {
+          await setDoc(counterRef, { count: 0 });
+          counterEl.textContent = "Times visited: 0";
+        }
+      } catch (e) {
+        counterEl.textContent = "Times visited: ?";
+        console.error(e);
+      }
+    }
+  
+    async function bumpOncePerSession() {
+      if (sessionStorage.getItem(SESSION_KEY) === "1") {
+        return showCount();
+      }
+      try {
+        await runTransaction(db, async (tx) => {
+          const snap = await tx.get(counterRef);
+          if (!snap.exists()) {
+            tx.set(counterRef, { count: 1 });
+          } else {
+            tx.update(counterRef, { count: increment(1) });
+          }
+        });
+        sessionStorage.setItem(SESSION_KEY, "1");
+      } catch (e) {
+        console.error("Increment failed", e);
+      } finally {
+        showCount();
+      }
+    }
+  
+    bumpOncePerSession();
+  </script>
+  
