@@ -61,18 +61,16 @@
       .card-bg>h3,.card-bg>p{position:relative;z-index:10}
 
       /* Hero rotator (single image crossfade) */
-      #heroRotator img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
-      #heroRotator img.active{opacity:1}
-      /* Hero rotator (images + videos) */
+    4/* Hero rotator (images + videos) */
         #heroRotator { position: relative; overflow: hidden; border-radius: 1rem; }
-        #heroRotator img,
-        #heroRotator video {
-        position: absolute; inset: 0;
-        width: 100%; height: 100%;
-        object-fit: cover; object-position: center;
-        opacity: 0; transition: opacity .6s ease;
+        #heroRotator .layer { 
+        position:absolute; inset:0; width:100%; height:100%;
+        object-fit:cover; object-position:center;
+        opacity:0; transition:opacity .6s ease;
+        will-change: opacity; pointer-events:none;
         }
-        #heroRotator .active { opacity: 1; }
+        #heroRotator .active { opacity:1; }
+
       
     </style>
   </head>
@@ -197,68 +195,97 @@
     <div id="toast" role="status" aria-live="polite">Message sent ✅</div>
 
     <script>
-      // HERO ROTATOR IMAGES (separate from projects)
-      const heroImages = [
-        '/assets/projects/gifvideo1.mp4',
-        '/assets/projects/escapevelocity.jpg', // example image, replace with your own
-        '/assets/projects/spartadrift.jpg',
-        '/assets/projects/slimegame.jpg',
-      ];
-
-      (function buildHeroRotator(){
-  const mount = document.getElementById('heroRotator');
-  if(!mount || heroImages.length===0) return;
-
-  // helper to create either img or video
-  function createMedia(src) {
-    if (src.endsWith('.mp4')) {
-      const v = document.createElement('video');
-      v.src = src;
-      v.muted = true;
-      v.loop = true;
-      v.autoplay = true;
-      v.playsInline = true;
-      v.className = '';
-      return v;
-    } else {
-      const i = document.createElement('img');
-      i.src = src;
-      return i;
-    }
-  }
-
-  let a = createMedia(heroImages[0]); a.classList.add('active');
-  let b = createMedia(heroImages[1] || heroImages[0]);
-  mount.appendChild(a);
-  mount.appendChild(b);
-
-  let i = 1;
-  let showingA = true;
-
-  if (heroImages.length > 1) {
-    setInterval(() => {
-      const next = heroImages[i % heroImages.length];
-      const nextEl = createMedia(next);
-
-      if (showingA) {
-        mount.replaceChild(nextEl, b);
-        b = nextEl;
-        b.classList.add('active');
-        a.classList.remove('active');
-        if (b.play) b.play().catch(()=>{});
-      } else {
-        mount.replaceChild(nextEl, a);
-        a = nextEl;
-        a.classList.add('active');
-        b.classList.remove('active');
-        if (a.play) a.play().catch(()=>{});
-      }
-      showingA = !showingA;
-      i++;
-    }, 6000);
-  }
-})();
-
+        const heroImages = [
+          '/assets/projects/dashboard.mp4',
+          '/assets/projects/escapevelocity.jpg',
+          '/assets/projects/spartadrift.jpg'
+        ];
+        
+        (function buildHeroRotator(){
+          const mount = document.getElementById('heroRotator');
+          if (!mount || heroImages.length === 0) return;
+        
+          const FADE_MS = 600;
+          const INTERVAL_MS = 6000;
+          let rotating = false; // lock
+        
+          function createMedia(src) {
+            const isVideo = src.toLowerCase().endsWith('.mp4');
+            const el = document.createElement(isVideo ? 'video' : 'img');
+            el.className = 'layer'; // baseline (opacity:0)
+            if (isVideo) {
+              el.src = src;
+              el.muted = true; el.loop = true; el.autoplay = true; el.playsInline = true;
+              el.preload = 'auto';
+            } else {
+              el.src = src;
+              el.decoding = 'async';
+            }
+            el.setAttribute('aria-hidden','true');
+            return el;
+          }
+        
+          let index = 0;
+          let a = createMedia(heroImages[0]); a.classList.add('active');
+          mount.appendChild(a);
+          let b = createMedia(heroImages[1] || heroImages[0]);
+          mount.appendChild(b);
+        
+          // start video if first is video
+          a.play && a.play().catch(()=>{});
+        
+          if (heroImages.length < 2) return;
+        
+          async function rotateOnce(){
+            if (rotating) return;
+            rotating = true;
+        
+            index = (index + 1) % heroImages.length;
+            const nextSrc = heroImages[index];
+            const nextEl = createMedia(nextSrc);
+        
+            const showingA = a.classList.contains('active');
+        
+            // Swap the hidden layer first, keep it at opacity:0 initially
+            if (showingA) {
+              mount.replaceChild(nextEl, b);
+              b = nextEl;
+            } else {
+              mount.replaceChild(nextEl, a);
+              a = nextEl;
+            }
+        
+            // Ensure the browser commits initial styles before activating (double RAF)
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                if (showingA) {
+                  b.classList.add('active');   // fade in b
+                  a.classList.remove('active'); // fade out a
+                  b.play && b.play().catch(()=>{});
+                } else {
+                  a.classList.add('active');   // fade in a
+                  b.classList.remove('active'); // fade out b
+                  a.play && a.play().catch(()=>{});
+                }
+        
+                // Release the lock after the fade
+                setTimeout(() => { rotating = false; }, FADE_MS + 50);
+              });
+            });
+          }
+        
+          const timer = setInterval(rotateOnce, INTERVAL_MS);
+        
+          // Pause videos when hero is offscreen (saves battery/data)
+          const io = new IntersectionObserver(([entry])=>{
+            const vids = [a,b].filter(el => el && el.tagName === 'VIDEO');
+            if (entry.isIntersecting) vids.forEach(v => v.play().catch(()=>{}));
+            else vids.forEach(v => v.pause());
+          }, { threshold: 0.1 });
+          io.observe(mount);
+        })();
+        </script>
+        
 
       // YOUR PROJECTS (left untouched)
       const projects = [
