@@ -191,7 +191,7 @@
       
           <!-- Center -->
           <p id="visitCounter" class="absolute left-1/2 -translate-x-1/2 text-xs text-zinc-500">
-            Times visited: …
+            Total site visits: …
           </p>
       
           <!-- Right -->
@@ -415,13 +415,13 @@
       try {
         const snap = await getDoc(counterRef);
         if (snap.exists()) {
-          counterEl.textContent = `Times visited: ${snap.data().count}`;
+          counterEl.textContent = `Total site visits: ${snap.data().count}`;
         } else {
           await setDoc(counterRef, { count: 0 });
-          counterEl.textContent = "Times visited: 0";
+          counterEl.textContent = "Total site visits: 0";
         }
       } catch (e) {
-        counterEl.textContent = "Times visited: ?";
+        counterEl.textContent = "Total site visits: ?";
         console.error(e);
       }
     }
