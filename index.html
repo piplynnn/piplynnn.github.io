@@ -30,15 +30,6 @@
             },
             boxShadow: {
               soft: '0 8px 30px rgba(0,0,0,0.08)'
-            },
-            keyframes: {
-              fadeUp: {
-                '0%': { opacity: 0, transform: 'translateY(20px)' },
-                '100%': { opacity: 1, transform: 'translateY(0)' }
-              }
-            },
-            animation: {
-              fadeUp: 'fadeUp 0.6s ease forwards'
             }
           }
         },
@@ -70,6 +61,10 @@
         <div>
           <h1 class="font-display text-4xl sm:text-5xl font-semibold leading-tight text-white">Game Developer & Interactive Systems</h1>
           <p class="mt-4 text-zinc-400 max-w-prose">MSU student building Unity projects, gameplay systems, and tools. Focused on sleek UI, immersive VR, and automotive tech integrations.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#projects" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-zinc-900 font-medium shadow-soft hover:opacity-90">See projects →</a>
+            <a href="/assets/Carter_Lynn_Resume.pdf" class="focus-ring inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-medium hover:bg-zinc-900">Download résumé</a>
+          </div>
         </div>
         <div>
           <img src="/assets/hero-shot.jpg" alt="Project collage" class="rounded-2xl border border-zinc-800 shadow-soft" />
@@ -82,7 +77,6 @@
         <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20">
           <h2 class="font-display text-3xl font-semibold text-accent">Highlights</h2>
           <div class="mt-10 grid gap-6 sm:grid-cols-2">
-            <!-- Highlight: WRX Dashboard -->
             <div class="group relative rounded-2xl border border-zinc-800 p-5 transition-all duration-300 hover:border-accent hover:shadow-[0_0_40px_rgba(0,224,255,0.15)] opacity-0 translate-y-6 will-change-transform" data-reveal>
               <div class="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: radial-gradient(60% 60% at 50% 0%, rgba(0,224,255,.06), transparent 70%);"></div>
               <img src="/assets/projects/dashboard.jpg" alt="Car dashboard" class="relative rounded-xl mb-4 transition-transform duration-300 group-hover:scale-[1.02]" />
@@ -91,10 +85,9 @@
               <div class="mt-4 flex gap-2 text-xs text-zinc-400">
                 <span class="rounded-full border border-zinc-800 px-2 py-0.5">Unity</span>
                 <span class="rounded-full border border-zinc-800 px-2 py-0.5">UI/UX</span>
-                <span class="rounded-full border border-zinc-800 px-2 py-0.5">OBD‑II</span>
+                <span class="rounded-full border border-zinc-800 px-2 py-0.5">OBD-II</span>
               </div>
             </div>
-            <!-- Highlight: VR Project -->
             <div class="group relative rounded-2xl border border-zinc-800 p-5 transition-all duration-300 hover:border-accent hover:shadow-[0_0_40px_rgba(0,224,255,0.15)] opacity-0 translate-y-6 will-change-transform" data-reveal>
               <div class="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: radial-gradient(60% 60% at 50% 0%, rgba(0,224,255,.06), transparent 70%);"></div>
               <img src="/assets/projects/vr-prototype.jpg" alt="VR project" class="relative rounded-xl mb-4 transition-transform duration-300 group-hover:scale-[1.02]" />
@@ -110,7 +103,7 @@
         </div>
       </section>
 
-      <section id="projects" class="border-t border-zinc-800"> class="border-t border-zinc-800">
+      <section id="projects" class="border-t border-zinc-800">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20">
           <h2 class="font-display text-3xl font-semibold text-accent">Projects</h2>
           <div id="projectGrid" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
@@ -149,8 +142,8 @@
       ];
 
       const el = document.getElementById('projectGrid');
-      el.innerHTML = projects.map((p, i) => `
-        <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors transform hover:scale-[1.02] hover:shadow-lg animate-fadeUp" style="animation-delay:${0.1 + i * 0.1}s">
+      el.innerHTML = projects.map(p => `
+        <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors">
           <div class="aspect-video bg-zinc-900 overflow-hidden">
             <img src="${p.img}" alt="${p.alt}" class="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           </div>
@@ -165,9 +158,7 @@
       `).join('');
 
       document.getElementById('y').textContent = new Date().getFullYear();
-      document.getElementById('y').textContent = new Date().getFullYear();
 
-      // Reveal on scroll for highlights & cards
       const observer = new IntersectionObserver((entries)=>{
         entries.forEach(e=>{
           if(e.isIntersecting){
