@@ -58,15 +58,15 @@
 
     <section class="relative overflow-hidden">
       <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 grid gap-10 md:grid-cols-2 items-center">
-        <div>
+        <div data-reveal>
           <h1 class="font-display text-4xl sm:text-5xl font-semibold leading-tight text-white">Game Developer & Interactive Systems</h1>
           <p class="mt-4 text-zinc-400 max-w-prose">MSU student building Unity projects, gameplay systems, and tools. Focused on sleek UI, immersive VR, and automotive tech integrations.</p>
-          <div class="mt-6 flex flex-wrap gap-3">
+          <div class="mt-6 flex flex-wrap gap-3 opacity-0 translate-y-6" data-reveal>
             <a href="#projects" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-zinc-900 font-medium shadow-soft hover:opacity-90">See projects →</a>
             <a href="/assets/Carter_Lynn_Resume.pdf" class="focus-ring inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-medium hover:bg-zinc-900">Download résumé</a>
           </div>
         </div>
-        <div>
+        <div data-reveal>
           <img src="/assets/hero-shot.jpg" alt="Project collage" class="rounded-2xl border border-zinc-800 shadow-soft" />
         </div>
       </div>
@@ -143,7 +143,7 @@
 
       const el = document.getElementById('projectGrid');
       el.innerHTML = projects.map(p => `
-        <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors">
+        <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors" data-reveal>
           <div class="aspect-video bg-zinc-900 overflow-hidden">
             <img src="${p.img}" alt="${p.alt}" class="h-full w-full object-cover group-hover:scale-105 transition-transform" />
           </div>
