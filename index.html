@@ -131,9 +131,31 @@
       <section id="projects" class="border-t border-zinc-800 scroll-mt-24">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20">
           <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>Projects</h2>
-          <div id="projectGrid" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+      
+          <div class="mt-8 space-y-12">
+      
+            <!-- Spartasoft -->
+            <section aria-labelledby="projects-spartasoft-title">
+              <h3 id="projects-spartasoft-title" class="text-xl font-medium text-white">Spartasoft</h3>
+              <div id="grid-spartasoft" class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+            </section>
+      
+            <!-- Game Jams -->
+            <section aria-labelledby="projects-gamejams-title">
+              <h3 id="projects-gamejams-title" class="text-xl font-medium text-white">Game Jams</h3>
+              <div id="grid-gamejams" class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+            </section>
+      
+            <!-- Others -->
+            <section aria-labelledby="projects-others-title">
+              <h3 id="projects-others-title" class="text-xl font-medium text-white">Others</h3>
+              <div id="grid-others" class="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+            </section>
+      
+          </div>
         </div>
       </section>
+      
 
       <section id="about" class="border-t border-zinc-800 scroll-mt-24">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20 grid gap-10 md:grid-cols-3" data-reveal>
@@ -309,34 +331,79 @@
 
 
 <script>
-  // YOUR PROJECTS (left untouched)
-  const projects = [
-    { title: 'Escape Velocity', href: 'https://piplynnn.itch.io/escape-velocity', img: '/assets/projects/escapevelocity.jpg', tags: ['Unity', 'C#', 'Enemy AI'], desc: 'Spartasoft team project with grapple and turret mechanics' },
-    { title: 'SpartaDrift', href: 'https://piplynnn.itch.io/hackathon', img: '/assets/projects/spartadrift.jpg', tags: ['Unity', 'C#', 'Racing UI'], desc: 'Arcade drifting prototype built in 24 hours during Spartahack 2025' },
-    { title: 'Slime Game', href: 'https://piplynnn.itch.io/slime-game', img: '/assets/projects/slimegame.jpg', tags: ['Unity', '2D'], desc: 'timed 2D Platformer made as a Spartasoft project' },
-    { title: 'The Last Trick', href: 'https://piplynnn.itch.io/the-last-trick-v10', img: '/assets/projects/thelasttrick.jpg', tags: ['Unity', 'Card Game'], desc: 'Trick taking card game made with colleagues' }
-  ];
-
-  const el = document.getElementById('projectGrid');
-  el.innerHTML = projects.map(p => `
-    <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors" data-reveal>
-      <div class="aspect-video bg-zinc-900 overflow-hidden">
-        <img src="${p.img}" alt="${p.title}" class="h-full w-full object-cover group-hover:scale-105 transition-transform" />
-      </div>
-      <div class="p-4">
-        <h3 class="font-medium">${p.title}</h3>
-        <p class="mt-1 text-sm text-zinc-400">${p.desc}</p>
-        <ul class="mt-3 flex flex-wrap gap-2">
-          ${p.tags.map(t => `<li class='text-xs rounded-full border border-zinc-800 px-2 py-0.5'>${t}</li>`).join('')}
-        </ul>
-      </div>
-    </a>
-  `).join('');
-
-  // Footer year
-  document.getElementById('y').textContent = new Date().getFullYear();
+    // PROJECT CARD TEMPLATE
+    function projectCard(p) {
+      return `
+        <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors" data-reveal>
+          <div class="aspect-video bg-zinc-900 overflow-hidden">
+            <img src="${p.img}" alt="${p.title}" class="h-full w-full object-cover group-hover:scale-105 transition-transform" />
+          </div>
+          <div class="p-4">
+            <h3 class="font-medium">${p.title}</h3>
+            <p class="mt-1 text-sm text-zinc-400">${p.desc}</p>
+            <ul class="mt-3 flex flex-wrap gap-2">
+              ${p.tags.map(t => `<li class='text-xs rounded-full border border-zinc-800 px-2 py-0.5'>${t}</li>`).join('')}
+            </ul>
+          </div>
+        </a>
+      `;
+    }
+  
+    function renderGrid(rootId, list) {
+      const root = document.getElementById(rootId);
+      if (!root) return;
+      root.innerHTML = list.map(projectCard).join('');
+    }
+  
+    // --- CATEGORIZED PROJECTS ---
+    const projectsSpartasoft = [
+      {
+        title: 'Escape Velocity',
+        href: 'https://piplynnn.itch.io/escape-velocity',
+        img: '/assets/projects/escapevelocity.jpg',
+        tags: ['Unity', 'C#', 'Enemy AI'],
+        desc: 'Spartasoft team project with grapple and turret mechanics'
+      },
+      {
+        title: 'Slime Game',
+        href: 'https://piplynnn.itch.io/slime-game',
+        img: '/assets/projects/slimegame.jpg',
+        tags: ['Unity', '2D'],
+        desc: 'Timed 2D platformer built as a Spartasoft project'
+      }
+    ];
+  
+    const projectsGameJams = [
+      {
+        title: 'SpartaDrift',
+        href: 'https://piplynnn.itch.io/hackathon',
+        img: '/assets/projects/spartadrift.jpg',
+        tags: ['Unity', 'C#', 'Racing UI'],
+        desc: 'Arcade drifting prototype built in 24 hours during Spartahack 2025'
+      }
+    ];
+  
+    const projectsOthers = [
+      {
+        title: 'The Last Trick',
+        href: 'https://piplynnn.itch.io/the-last-trick-v10',
+        img: '/assets/projects/thelasttrick.jpg',
+        tags: ['Unity', 'Card Game'],
+        desc: 'Trick-taking card game made with colleagues'
+      }
+    ];
+  
+    // Render each category into its grid
+    renderGrid('grid-spartasoft', projectsSpartasoft);
+    renderGrid('grid-gamejams', projectsGameJams);
+    renderGrid('grid-others', projectsOthers);
+  
+    // Footer year
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+  
  
-
+    <script>
 
   // reveal-on-scroll and underline sync
   const observer = new IntersectionObserver((entries)=>{
