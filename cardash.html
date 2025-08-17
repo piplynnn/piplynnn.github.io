@@ -100,10 +100,12 @@
     <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
       <h3 class="font-medium text-lg">How I Built It</h3>
       <p class="text-zinc-400 mt-2">
-        Unity + C# reads OBD-II data via a USB adapter and a custom serial layer optimized for frequent PID polling.
-        With this data, I created my own custom UI with animated RPM ladders, shift lights, and a 0–60 mph tracker.
-        Furthermore, you can customize the UI with your own pictures, colors, and themes.
-
+        While I was sketching out the idea, I grabbed a USB OBD-II adapter and taught a tiny C# serial layer in Unity to speak ELM327. 
+        I profiled and tuned the polling loop so I could read RPM, speed, throttle, and more many times per second without choking the frame rate. Once the data was clean and steady, 
+        I built the interface like a game HUD: animated RPM ladders that breathe with the engine, 
+        progressive shift lights that climb to redline, and a 0–60 tracker that arms, launches, and celebrates a clean run.
+         I added subtle sound cues and polished micro-animations because those details make it feel alive. Everything is customizable—swap backgrounds, colors, and icon sets, 
+         or drop in your own photos to make the dashboard yours.
       </p>
     </div>
   </div>
