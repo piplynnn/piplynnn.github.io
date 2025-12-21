@@ -1,0 +1,621 @@
+﻿<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VR Project — Carter Lynn</title>
+    <meta name="description" content="VR project timeline and contributions — Carter Lynn (MSU). Unity XR work, prototypes, and weekly progress." />
+
+    <meta property="og:title" content="VR Project — Carter Lynn" />
+    <meta property="og:description" content="A 12-week timeline of VR development progress, overview, and contributions." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://piplynn.com/vrproject.html" />
+    <meta property="og:image" content="/assets/projects/vr2.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/assets/projects/carter.png" />
+    <link rel="preload" as="image" href="/assets/projects/vr2.jpg" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                        body: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    colors: {
+                        accent: '#00E0FF',
+                        accentDark: '#00B5CC'
+                    },
+                    boxShadow: {
+                        soft: '0 8px 30px rgba(0,0,0,0.08)'
+                    }
+                }
+            },
+            darkMode: 'class'
+        };
+    </script>
+
+    <style>
+        :root { --ring: 0 224 255; }
+        .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px hsl(var(--ring) / .5); }
+
+        /* Section title underline animation */
+        .section-title{position:relative;display:inline-block}
+        .section-title::after{content:"";position:absolute;left:0;bottom:-8px;height:2px;width:0;background:linear-gradient(90deg,#00E0FF,transparent);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+        .section-title.underline-on::after{width:100%}
+
+        /* Simple toast (optional) */
+        #toast{position:fixed;right:24px;bottom:24px;padding:.75rem 1rem;border-radius:.75rem;background:#00E0FF;color:#0b1a1c;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s, background .2s,color .2s;transform:translateY(6px)}
+        #toast.show{opacity:1;transform:translateY(0)}
+        #toast.error{background:#ef4444;color:white}
+        #toast.success{background:#00E0FF;color:#031318}
+
+        /* Hero rotator */
+        #heroRotator { position: relative; overflow: hidden; border-radius: 1rem; }
+        #heroRotator .layer {
+            position:absolute; inset:0; width:100%; height:100%;
+            object-fit:cover; object-position:center;
+            opacity:0; transition:opacity .6s ease;
+            will-change: opacity; pointer-events:none;
+        }
+        #heroRotator .active { opacity:1; }
+
+        /* Timeline spine */
+        .timeline {
+            position: relative;
+        }
+        .timeline::before{
+            content:"";
+            position:absolute;
+            left:18px;
+            top:0;
+            bottom:0;
+            width:2px;
+            background: rgba(255,255,255,.08);
+        }
+    </style>
+</head>
+
+<body class="antialiased bg-zinc-950 text-zinc-100">
+<header class="sticky top-0 z-40 backdrop-blur bg-zinc-950/80 border-b border-zinc-800">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+        <div class="flex h-16 items-center justify-between">
+            <a href="/index.html" class="font-semibold tracking-tight text-lg text-accent">Carter Lynn</a>
+            <nav class="hidden gap-6 sm:flex text-sm">
+                <a href="/index.html#highlights" class="hover:text-accent">Highlights</a>
+                <a href="/index.html#projects" class="hover:text-accent">Projects</a>
+                <a href="/index.html#about" class="hover:text-accent">About</a>
+                <a href="/index.html#contact" class="hover:text-accent">Contact</a>
+            </nav>
+            <a href="/index.html" class="focus-ring sm:hidden inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-3 py-2 text-sm hover:bg-zinc-900">
+                ← Home
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-16 grid gap-10 md:grid-cols-2 items-center">
+        <div data-reveal>
+            <p class="text-sm text-zinc-400">Project Page</p>
+            <h1 class="mt-2 font-display text-4xl sm:text-5xl font-semibold leading-tight text-white">
+                Upcoming VR Project
+            </h1>
+            <p class="mt-4 text-zinc-400 max-w-prose">
+                A 12-week development timeline showing progress, prototypes, and iterations. Built in Unity using XR tooling, focused on immersive interaction, clean UI, and solid gameplay systems.
+            </p>
+
+            <div class="mt-6 flex flex-wrap gap-3 opacity-0 translate-y-6" data-reveal>
+                <a href="#overview" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-zinc-900 font-medium shadow-soft hover:opacity-90">
+                    Jump to overview →
+                </a>
+                <a href="#timeline" class="focus-ring inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-medium hover:bg-zinc-900">
+                    View timeline
+                </a>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-2 text-xs text-zinc-400">
+                <span class="rounded-full border border-zinc-800 px-2 py-1">Unity</span>
+                <span class="rounded-full border border-zinc-800 px-2 py-1">XR / VR</span>
+                <span class="rounded-full border border-zinc-800 px-2 py-1">UI/UX</span>
+                <span class="rounded-full border border-zinc-800 px-2 py-1">Prototyping</span>
+            </div>
+        </div>
+
+        <div data-reveal>
+            <div class="relative rounded-2xl border border-zinc-800 shadow-soft overflow-hidden aspect-[4/3] bg-zinc-900">
+                <div id="heroRotator" class="absolute inset-0"></div>
+
+                <!-- subtle overlay -->
+                <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(70% 60% at 50% 0%, rgba(0,224,255,.10), transparent 70%);"></div>
+
+                <div class="absolute left-4 bottom-4 right-4 z-10">
+                    <div class="rounded-2xl border border-zinc-800 bg-zinc-950/60 backdrop-blur px-4 py-3">
+                        <p class="text-sm text-zinc-300">
+                            Replace these with your VR screenshots / clips in <span class="text-accent">vrHeroMedia</span>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p class="mt-3 text-xs text-zinc-500">
+                Tip: use 2–4 images or short MP4 loops for the best “alive” feel.
+            </p>
+        </div>
+    </div>
+</section>
+
+<main id="main">
+    <!-- OVERVIEW -->
+    <section id="overview" class="border-t border-zinc-800 scroll-mt-24">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20" data-reveal>
+            <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>Overview</h2>
+
+            <div class="mt-8 grid gap-6 md:grid-cols-3">
+                <div class="md:col-span-2 rounded-2xl border border-zinc-800 p-6">
+                    <h3 class="font-medium text-white">What I’m building</h3>
+                    <p class="mt-3 text-zinc-400">
+                        <!-- EDIT ME -->
+                        This is a VR project focused on <span class="text-zinc-200">interaction design</span>, responsive feedback, and clean UX.
+                        The goal is to ship a polished vertical slice after 12 weeks of structured progress.
+                    </p>
+
+                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                        <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
+                            <p class="text-xs text-zinc-400">Core loop</p>
+                            <p class="mt-1 text-sm text-zinc-200">
+                                <!-- EDIT ME -->
+                                Explore → interact → complete objective → upgrade / unlock
+                            </p>
+                        </div>
+                        <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
+                            <p class="text-xs text-zinc-400">Platform</p>
+                            <p class="mt-1 text-sm text-zinc-200">
+                                <!-- EDIT ME -->
+                                Meta Quest (or PCVR), Unity XR stack
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <p class="text-xs text-zinc-400">Design goals</p>
+                        <ul class="mt-2 list-disc pl-5 text-zinc-400 space-y-1">
+                            <li>Fast, readable UI in headset</li>
+                            <li>Satisfying haptics + audio feedback</li>
+                            <li>Comfort-first locomotion choices</li>
+                            <li>Clean code structure for iteration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rounded-2xl border border-zinc-800 p-6">
+                    <h3 class="font-medium text-white">Quick facts</h3>
+                    <dl class="mt-4 space-y-3 text-sm">
+                        <div class="flex items-start justify-between gap-4">
+                            <dt class="text-zinc-400">Timeframe</dt>
+                            <dd class="text-zinc-200 text-right">12 weeks</dd>
+                        </div>
+                        <div class="flex items-start justify-between gap-4">
+                            <dt class="text-zinc-400">Engine</dt>
+                            <dd class="text-zinc-200 text-right">Unity</dd>
+                        </div>
+                        <div class="flex items-start justify-between gap-4">
+                            <dt class="text-zinc-400">Focus</dt>
+                            <dd class="text-zinc-200 text-right">XR interaction + UX</dd>
+                        </div>
+                        <div class="flex items-start justify-between gap-4">
+                            <dt class="text-zinc-400">Status</dt>
+                            <dd class="text-zinc-200 text-right">In progress</dd>
+                        </div>
+                    </dl>
+
+                    <div class="mt-6 flex flex-wrap gap-2">
+                        <span class="text-xs rounded-full border border-zinc-800 px-2 py-1 text-zinc-400">XR Interaction Toolkit</span>
+                        <span class="text-xs rounded-full border border-zinc-800 px-2 py-1 text-zinc-400">Input</span>
+                        <span class="text-xs rounded-full border border-zinc-800 px-2 py-1 text-zinc-400">UI</span>
+                    </div>
+
+                    <a href="#timeline" class="mt-6 inline-flex w-full justify-center rounded-xl bg-accent px-4 py-3 text-zinc-900 font-medium shadow-soft hover:opacity-90 focus-ring">
+                        See weekly progress →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTRIBUTIONS -->
+    <section id="contributions" class="border-t border-zinc-800 scroll-mt-24">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20" data-reveal>
+            <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>My Contributions</h2>
+
+            <div class="mt-8 grid gap-6 md:grid-cols-3">
+                <div class="rounded-2xl border border-zinc-800 p-6">
+                    <h3 class="font-medium">Gameplay + Systems</h3>
+                    <ul class="mt-3 space-y-2 text-zinc-400">
+                        <li>• Interaction logic (grab, use, trigger)</li>
+                        <li>• State management (menus, modes)</li>
+                        <li>• Progression hooks (objectives, unlocks)</li>
+                    </ul>
+                </div>
+
+                <div class="rounded-2xl border border-zinc-800 p-6">
+                    <h3 class="font-medium">VR UX / Comfort</h3>
+                    <ul class="mt-3 space-y-2 text-zinc-400">
+                        <li>• Comfort locomotion options</li>
+                        <li>• UI legibility + layout in headset</li>
+                        <li>• Haptics + audio feedback tuning</li>
+                    </ul>
+                </div>
+
+                <div class="rounded-2xl border border-zinc-800 p-6">
+                    <h3 class="font-medium">Tools + Polish</h3>
+                    <ul class="mt-3 space-y-2 text-zinc-400">
+                        <li>• Debug utilities / dev toggles</li>
+                        <li>• Performance passes</li>
+                        <li>• “Feels good” iteration (timing, cues)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="mt-6 rounded-2xl border border-zinc-800 p-6 bg-zinc-900/30">
+                <p class="text-sm text-zinc-300">
+                    Want this section to be more “portfolio proof”? Add 2–3 bullet points that mention measurable outcomes:
+                    e.g., “reduced frame time by X%,” “implemented X interactions,” “built Y tools for faster iteration.”
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section id="timeline" class="border-t border-zinc-800 scroll-mt-24">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20">
+            <div data-reveal>
+                <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>12-Week Timeline</h2>
+                <p class="mt-3 text-zinc-400 max-w-prose">
+                    Each week is a snapshot: what changed, what I built, what I learned, and what’s next.
+                </p>
+            </div>
+
+            <div class="mt-10 grid gap-8 md:grid-cols-3">
+                <!-- Left: timeline list -->
+                <div class="md:col-span-2">
+                    <div id="timelineList" class="timeline space-y-4"></div>
+                </div>
+
+                <!-- Right: callouts -->
+                <aside class="space-y-6" data-reveal>
+                    <div class="rounded-2xl border border-zinc-800 p-6">
+                        <h3 class="font-medium">How to read this</h3>
+                        <p class="mt-3 text-zinc-400 text-sm">
+                            Each card has a week summary plus expandable details.
+                            Swap in screenshots or short clips to make progress “visible.”
+                        </p>
+                        <button id="expandAllBtn" class="mt-4 w-full focus-ring inline-flex justify-center rounded-xl border border-zinc-700 px-4 py-3 font-medium hover:bg-zinc-900">
+                            Expand all
+                        </button>
+                    </div>
+
+                    <div class="rounded-2xl border border-zinc-800 p-6">
+                        <h3 class="font-medium">Add media per week</h3>
+                        <p class="mt-3 text-zinc-400 text-sm">
+                            Drop images like <span class="text-zinc-200">/assets/projects/vr/week-03.jpg</span> and update the array below.
+                        </p>
+                        <button class="mt-4 w-full focus-ring inline-flex justify-center rounded-xl bg-accent px-4 py-3 text-zinc-900 font-medium shadow-soft hover:opacity-90"
+                                onclick="copyMediaHint()">
+                            Copy folder suggestion
+                        </button>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <section class="border-t border-zinc-800">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-12 sm:py-16" data-reveal>
+            <div class="rounded-2xl border border-zinc-800 p-8 bg-zinc-900/30">
+                <h2 class="font-display text-2xl font-semibold text-white">Want a demo link here later?</h2>
+                <p class="mt-3 text-zinc-400">
+                    When you’ve got a playable build or short video, this is a perfect place to drop it.
+                </p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <a href="/index.html#contact" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-zinc-900 font-medium shadow-soft hover:opacity-90">
+                        Contact →
+                    </a>
+                    <a href="/index.html#projects" class="focus-ring inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-medium hover:bg-zinc-900">
+                        Back to projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="border-t border-zinc-800">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 text-sm text-zinc-500 flex justify-between">
+        <p>© <span id="y"></span> Carter Lynn</p>
+        <div class="flex gap-4">
+            <a href="https://github.com/piplynn" class="hover:text-accent">GitHub</a>
+            <a href="https://piplynnn.itch.io" class="hover:text-accent">Itch.io</a>
+        </div>
+    </div>
+</footer>
+
+<div id="toast" role="status" aria-live="polite">Copied ✅</div>
+
+<script>
+    // Footer year
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // Toast helper
+    const toast = document.getElementById('toast');
+    function showToast(message="", type="success"){
+        if(message) toast.textContent = message;
+        toast.classList.remove('error','success');
+        toast.classList.add(type,'show');
+        setTimeout(()=>toast.classList.remove('show'), 2500);
+    }
+
+    // Media hint copy
+    async function copyMediaHint(){
+        const text = "/assets/projects/vr/week-01.jpg\n/assets/projects/vr/week-02.jpg\n/assets/projects/vr/week-03.jpg\n...";
+        try{
+            await navigator.clipboard.writeText(text);
+            showToast("Copied ✅","success");
+        }catch(e){
+            showToast("Copy blocked (browser)","error");
+            console.error(e);
+        }
+    }
+
+    // --- HERO ROTATOR (images + videos) ---
+    const vrHeroMedia = [
+        "/assets/projects/vr2.jpg",
+        "/assets/projects/vr/week-03.jpg",
+        "/assets/projects/vr/week-06.jpg"
+        // you can also use .mp4 loops like "/assets/projects/vr/loop1.mp4"
+    ];
+
+    (function buildHeroRotator(){
+        const mount = document.getElementById('heroRotator');
+        if (!mount || vrHeroMedia.length === 0) return;
+
+        const FADE_MS = 600;
+        const INTERVAL_MS = 6500;
+        let rotating = false;
+
+        function createMedia(src) {
+            const isVideo = src.toLowerCase().endsWith('.mp4');
+            const el = document.createElement(isVideo ? 'video' : 'img');
+            el.className = 'layer';
+            if (isVideo) {
+                el.src = src;
+                el.muted = true; el.loop = true; el.autoplay = true; el.playsInline = true;
+                el.preload = 'auto';
+            } else {
+                el.src = src;
+                el.decoding = 'async';
+            }
+            el.setAttribute('aria-hidden','true');
+            return el;
+        }
+
+        let index = 0;
+        let a = createMedia(vrHeroMedia[0]); a.classList.add('active'); mount.appendChild(a);
+        let b = createMedia(vrHeroMedia[1] || vrHeroMedia[0]); mount.appendChild(b);
+
+        a.play && a.play().catch(()=>{});
+
+        if (vrHeroMedia.length < 2) return;
+
+        async function rotateOnce(){
+            if (rotating) return;
+            rotating = true;
+
+            index = (index + 1) % vrHeroMedia.length;
+            const nextSrc = vrHeroMedia[index];
+            const nextEl = createMedia(nextSrc);
+
+            const showingA = a.classList.contains('active');
+
+            if (showingA) { mount.replaceChild(nextEl, b); b = nextEl; }
+            else { mount.replaceChild(nextEl, a); a = nextEl; }
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    if (showingA) {
+                        b.classList.add('active'); a.classList.remove('active');
+                        b.play && b.play().catch(()=>{});
+                    } else {
+                        a.classList.add('active'); b.classList.remove('active');
+                        a.play && a.play().catch(()=>{});
+                    }
+                    setTimeout(() => { rotating = false; }, FADE_MS + 50);
+                });
+            });
+        }
+
+        const timer = setInterval(rotateOnce, INTERVAL_MS);
+
+        // Pause videos when offscreen
+        const io = new IntersectionObserver(([entry])=>{
+            const vids = [a,b].filter(el => el && el.tagName === 'VIDEO');
+            if (entry.isIntersecting) vids.forEach(v => v.play().catch(()=>{}));
+            else vids.forEach(v => v.pause());
+        }, { threshold: 0.1 });
+        io.observe(mount);
+    })();
+
+    // --- TIMELINE DATA ---
+    // Edit this weekly list whenever you want — it renders automatically.
+    const weeks = [
+        {
+            week: 1,
+            title: "Project setup + VR baseline",
+            summary: "Unity project initialized, XR rig working, first interaction test scene.",
+            media: "/assets/projects/vr/week-01.jpg",
+            bullets: [
+                "Set up Unity project structure, scenes, and folders",
+                "Verified headset/controller tracking + input",
+                "Created a small interaction sandbox for quick iteration"
+            ],
+            next: "Add a simple objective loop + first UI prototype."
+        },
+        {
+            week: 2,
+            title: "Interaction foundations",
+            summary: "Core grab/use interactions, feedback hooks (audio/haptics), prefabs standardized.",
+            media: "/assets/projects/vr/week-02.jpg",
+            bullets: [
+                "Implemented grab + release behavior and tuning",
+                "Added basic haptics/audio triggers (placeholder)",
+                "Prefab conventions for interactables"
+            ],
+            next: "Build a small “task” to prove the loop."
+        },
+        {
+            week: 3,
+            title: "First vertical slice task",
+            summary: "A small objective with start/end, fail state, and basic UI.",
+            media: "/assets/projects/vr/week-03.jpg",
+            bullets: [
+                "Created objective start/end states",
+                "Built a small UI panel readable in headset",
+                "Added simple success feedback"
+            ],
+            next: "Improve comfort + iterate on UX."
+        },
+
+        // Placeholder weeks (fill these in as you go)
+        ...Array.from({ length: 9 }, (_, i) => {
+            const n = i + 4;
+            return {
+                week: n,
+                title: `Week ${n} milestone`,
+                summary: "Add your week summary here.",
+                media: "",
+                bullets: [
+                    "Key change #1",
+                    "Key change #2",
+                    "Key change #3"
+                ],
+                next: "What’s next?"
+            };
+        })
+    ];
+
+    // Timeline card renderer
+    function timelineCard(w) {
+        const hasMedia = (w.media || "").trim().length > 0;
+        return `
+          <article class="relative pl-12" data-reveal>
+            <!-- node -->
+            <div class="absolute left-[10px] top-6 h-4 w-4 rounded-full border border-zinc-700 bg-zinc-950">
+              <div class="h-full w-full rounded-full" style="background: radial-gradient(circle at 30% 30%, rgba(0,224,255,.45), transparent 60%);"></div>
+            </div>
+
+            <div class="rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors">
+              ${hasMedia ? `
+                <div class="aspect-video bg-zinc-900 overflow-hidden">
+                  <img src="${w.media}" alt="Week ${w.week} media" class="h-full w-full object-cover" />
+                </div>
+              ` : `
+                <div class="p-4 bg-zinc-900/30 border-b border-zinc-800">
+                  <p class="text-xs text-zinc-500">Add media: /assets/projects/vr/week-${String(w.week).padStart(2,'0')}.jpg</p>
+                </div>
+              `}
+
+              <div class="p-5">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <p class="text-xs text-zinc-500">Week ${w.week}</p>
+                    <h3 class="mt-1 text-lg font-medium text-white">${w.title}</h3>
+                  </div>
+                  <button class="focus-ring shrink-0 rounded-xl border border-zinc-700 px-3 py-2 text-sm hover:bg-zinc-900"
+                          data-toggle="week-${w.week}">
+                    Details
+                  </button>
+                </div>
+
+                <p class="mt-3 text-zinc-400">${w.summary}</p>
+
+                <div class="mt-4 hidden" id="week-${w.week}">
+                  <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
+                      <p class="text-xs text-zinc-400">What I did</p>
+                      <ul class="mt-2 space-y-1 text-sm text-zinc-300">
+                        ${w.bullets.map(b => `<li>• ${b}</li>`).join("")}
+                      </ul>
+                    </div>
+                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
+                      <p class="text-xs text-zinc-400">Next</p>
+                      <p class="mt-2 text-sm text-zinc-300">${w.next}</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </article>
+        `;
+    }
+
+    // Render timeline
+    const timelineList = document.getElementById("timelineList");
+    timelineList.innerHTML = weeks.map(timelineCard).join("");
+
+    // Toggle handlers
+    document.querySelectorAll("[data-toggle]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-toggle");
+            const el = document.getElementById(id);
+            const isHidden = el.classList.contains("hidden");
+            el.classList.toggle("hidden");
+            btn.textContent = isHidden ? "Hide" : "Details";
+        });
+    });
+
+    // Expand all
+    const expandAllBtn = document.getElementById("expandAllBtn");
+    let allExpanded = false;
+    expandAllBtn.addEventListener("click", () => {
+        allExpanded = !allExpanded;
+        weeks.forEach(w => {
+            const el = document.getElementById(`week-${w.week}`);
+            const btn = document.querySelector(`[data-toggle="week-${w.week}"]`);
+            if (!el || !btn) return;
+            if (allExpanded) {
+                el.classList.remove("hidden");
+                btn.textContent = "Hide";
+            } else {
+                el.classList.add("hidden");
+                btn.textContent = "Details";
+            }
+        });
+        expandAllBtn.textContent = allExpanded ? "Collapse all" : "Expand all";
+    });
+
+    // Reveal-on-scroll and underline sync (same behavior as your index)
+    const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting){
+                e.target.classList.remove('opacity-0','translate-y-6');
+                e.target.classList.add('opacity-100','translate-y-0');
+                const h2 = e.target.closest('section')?.querySelector('[data-underline]');
+                if (h2) h2.classList.add('underline-on');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('[data-reveal]').forEach(el=>{
+        el.classList.add('opacity-0','translate-y-6');
+        el.style.transition = 'transform 600ms cubic-bezier(.2,.7,.2,1), opacity 600ms';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>
