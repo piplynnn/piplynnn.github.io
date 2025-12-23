@@ -456,7 +456,7 @@
             week: 1,
             title: "Project setup + VR baseline",
             summary: "Unity project initialized, XR rig working, first interaction test scene.",
-            media: "/assets/projects/vr/week-01.jpg",
+            media: "/assets/projects/gifvideo2.mp4",
             bullets: [
                 "Set up Unity project structure, scenes, and folders",
                 "Verified headset/controller tracking + input",
@@ -508,60 +508,113 @@
     ];
 
     // Timeline card renderer
+    // Timeline card renderer (supports images + videos)
+    // media can be: .jpg/.png/.webp OR .mp4/.webm/.ogg
     function timelineCard(w) {
-        const hasMedia = (w.media || "").trim().length > 0;
+        const mediaSrc = (w.media || "").trim();
+        const hasMedia = mediaSrc.length > 0;
+
+        const isVideo = hasMedia && /\.(mp4|webm|ogg)$/i.test(mediaSrc);
+        const isImage = hasMedia && /\.(jpg|jpeg|png|webp|gif)$/i.test(mediaSrc);
+
+        const weekNum = String(w.week);
+        const weekPadded = String(w.week).padStart(2, "0");
+
+        const bullets = Array.isArray(w.bullets) ? w.bullets : [];
+        const nextText = (w.next || "").trim();
+
+        // If someone accidentally gives a file with no extension, fall back to <img>
+        const mediaHtml = (() => {
+            if (!hasMedia) {
+                return `
+        <div class="p-4 bg-zinc-900/30 border-b border-zinc-800">
+          <p class="text-xs text-zinc-500">
+            Add media: /assets/projects/vr/week-${weekPadded}.jpg or /assets/projects/vr/week-${weekPadded}.mp4
+          </p>
+        </div>
+      `;
+            }
+
+            // Video
+            if (isVideo) {
+                return `
+        <div class="aspect-video bg-zinc-900 overflow-hidden">
+          <video
+            class="h-full w-full object-cover"
+            src="${mediaSrc}"
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            controls
+          ></video>
+        </div>
+      `;
+            }
+
+            // Image (or unknown -> image)
+            if (isImage || true) {
+                return `
+        <div class="aspect-video bg-zinc-900 overflow-hidden">
+          <img
+            src="${mediaSrc}"
+            alt="Week ${weekNum} media"
+            class="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      `;
+            }
+        })();
+
         return `
-          <article class="relative pl-12" data-reveal>
-            <!-- node -->
-            <div class="absolute left-[10px] top-6 h-4 w-4 rounded-full border border-zinc-700 bg-zinc-950">
-              <div class="h-full w-full rounded-full" style="background: radial-gradient(circle at 30% 30%, rgba(0,224,255,.45), transparent 60%);"></div>
+    <article class="relative pl-12" data-reveal>
+      <!-- node -->
+      <div class="absolute left-[10px] top-6 h-4 w-4 rounded-full border border-zinc-700 bg-zinc-950">
+        <div class="h-full w-full rounded-full" style="background: radial-gradient(circle at 30% 30%, rgba(0,224,255,.45), transparent 60%);"></div>
+      </div>
+
+      <div class="rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors">
+        ${mediaHtml}
+
+        <div class="p-5">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="text-xs text-zinc-500">Week ${weekNum}</p>
+              <h3 class="mt-1 text-lg font-medium text-white">${w.title || `Week ${weekNum}`}</h3>
             </div>
+            <button
+              class="focus-ring shrink-0 rounded-xl border border-zinc-700 px-3 py-2 text-sm hover:bg-zinc-900"
+              data-toggle="week-${weekNum}"
+              type="button"
+            >
+              Details
+            </button>
+          </div>
 
-            <div class="rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors">
-              ${hasMedia ? `
-                <div class="aspect-video bg-zinc-900 overflow-hidden">
-                  <img src="${w.media}" alt="Week ${w.week} media" class="h-full w-full object-cover" />
-                </div>
-              ` : `
-                <div class="p-4 bg-zinc-900/30 border-b border-zinc-800">
-                  <p class="text-xs text-zinc-500">Add media: /assets/projects/vr/week-${String(w.week).padStart(2,'0')}.jpg</p>
-                </div>
-              `}
+          <p class="mt-3 text-zinc-400">${w.summary || ""}</p>
 
-              <div class="p-5">
-                <div class="flex items-start justify-between gap-4">
-                  <div>
-                    <p class="text-xs text-zinc-500">Week ${w.week}</p>
-                    <h3 class="mt-1 text-lg font-medium text-white">${w.title}</h3>
-                  </div>
-                  <button class="focus-ring shrink-0 rounded-xl border border-zinc-700 px-3 py-2 text-sm hover:bg-zinc-900"
-                          data-toggle="week-${w.week}">
-                    Details
-                  </button>
-                </div>
-
-                <p class="mt-3 text-zinc-400">${w.summary}</p>
-
-                <div class="mt-4 hidden" id="week-${w.week}">
-                  <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
-                      <p class="text-xs text-zinc-400">What I did</p>
-                      <ul class="mt-2 space-y-1 text-sm text-zinc-300">
-                        ${w.bullets.map(b => `<li>• ${b}</li>`).join("")}
-                      </ul>
-                    </div>
-                    <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
-                      <p class="text-xs text-zinc-400">Next</p>
-                      <p class="mt-2 text-sm text-zinc-300">${w.next}</p>
-                    </div>
-                  </div>
-                </div>
-
+          <div class="mt-4 hidden" id="week-${weekNum}">
+            <div class="mt-4 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
+                <p class="text-xs text-zinc-400">What I did</p>
+                <ul class="mt-2 space-y-1 text-sm text-zinc-300">
+                  ${bullets.length ? bullets.map(b => `<li>• ${b}</li>`).join("") : `<li class="text-zinc-500">• (Add bullets for this week)</li>`}
+                </ul>
+              </div>
+              <div class="rounded-2xl border border-zinc-800 bg-zinc-900/30 p-4">
+                <p class="text-xs text-zinc-400">Next</p>
+                <p class="mt-2 text-sm text-zinc-300">${nextText || "(Add what's next)"}</p>
               </div>
             </div>
-          </article>
-        `;
+          </div>
+        </div>
+      </div>
+    </article>
+  `;
     }
+
 
     // Render timeline
     const timelineList = document.getElementById("timelineList");
