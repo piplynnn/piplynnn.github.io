@@ -23,12 +23,12 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      :root { --accent: #00E0FF; }
+      :root { --accent: #38BDF8; }
       *, *::before, *::after { box-sizing: border-box; }
 
       body {
         font-family: 'Inter', system-ui, sans-serif;
-        background: #080f10;
+        background: #050809;
         color: #d4d4d8;
         -webkit-font-smoothing: antialiased;
       }
@@ -48,7 +48,7 @@
 
       header, main, footer, section { position: relative; z-index: 1; }
 
-      .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,224,255,0.3); }
+      .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px rgba(56,189,248,0.3); }
 
       /* Section title underline animation */
       .section-title { position: relative; display: inline-block; }
@@ -56,7 +56,7 @@
         content: '';
         position: absolute; left: 0; bottom: -6px;
         height: 2px; width: 0;
-        background: linear-gradient(90deg, #00E0FF, transparent);
+        background: linear-gradient(90deg, #38BDF8, transparent);
         transition: width .65s cubic-bezier(.2,.7,.2,1);
       }
       .section-title.underline-on::after { width: 100%; }
@@ -87,9 +87,9 @@
         letter-spacing: 0.03em;
         padding: 0.2rem 0.6rem;
         border-radius: 4px;
-        border: 1px solid #1e2e30;
+        border: 1px solid #222426;
         color: #71717a;
-        background: #0d1a1c;
+        background: #111314;
         display: inline-block;
       }
 
@@ -100,9 +100,9 @@
         letter-spacing: 0.04em;
         padding: 0.3rem 0.75rem;
         border-radius: 6px;
-        border: 1px solid #1e3235;
-        color: rgba(0,224,255,0.75);
-        background: rgba(0,224,255,0.04);
+        border: 1px solid #1e2a2c;
+        color: rgba(56,189,248,0.75);
+        background: rgba(56,189,248,0.04);
         display: inline-block;
       }
 
@@ -111,8 +111,8 @@
         display: inline-block;
         width: 7px; height: 7px;
         border-radius: 50%;
-        background: #00E0FF;
-        box-shadow: 0 0 6px rgba(0,224,255,0.7);
+        background: #38BDF8;
+        box-shadow: 0 0 6px rgba(56,189,248,0.7);
         animation: pulse 2.4s ease-in-out infinite;
       }
       @keyframes pulse {
@@ -133,23 +133,23 @@
 
       /* Project card */
       .project-card {
-        border: 1px solid #1c2a2c;
+        border: 1px solid #1e2022;
         border-radius: 14px;
         overflow: hidden;
-        background: #0a1516;
+        background: #101214;
         transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
         display: block;
         text-decoration: none;
       }
       .project-card:hover {
-        border-color: rgba(0,224,255,0.3);
-        box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,224,255,0.05);
+        border-color: rgba(56,189,248,0.3);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(56,189,248,0.05);
         transform: translateY(-2px);
       }
       .project-card .thumb {
         aspect-ratio: 16/9;
         overflow: hidden;
-        background: #0d1a1c;
+        background: #0c0e0f;
       }
       .project-card .thumb img {
         width: 100%; height: 100%;
@@ -164,15 +164,15 @@
         position: relative;
         border-radius: 14px;
         overflow: hidden;
-        border: 1px solid #1c2a2c;
-        background: #0a1516;
+        border: 1px solid #1e2022;
+        background: #101214;
         transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
         display: block;
         text-decoration: none;
       }
       .highlight-card:hover {
-        border-color: rgba(0,224,255,0.3);
-        box-shadow: 0 12px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,224,255,0.05);
+        border-color: rgba(56,189,248,0.3);
+        box-shadow: 0 12px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(56,189,248,0.05);
         transform: translateY(-2px);
       }
       .highlight-card img.bg {
@@ -187,7 +187,7 @@
       .highlight-card::after {
         content: '';
         position: absolute; inset: 0;
-        background: linear-gradient(to top, rgba(8,15,16,0.92) 35%, rgba(8,15,16,0.5) 70%, transparent);
+        background: linear-gradient(to top, rgba(5,8,9,0.93) 35%, rgba(5,8,9,0.5) 70%, transparent);
         pointer-events: none;
       }
       .highlight-card .content {
@@ -197,15 +197,15 @@
 
       /* Skill card */
       .skill-card {
-        border: 1px solid #1c2a2c;
+        border: 1px solid #1e2022;
         border-radius: 14px;
-        background: #0a1516;
+        background: #101214;
         padding: 1.5rem;
       }
       .skill-row {
         display: flex; gap: 0.6rem;
         padding: 0.6rem 0;
-        border-bottom: 1px solid #121e20;
+        border-bottom: 1px solid #181a1b;
         font-size: 0.875rem;
         align-items: baseline;
       }
@@ -213,7 +213,7 @@
       .skill-label {
         font-family: 'JetBrains Mono', monospace;
         font-size: 0.68rem;
-        color: rgba(0,224,255,0.6);
+        color: rgba(56,189,248,0.6);
         min-width: 88px;
         flex-shrink: 0;
         font-weight: 500;
@@ -223,8 +223,8 @@
       /* Form field */
       .field {
         width: 100%;
-        background: #0a1516;
-        border: 1px solid #1c2a2c;
+        background: #101214;
+        border: 1px solid #1e2022;
         border-radius: 10px;
         color: #e4e4e7;
         padding: 0.75rem 1rem;
@@ -232,19 +232,19 @@
         font-size: 0.9rem;
         transition: border-color 0.2s, box-shadow 0.2s;
       }
-      .field:focus { outline: none; border-color: rgba(0,224,255,0.4); box-shadow: 0 0 0 3px rgba(0,224,255,0.08); }
+      .field:focus { outline: none; border-color: rgba(56,189,248,0.4); box-shadow: 0 0 0 3px rgba(56,189,248,0.08); }
       .field::placeholder { color: #3f3f46; }
 
       /* Buttons */
       .btn-primary {
         display: inline-flex; align-items: center; gap: 6px;
-        background: #00E0FF; color: #080f10;
+        background: #38BDF8; color: #080f10;
         font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
         padding: 0.65rem 1.35rem; border-radius: 9px;
         border: none; cursor: pointer; text-decoration: none;
         transition: opacity 0.2s, box-shadow 0.2s;
       }
-      .btn-primary:hover { opacity: 0.92; box-shadow: 0 4px 20px rgba(0,224,255,0.22); }
+      .btn-primary:hover { opacity: 0.92; box-shadow: 0 4px 20px rgba(56,189,248,0.22); }
 
       .btn-ghost {
         display: inline-flex; align-items: center; gap: 6px;
@@ -260,7 +260,7 @@
       #toast {
         position: fixed; right: 24px; bottom: 24px;
         padding: 0.7rem 1rem; border-radius: 10px;
-        background: #00E0FF; color: #080f10;
+        background: #38BDF8; color: #080f10;
         font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         opacity: 0; pointer-events: none;
@@ -282,7 +282,7 @@
   <body>
 
     <!-- HEADER -->
-    <header class="sticky top-0 z-40" style="background:rgba(8,15,16,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #1c2a2c;">
+    <header class="sticky top-0 z-40" style="background:rgba(5,8,9,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #1e2022;">
       <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;">
         <div style="display:flex;height:64px;align-items:center;justify-content:space-between;">
           <a href="#" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#e4e4e7;letter-spacing:-0.01em;text-decoration:none;">Carter Lynn</a>
@@ -301,14 +301,9 @@
       <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
 
         <div data-reveal>
-          <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.5rem;">
-            <span class="status-dot"></span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(0,224,255,0.55);letter-spacing:0.08em;">Available for internships · 2025</span>
-          </div>
-
           <h1 style="font-size:clamp(2rem,4.5vw,3rem);font-weight:700;color:#f4f4f5;line-height:1.15;letter-spacing:-0.02em;margin:0;">
             Game Developer<br/>
-            <span style="color:#00E0FF;">&amp; Interactive Systems</span>
+            <span style="color:#38BDF8;">&amp; Interactive Systems</span>
           </h1>
 
           <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:1.25rem;">
@@ -320,10 +315,6 @@
             <span class="stack-badge">URP</span>
           </div>
 
-          <p style="margin-top:1.25rem;color:#71717a;line-height:1.75;font-size:0.95rem;max-width:38ch;">
-            MSU student building gameplay systems, XR simulators, and automotive tools in Unity. Member of Spartasoft Studio.
-          </p>
-
           <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:2rem;">
             <a href="#projects" class="btn-primary focus-ring">See projects →</a>
             <a href="/assets/projects/carterlynnresume.pdf" class="btn-ghost focus-ring">Download résumé</a>
@@ -331,7 +322,7 @@
         </div>
 
         <div data-reveal>
-          <div id="heroRotator" style="border-radius:14px;aspect-ratio:4/3;background:#0a1516;border:1px solid #1c2a2c;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.4);"></div>
+          <div id="heroRotator" style="border-radius:14px;aspect-ratio:4/3;background:#0a1516;border:1px solid #1e2022;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.4);"></div>
         </div>
 
       </div>
@@ -340,9 +331,9 @@
     <main>
 
       <!-- HIGHLIGHTS -->
-      <section id="highlights" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+      <section id="highlights" style="border-top:1px solid #1e2022;scroll-margin-top:6rem;">
         <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
-          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Highlights</h2>
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Highlights</h2>
           <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
 
             <a href="/cardash.html" class="highlight-card" style="height:270px;" data-reveal>
@@ -361,7 +352,7 @@
               <div class="content">
                 <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:0.6rem;">
                   <span class="tag">Meta Quest</span><span class="tag">XR Toolkit</span><span class="tag">NavMesh AI</span>
-                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.06em;color:rgba(0,224,255,0.7);border:1px solid rgba(0,224,255,0.25);padding:2px 7px;border-radius:4px;background:rgba(0,224,255,0.04);">In progress</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.06em;color:rgba(56,189,248,0.7);border:1px solid rgba(56,189,248,0.25);padding:2px 7px;border-radius:4px;background:rgba(56,189,248,0.04);">In progress</span>
                 </div>
                 <h3 style="font-size:1.1rem;font-weight:600;color:#f4f4f5;margin:0;">VR Distracted Driving Simulator</h3>
                 <p style="color:#71717a;font-size:0.855rem;margin:0.4rem 0 0;line-height:1.55;">Meta Quest XR experience with NavMesh pedestrian AI, cinematic camera sequences, and crash detection — built for road safety education.</p>
@@ -373,94 +364,148 @@
       </section>
 
       <!-- PROJECTS -->
-      <section id="projects" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+      <section id="projects" style="border-top:1px solid #1e2022;scroll-margin-top:6rem;">
         <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;display:flex;flex-direction:column;gap:4rem;">
 
           <div>
-            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Spartasoft</h2>
-            <div id="grid-spartasoft" style="margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;"></div>
+            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Spartasoft</h2>
+            <div id="grid-spartasoft" style="margin-top:2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;"></div>
           </div>
 
           <div>
-            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Game Jams</h2>
-            <div id="grid-gamejams" style="margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;"></div>
+            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Game Jams</h2>
+            <div id="grid-gamejams" style="margin-top:2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;"></div>
           </div>
 
           <div>
-            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Others</h2>
-            <div id="grid-others" style="margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;"></div>
+            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Others</h2>
+            <div id="grid-others" style="margin-top:2rem;display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;"></div>
           </div>
 
         </div>
       </section>
 
       <!-- ABOUT -->
-      <section id="about" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+      <section id="about" style="border-top:1px solid #1e2022;scroll-margin-top:6rem;">
         <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;" data-reveal>
-          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>About</h2>
-          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 2fr;gap:2.5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>About</h2>
 
-            <div>
-              <p style="color:#71717a;line-height:1.8;font-size:0.93rem;margin:0;">I'm Carter Lynn — a game developer at Michigan State University and member of Spartasoft Studio. I build gameplay systems, UI/UX for in-game tools, and rapid prototypes.</p>
-              <p style="color:#71717a;line-height:1.8;font-size:0.93rem;margin:1rem 0 0;">Currently shipping a Unity car dashboard with real-time OBD-II visualization, and a VR Distracted Driving Simulator on Meta Quest with NavMesh AI pedestrians and cinematic camera logic.</p>
-              <p style="color:#71717a;line-height:1.8;font-size:0.93rem;margin:1rem 0 0;">Next on deck: Unity ML-Agents integration for autonomous driving behavior.</p>
+          <!-- Punchy intro -->
+          <p style="margin-top:1.75rem;color:#a1a1aa;line-height:1.75;font-size:1rem;max-width:55ch;">
+            Game developer at Michigan State University. I build gameplay systems, XR simulators, and real-time data tools in Unity — currently a member of Spartasoft Studio.
+          </p>
+
+          <!-- Stat callouts -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2rem;">
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.25rem 1.5rem;">
+              <p style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:#38BDF8;margin:0;line-height:1;">5+</p>
+              <p style="font-size:0.82rem;color:#71717a;margin:0.4rem 0 0;">Projects shipped</p>
             </div>
-
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
-              <div class="skill-card">
-                <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Core Skills</h3>
-                <div class="skill-row"><span class="skill-label">Languages</span><span class="skill-value">C#, C++, Python</span></div>
-                <div class="skill-row"><span class="skill-label">Engine</span><span class="skill-value">Unity (URP, 2D & 3D)</span></div>
-                <div class="skill-row"><span class="skill-label">XR / VR</span><span class="skill-value">XR Toolkit, Meta Quest, NavMesh</span></div>
-                <div class="skill-row"><span class="skill-label">UI</span><span class="skill-value">UI Toolkit, TextMeshPro, Figma</span></div>
-                <div class="skill-row"><span class="skill-label">Systems</span><span class="skill-value">Coroutines, Input System, Post Processing</span></div>
-                <div class="skill-row"><span class="skill-label">Tools</span><span class="skill-value">GitHub, Rider, Photoshop, Premiere</span></div>
-              </div>
-
-              <div class="skill-card">
-                <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Highlights</h3>
-                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.85rem;">
-                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>Programmer across multiple Spartasoft Studio team projects</li>
-                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>Built Unity car dashboard with live OBD-II data, shift lights, and 0–60 timer</li>
-                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>VR simulator with NavMesh AI, crash detection, and cinematic camera sequences</li>
-                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>FPS recoil & ADS systems with multi-weapon input and procedural camera recovery</li>
-                </ul>
-              </div>
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.25rem 1.5rem;">
+              <p style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:#38BDF8;margin:0;line-height:1;">2yr</p>
+              <p style="font-size:0.82rem;color:#71717a;margin:0.4rem 0 0;">Unity experience</p>
             </div>
-
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.25rem 1.5rem;">
+              <p style="font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:#38BDF8;margin:0;line-height:1;">3</p>
+              <p style="font-size:0.82rem;color:#71717a;margin:0.4rem 0 0;">Languages</p>
+            </div>
           </div>
+
+          <!-- Skills + highlights side by side -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1.25rem;">
+            <div class="skill-card">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Core Skills</h3>
+              <div class="skill-row"><span class="skill-label">Languages</span><span class="skill-value">C#, C++, Python</span></div>
+              <div class="skill-row"><span class="skill-label">Engine</span><span class="skill-value">Unity (URP, 2D & 3D)</span></div>
+              <div class="skill-row"><span class="skill-label">XR / VR</span><span class="skill-value">XR Toolkit, Meta Quest, NavMesh</span></div>
+              <div class="skill-row"><span class="skill-label">UI</span><span class="skill-value">UI Toolkit, TextMeshPro, Figma</span></div>
+              <div class="skill-row"><span class="skill-label">Systems</span><span class="skill-value">Coroutines, Input System, Post Processing</span></div>
+              <div class="skill-row"><span class="skill-label">Tools</span><span class="skill-value">GitHub, Rider, Photoshop, Premiere</span></div>
+            </div>
+
+            <div class="skill-card">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Highlights</h3>
+              <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.85rem;">
+                <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(56,189,248,0.5);flex-shrink:0;margin-top:2px;">→</span>Programmer across multiple Spartasoft Studio team projects</li>
+                <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(56,189,248,0.5);flex-shrink:0;margin-top:2px;">→</span>Built Unity car dashboard with live OBD-II data, shift lights, and 0–60 timer</li>
+                <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(56,189,248,0.5);flex-shrink:0;margin-top:2px;">→</span>VR simulator with NavMesh AI, crash detection, and cinematic camera sequences</li>
+                <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(56,189,248,0.5);flex-shrink:0;margin-top:2px;">→</span>FPS recoil & ADS systems with multi-weapon input and procedural camera recovery</li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </section>
 
       <!-- CONTACT -->
-      <section id="contact" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+      <section id="contact" style="border-top:1px solid #1e2022;scroll-margin-top:6rem;">
         <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;" data-reveal>
-          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Contact</h2>
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Contact</h2>
           <p style="margin-top:0.6rem;color:#71717a;font-size:0.95rem;">Open to collaborations, internships, and freelance work.</p>
-          <form id="contactForm" style="margin-top:2rem;max-width:32rem;display:grid;gap:10px;" method="POST" data-endpoint="https://formspree.io/f/mblkqdgv">
-            <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-            <input type="hidden" name="subject" value="New message from piplynn.com" />
-            <input type="hidden" name="_origin" value="piplynn.com/contact" />
-            <input class="field focus-ring" type="text" name="name" placeholder="Your name" required>
-            <input class="field focus-ring" type="email" name="email" placeholder="Email" required>
-            <textarea class="field focus-ring" name="message" rows="5" placeholder="Message" required></textarea>
-            <button type="submit" class="btn-primary focus-ring" style="width:fit-content;">Send message</button>
-            <p style="font-size:0.8rem;color:#3f3f46;margin-top:2px;">Or email <a href="mailto:carterlynnmsu@gmail.com" style="color:rgba(0,224,255,0.5);text-decoration:underline;">carterlynnmsu@gmail.com</a></p>
-            <p id="formStatus" style="font-size:0.82rem;color:#71717a;" aria-live="polite"></p>
-          </form>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2.5rem;align-items:start;">
+
+            <!-- Form -->
+            <form id="contactForm" style="display:grid;gap:10px;" method="POST" data-endpoint="https://formspree.io/f/mblkqdgv">
+              <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+              <input type="hidden" name="subject" value="New message from piplynn.com" />
+              <input type="hidden" name="_origin" value="piplynn.com/contact" />
+              <input class="field focus-ring" type="text" name="name" placeholder="Your name" required>
+              <input class="field focus-ring" type="email" name="email" placeholder="Email" required>
+              <textarea class="field focus-ring" name="message" rows="5" placeholder="Message" required></textarea>
+              <button type="submit" class="btn-primary focus-ring" style="width:fit-content;">Send message</button>
+              <p id="formStatus" style="font-size:0.82rem;color:#71717a;" aria-live="polite"></p>
+            </form>
+
+            <!-- Links -->
+            <div style="display:flex;flex-direction:column;gap:1rem;">
+              <p style="font-size:0.82rem;color:#52525b;margin:0;">Or reach me directly:</p>
+
+              <a href="mailto:carterlynnmsu@gmail.com" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border:1px solid #1e2022;border-radius:12px;background:#101214;text-decoration:none;transition:border-color 0.2s,box-shadow 0.2s;" onmouseover="this.style.borderColor='rgba(56,189,248,0.3)';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.2)'" onmouseout="this.style.borderColor='#1e2022';this.style.boxShadow='none'">
+                <span style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </span>
+                <div>
+                  <p style="font-size:0.8rem;color:#52525b;margin:0;">Email</p>
+                  <p style="font-size:0.875rem;color:#e4e4e7;margin:0;">carterlynnmsu@gmail.com</p>
+                </div>
+              </a>
+
+              <a href="https://github.com/piplynn" target="_blank" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border:1px solid #1e2022;border-radius:12px;background:#101214;text-decoration:none;transition:border-color 0.2s,box-shadow 0.2s;" onmouseover="this.style.borderColor='rgba(56,189,248,0.3)';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.2)'" onmouseout="this.style.borderColor='#1e2022';this.style.boxShadow='none'">
+                <span style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="16" height="16" fill="#38BDF8" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                </span>
+                <div>
+                  <p style="font-size:0.8rem;color:#52525b;margin:0;">GitHub</p>
+                  <p style="font-size:0.875rem;color:#e4e4e7;margin:0;">github.com/piplynn</p>
+                </div>
+              </a>
+
+              <a href="https://piplynnn.itch.io" target="_blank" style="display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border:1px solid #1e2022;border-radius:12px;background:#101214;text-decoration:none;transition:border-color 0.2s,box-shadow 0.2s;" onmouseover="this.style.borderColor='rgba(56,189,248,0.3)';this.style.boxShadow='0 4px 20px rgba(0,0,0,0.2)'" onmouseout="this.style.borderColor='#1e2022';this.style.boxShadow='none'">
+                <span style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                  <svg width="16" height="16" fill="#38BDF8" viewBox="0 0 245.37 220.8"><path d="M31.99 1.365C21.287 7.808.2 31.066 0 36.318v9.Define18c0 23.868 22.3 44.591 42.612 44.591 24.406 0 44.622-20.106 44.622-44.029 0 23.923 19.862 44.03 44.268 44.03 24.403 0 44.032-20.107 44.032-44.03 0 23.923 20.212 44.03 44.622 44.03 20.314 0 42.612-20.723 42.612-44.592v-9.18c-.2-5.252-21.287-28.51-31.988-34.953C240 1.365 31.988 1.365 31.99 1.365zM109.92 89.2s-16.71 30.91-44.98 30.91c-8.98 0-17.47-1.73-25.29-4.79V199.9c0 11.55 42.94 20.9 95.93 20.9s95.93-9.35 95.93-20.9v-84.58c-7.82 3.06-16.31 4.79-25.29 4.79-28.27 0-44.98-30.91-44.98-30.91s-11.23 30.91-50.31 30.91c-39.08 0-1.01-30.91-1.01-30.91z"/></svg>
+                </span>
+                <div>
+                  <p style="font-size:0.8rem;color:#52525b;margin:0;">Itch.io</p>
+                  <p style="font-size:0.875rem;color:#e4e4e7;margin:0;">piplynnn.itch.io</p>
+                </div>
+              </a>
+
+            </div>
+          </div>
         </div>
       </section>
 
     </main>
 
     <!-- FOOTER -->
-    <footer style="border-top:1px solid #1c2a2c;">
+    <footer style="border-top:1px solid #1e2022;">
       <div style="max-width:72rem;margin:0 auto;padding:2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
         <p style="font-size:0.82rem;color:#3f3f46;margin:0;">© <span id="y"></span> Carter Lynn</p>
         <p id="visitCounter" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#3f3f46;letter-spacing:0.06em;margin:0;">Total visits: …</p>
         <div style="display:flex;gap:1.5rem;">
-          <a href="https://github.com/piplynn" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#00E0FF'" onmouseout="this.style.color='#3f3f46'">GitHub</a>
-          <a href="https://piplynnn.itch.io" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#00E0FF'" onmouseout="this.style.color='#3f3f46'">Itch.io</a>
+          <a href="https://github.com/piplynn" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#3f3f46'">GitHub</a>
+          <a href="https://piplynnn.itch.io" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#3f3f46'">Itch.io</a>
         </div>
       </div>
     </footer>
@@ -468,7 +513,7 @@
     <div id="toast" role="status" aria-live="polite">Message sent ✅</div>
 
     <!-- HERO ROTATOR -->
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
       const heroImages = ['/assets/projects/gifvideo1.mp4','/assets/projects/caro3.jpg','/assets/projects/gifvideo2.mp4','/assets/projects/caro2.jpg'];
       (function(){
         const mount = document.getElementById('heroRotator');
@@ -589,11 +634,4 @@
       async function show(){try{const s=await getDoc(ref);el.textContent=s.exists()?`Total visits: ${s.data().count}`:'Total visits: 0';}catch{el.textContent='Total visits: ?';}}
       async function bump(){
         if(sessionStorage.getItem('v')==='1')return show();
-        try{await runTransaction(db,async tx=>{const s=await tx.get(ref);s.exists()?tx.update(ref,{count:increment(1)}):tx.set(ref,{count:1});});sessionStorage.setItem('v','1');}
-        catch(e){console.error(e);}finally{show();}
-      }
-      bump();
-    </script>
-
-  </body>
-</html>
+        try{await runTransaction(db
