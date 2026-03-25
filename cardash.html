@@ -8,165 +8,612 @@
     <meta property="og:title" content="All Purpose Car Dashboard" />
     <meta property="og:description" content="Unity-based real-time OBD-II dashboard — RPM ladders, shift lights, and performance tracking." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://piplynn.com/cardashboard.html" />
+    <meta property="og:url" content="https://piplynn.com/cardash.html" />
     <meta property="og:image" content="/assets/projects/cardash.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="/assets/projects/carter.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['Inter', 'system-ui', 'sans-serif'],
-              body: ['Inter', 'system-ui', 'sans-serif']
-            },
-            colors: {
-              accent: '#00E0FF',
-              accentDark: '#00B5CC'
-            },
-            boxShadow: {
-              soft: '0 8px 30px rgba(0,0,0,0.08)'
-            }
-          }
-        },
-        darkMode: 'class'
-      };
-    </script>
+    <style>
+      :root { --accent: #38BDF8; }
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #050809;
+        color: #d4d4d8;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      h1, h2, h3, h4 { font-family: 'Syne', system-ui, sans-serif; }
+
+      body::after {
+        content: '';
+        position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        background-size: 180px;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.5;
+      }
+
+      header, main, footer, section { position: relative; z-index: 1; }
+
+      /* Nav */
+      nav a {
+        position: relative; color: #71717a;
+        font-size: 0.875rem; text-decoration: none;
+        transition: color 0.2s;
+      }
+      nav a:hover { color: #e4e4e7; }
+      nav a::after {
+        content: ''; position: absolute; left: 0; bottom: -2px;
+        height: 1px; width: 0; background: var(--accent);
+        transition: width 0.2s ease;
+      }
+      nav a:hover::after { width: 100%; }
+
+      /* Section title */
+      .section-title { position: relative; display: inline-block; }
+      .section-title::after {
+        content: ''; position: absolute; left: 0; bottom: -6px;
+        height: 2px; width: 0;
+        background: linear-gradient(90deg, #38BDF8, transparent);
+        transition: width .65s cubic-bezier(.2,.7,.2,1);
+      }
+      .section-title.underline-on::after { width: 100%; }
+
+      /* Tag + badge */
+      .tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem; font-weight: 500; letter-spacing: 0.03em;
+        padding: 0.2rem 0.6rem; border-radius: 4px;
+        border: 1px solid #222426; color: #71717a; background: #111314;
+        display: inline-block;
+      }
+      .stack-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem; letter-spacing: 0.04em;
+        padding: 0.3rem 0.75rem; border-radius: 6px;
+        border: 1px solid #1e2a2c;
+        color: rgba(56,189,248,0.75); background: rgba(56,189,248,0.04);
+        display: inline-block;
+      }
+
+      /* Cards */
+      .card {
+        border: 1px solid #1e2022; border-radius: 14px;
+        background: #101214; padding: 1.5rem;
+        transition: border-color 0.25s, transform 0.25s;
+      }
+      .card:hover {
+        border-color: rgba(56,189,248,0.25);
+        transform: translateY(-2px);
+      }
+
+      /* Skill row */
+      .skill-row {
+        display: flex; gap: 0.6rem; padding: 0.6rem 0;
+        border-bottom: 1px solid #181a1b; font-size: 0.875rem;
+        align-items: baseline;
+      }
+      .skill-row:last-child { border-bottom: none; }
+      .skill-label {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+        color: rgba(56,189,248,0.6); min-width: 96px; flex-shrink: 0; font-weight: 500;
+      }
+      .skill-value { color: #a1a1aa; }
+
+      /* Code block */
+      .code-block {
+        background: #0a0c0d; border: 1px solid #1e2022; border-radius: 10px;
+        padding: 1.25rem 1.5rem; font-family: 'JetBrains Mono', monospace;
+        font-size: 0.76rem; line-height: 1.9; color: #a1a1aa; overflow-x: auto;
+        white-space: pre; tab-size: 2;
+      }
+      .code-block .kw  { color: #38BDF8; }
+      .code-block .fn  { color: #86efac; }
+      .code-block .str { color: #fca5a5; }
+      .code-block .cm  { color: #52525b; font-style: italic; }
+      .code-block .nm  { color: #c4b5fd; }
+
+      /* Buttons */
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: #38BDF8; color: #080f10;
+        font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
+        padding: 0.65rem 1.35rem; border-radius: 9px;
+        border: none; cursor: pointer; text-decoration: none;
+        transition: opacity 0.2s, box-shadow 0.2s;
+      }
+      .btn-primary:hover { opacity: 0.92; box-shadow: 0 4px 20px rgba(56,189,248,0.22); }
+
+      .btn-ghost {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: transparent; color: #71717a;
+        font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
+        padding: 0.65rem 1.35rem; border-radius: 9px;
+        border: 1px solid #1e2022; cursor: pointer; text-decoration: none;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .btn-ghost:hover { border-color: rgba(56,189,248,0.3); color: #e4e4e7; }
+
+      /* Reveal */
+      [data-reveal] {
+        opacity: 0; transform: translateY(20px);
+        transition: opacity 600ms ease, transform 600ms cubic-bezier(.2,.7,.2,1);
+      }
+
+      /* Timeline */
+      .timeline-item {
+        display: flex; gap: 1.25rem; padding-bottom: 2rem; position: relative;
+      }
+      .timeline-item:not(:last-child)::before {
+        content: ''; position: absolute; left: 15px; top: 32px;
+        width: 1px; height: calc(100% - 8px);
+        background: linear-gradient(to bottom, #1e2022, transparent);
+      }
+      .timeline-dot {
+        width: 32px; height: 32px; flex-shrink: 0;
+        border-radius: 50%; border: 1px solid rgba(56,189,248,0.3);
+        background: rgba(56,189,248,0.06);
+        display: flex; align-items: center; justify-content: center;
+        font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+        color: rgba(56,189,248,0.7); margin-top: 2px;
+      }
+
+      /* Gallery image */
+      .gallery-img {
+        border-radius: 12px; border: 1px solid #1e2022;
+        overflow: hidden; background: #0c0e0f;
+        transition: border-color 0.25s, transform 0.25s;
+      }
+      .gallery-img:hover { border-color: rgba(56,189,248,0.25); transform: scale(1.01); }
+      .gallery-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    </style>
   </head>
-  <body class="antialiased bg-zinc-950 text-zinc-100">
-    
-    <!-- Header -->
-    <header class="sticky top-0 z-40 backdrop-blur bg-zinc-950/80 border-b border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6">
-        <div class="flex h-16 items-center justify-between">
-          <a href="/" class="font-semibold tracking-tight text-lg text-accent">Carter Lynn</a>
-          <nav class="hidden gap-6 sm:flex text-sm">
-            <a href="/#highlights" class="hover:text-accent">Highlights</a>
-            <a href="/#projects" class="hover:text-accent">Projects</a>
-            <a href="/#about" class="hover:text-accent">About</a>
-            <a href="/#contact" class="hover:text-accent">Contact</a>
+
+  <body>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40" style="background:rgba(5,8,9,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #1e2022;">
+      <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;">
+        <div style="display:flex;height:64px;align-items:center;justify-content:space-between;">
+          <a href="/" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#e4e4e7;letter-spacing:-0.01em;text-decoration:none;">Carter Lynn</a>
+          <nav style="display:flex;gap:2rem;">
+            <a href="/#highlights">Highlights</a>
+            <a href="/#projects">Projects</a>
+            <a href="/#about">About</a>
+            <a href="/#contact">Contact</a>
           </nav>
         </div>
       </div>
     </header>
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden border-b border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 grid gap-10 md:grid-cols-2 items-center">
-        <div>
-          <h1 class="font-display text-4xl sm:text-5xl font-semibold leading-tight text-white">All Purpose Car Dashboard</h1>
-          <p class="mt-4 text-zinc-400 max-w-prose">
-            A Unity-based automotive dashboard with real-time OBD-II integration. Features include RPM ladders, shift lights, customizable UI, and a 0–60 mph performance tracker with animated visuals and sound design.
-          </p>
-          <div class="mt-6 flex gap-3">
-            <a href="https://github.com/piplynnn/subuwu" target="_blank" class="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-zinc-900 font-medium shadow-soft hover:opacity-90">View Code</a>
-            <a href="/assets/projects/cardash-demo.mp4" target="_blank" class="inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-medium hover:bg-zinc-900">Watch Demo</a>
+    <main>
+
+      <!-- HERO -->
+      <section style="padding:5rem 0 4rem;border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;" data-reveal>
+
+          <div>
+            <!-- Breadcrumb -->
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#3f3f46;">
+              <a href="/" style="color:#52525b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#52525b'">Carter Lynn</a>
+              <span>/</span>
+              <a href="/#highlights" style="color:#52525b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#52525b'">Projects</a>
+              <span>/</span>
+              <span style="color:#71717a;">Car Dashboard</span>
+            </div>
+
+            <h1 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:700;color:#f4f4f5;line-height:1.15;letter-spacing:-0.02em;margin:0;">
+              All Purpose<br/><span style="color:#38BDF8;">Car Dashboard</span>
+            </h1>
+
+            <p style="margin-top:1rem;color:#71717a;line-height:1.75;font-size:0.95rem;max-width:42ch;">
+              A custom car dashboard built in Unity, with OBD-II integration, shift lights, RPM ladders, and a fully custom UI. Built to run on a touchscreen mini PC.
+            </p>
+
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:1.25rem;">
+              <span class="stack-badge">Unity</span>
+              <span class="stack-badge">C#</span>
+              <span class="stack-badge">OBD-II</span>
+              <span class="stack-badge">ELM327</span>
+              <span class="stack-badge">URP</span>
+              <span class="stack-badge">UI Toolkit</span>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:2rem;">
+              <a href="https://github.com/piplynnn/subuwu" target="_blank" class="btn-primary">View Code →</a>
+              <a href="/assets/projects/zerotosixty.mp4" target="_blank" class="btn-ghost">Watch Demo</a>
+            </div>
+          </div>
+
+          <div>
+            <div style="border-radius:14px;overflow:hidden;border:1px solid #1e2022;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+              <img src="/assets/projects/caro2.jpg" alt="Car Dashboard" style="width:100%;display:block;aspect-ratio:16/9;object-fit:cover;" />
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#1e2022;" data-reveal>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">100+</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">Hours of dev time</p>
+          </div>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">10+</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">Live OBD-II data points</p>
+          </div>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">60fps</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">Target frame rate</p>
+          </div>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">1</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">WRX STI tested in</p>
           </div>
         </div>
-        <div>
-          <img src="/assets/projects/cardash.jpg" alt="Car Dashboard" class="rounded-2xl shadow-soft border border-zinc-800" />
-        </div>
-      </div>
-    </section>
-    <!-- About Section -->
-<!-- About Section (What, Why, How) -->
-<section class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20" id="about-project">
-  <h2 class="font-display text-3xl font-semibold text-accent mb-8">About This Project</h2>
+      </section>
 
-  <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-    <!-- What -->
-    <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-      <h3 class="font-medium text-lg">What It Is</h3>
-      <p class="text-zinc-400 mt-2">
-        The All Purpose Car Dashboard is a real-time driving HUD built in Unity that turns OBD-II data into a clean, customizable display. 
-        Plug in a USB OBD-II adapter and a touchscreen animated RPM ladders, live speed/throttle, smart gear estimate, and a 0–60 tracker 
-        that arms, launches, and logs best runs (avg/max RPM and launch delay). Designed like a game HUD and readable so it stays out of your way. 
-        Swap backgrounds, colors, themes, and layout. It’s modular for easy additions like temps or boost. 
-      </p>
-    </div>
+      <!-- ABOUT: WHAT / WHY / HOW -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>About This Project</h2>
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;" data-reveal>
 
-    <!-- Why -->
-    <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-      <h3 class="font-medium text-lg">Why I Built It</h3>
-      <p class="text-zinc-400 mt-2">
-        While driving my car in March 2025, I thought it would be cool to have my own dashboard that told me 
-        information like speed and RPM, while having my own customized background. Then I thought, with my experience in Unity, I could totally make
-        this myself! So a few hundred hours of research and development later, I had a fully functional dashboard that I could use in my car. It really is cool to
-        see what you are capable of if you believe in yourself and put in the time to learn and create something new.
-      </p>
-    </div>
+            <div class="card">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              </div>
+              <h3 style="font-size:1rem;font-weight:600;color:#e4e4e7;margin:0 0 0.6rem;">What It Is</h3>
+              <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0;">A real-time driving dashboard that reads OBD-II data directly from your car and displays it on a touchscreen. It currently has several features such as RPM ladders, live speed and throttle, smart gear estimation, and a 0–60 tracker that arms, launches, and saves your best runs.</p>
+            </div>
 
-    <!-- How -->
-    <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-      <h3 class="font-medium text-lg">How I Built It</h3>
-      <p class="text-zinc-400 mt-2">
-        While I was sketching out the idea, I grabbed a USB OBD-II adapter and taught a tiny C# serial layer in Unity to speak ELM327. 
-        I profiled and tuned the polling loop so I could read RPM, speed, throttle, and more many times per second without choking the frame rate. Once the data was clean and steady, 
-        I built the interface like a game HUD: animated RPM ladders that breathe with the engine, 
-        progressive shift lights that climb to redline, and a 0–60 tracker that arms, launches, and celebrates a clean run.
-        Everything is customizable—swap backgrounds, colors, and icon sets, or drop in your own photos to make the dashboard yours.
-      </p>
-    </div>
-  </div>
-</section>
+            <div class="card">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 0v10l6 3"/></svg>
+              </div>
+              <h3 style="font-size:1rem;font-weight:600;color:#e4e4e7;margin:0 0 0.6rem;">Why I Built It</h3>
+              <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0;">In March 2025, while pushing my car a little harder than usual, I realized it would be a lot more convenient to know when to shift without having to glance down at my gauge cluster. I thought of going and buying something cheap off Amazon, but then it hit me. I could build one myself using my current Unity skills. From there, I spent more than a hundred hours researching, debugging, and implementing it in my car in 80-degree heat. Fast forward to today, and I have a completely modular dashboard that I use on a daily basis.</p>
+            </div>
 
+            <div class="card">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 010 1.4l-8 8a1 1 0 01-.4.25l-3 1a1 1 0 01-1.25-1.25l1-3a1 1 0 01.25-.4l8-8a1 1 0 011.4 0z"/><path d="M11 8l3 3"/></svg>
+              </div>
+              <h3 style="font-size:1rem;font-weight:600;color:#e4e4e7;margin:0 0 0.6rem;">How I Built It</h3>
+              <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0;">A tiny C# serial layer in Unity speaks ELM327 over USB. I tuned the polling loop to read RPM, speed, throttle, and more many times per second without dropping frames. Once the data was flowing reliably, I designed a set of interactive screens to visualize it.</p>
+            </div>
 
-    <!-- Features Section -->
-    <section class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20 space-y-12">
-      <h2 class="font-display text-3xl font-semibold text-accent">Key Features</h2>
-      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-          <h3 class="font-medium text-lg">Real-Time OBD-II Data</h3>
-          <p class="text-zinc-400 mt-2">Reads live RPM, throttle position, gear, and other car stats via OBD-II connection.</p>
+          </div>
         </div>
-        <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-          <h3 class="font-medium text-lg">RPM Ladders & Shift Lights</h3>
-          <p class="text-zinc-400 mt-2">Progressive LED indicators for optimal shift timing, customizable for different vehicles.</p>
-        </div>
-        <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-          <h3 class="font-medium text-lg">0–60 mph Tracker</h3>
-          <p class="text-zinc-400 mt-2">Accurate timing with animated UI, average/max RPM stats, and launch delay measurement.</p>
-        </div>
-        <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-          <h3 class="font-medium text-lg">Custom UI Themes</h3>
-          <p class="text-zinc-400 mt-2">Switch between visual layouts and color schemes for a personalized driving experience.</p>
-        </div>
-        <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-          <h3 class="font-medium text-lg">Audio Feedback</h3>
-          <p class="text-zinc-400 mt-2">Immersive sound effects for shift alerts and performance milestones.</p>
-        </div>
-        <div class="rounded-2xl border border-zinc-800 p-6 hover:border-accent transition-colors">
-          <h3 class="font-medium text-lg">Future Integrations</h3>
-          <p class="text-zinc-400 mt-2">Planned support for ML-Agents to adapt driving insights and predictions over time.</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Gallery -->
-    <section class="bg-zinc-900/50 border-t border-b border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20">
-        <h2 class="font-display text-3xl font-semibold text-accent mb-10">Gallery</h2>
-        <div class="grid gap-6 sm:grid-cols-2">
-          <img src="/assets/projects/cardash2.jpg" alt="Dashboard Screenshot 1" class="rounded-2xl border border-zinc-800" />
-          <img src="/assets/projects/cardash3.jpg" alt="Dashboard Screenshot 2" class="rounded-2xl border border-zinc-800" />
-        </div>
-      </div>
-    </section>
+      <!-- HOW IT WORKS (TECHNICAL) -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>How It Works</h2>
+          <p style="margin-top:1rem;color:#71717a;font-size:0.95rem;max-width:55ch;">The hard part wasn't designing the UI, it was pulling low-latency data from the car and syncing it cleanly with Unity's update loop without causing frame drops.</p>
 
-    <!-- Footer -->
-    <footer class="border-t border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 text-sm text-zinc-500 flex justify-between">
-        <p>© <span id="y"></span> Carter Lynn</p>
-        <div class="flex gap-4">
-          <a href="https://github.com/piplynn" class="hover:text-accent">GitHub</a>
-          <a href="https://piplynnn.itch.io" class="hover:text-accent">Itch.io</a>
+          <div style="margin-top:2.5rem;" data-reveal>
+
+            <!-- Timeline — full width, straight down -->
+            <div>
+              <div class="timeline-item">
+                <div class="timeline-dot">01</div>
+                <div>
+                  <h4 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.4rem;">Serial Connection via ELM327</h4>
+                  <p style="font-size:0.855rem;color:#71717a;line-height:1.65;margin:0;">Unity opens a <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">SerialPort</code> at 115200 baud with <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">NewLine = "\r"</code> as required by ELM327. Three PIDs are cycled in order: RPM (<code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">010C</code>), accelerator pedal position (<code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">014A</code>), and speed (<code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">010D</code>), sending one command every 3 frames once both are confirmed active.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot">02</div>
+                <div>
+                  <h4 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.4rem;">Threaded Polling with Queue</h4>
+                  <p style="font-size:0.855rem;color:#71717a;line-height:1.65;margin:0;">All serial reads run on a dedicated background <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">Thread</code> so blocking I/O never stalls Unity. Responses are pushed into a <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">Queue&lt;string&gt;</code> behind a <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">lock</code>, then drained in <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">Update()</code> each frame.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot">03</div>
+                <div>
+                  <h4 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.4rem;">PID Response Parsing</h4>
+                  <p style="font-size:0.855rem;color:#71717a;line-height:1.65;margin:0;">ELM327 responses are stripped of the prompt character, split on spaces, and matched by header bytes. RPM uses <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">((A*256)+B)/4</code>. Throttle (<code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">014A</code>) is clamped to the STI's actual pedal range (raw 30–153).</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot">04</div>
+                <div>
+                  <h4 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.4rem;">Gear Estimation via Wheel Speed</h4>
+                  <p style="font-size:0.855rem;color:#71717a;line-height:1.65;margin:0;">Gear is calculated by converting mph to wheel RPM (tire circumference 80.7"), dividing by engine RPM and final drive ratio (3.90), then matching against the STI's 6-speed ratio table. Neutral is detected when mph is zero or RPM is low at speed.</p>
+                </div>
+              </div>
+              <div class="timeline-item" style="padding-bottom:0;">
+                <div class="timeline-dot">05</div>
+                <div>
+                  <h4 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.4rem;">0–60 Tracker Logic</h4>
+                  <p style="font-size:0.855rem;color:#71717a;line-height:1.65;margin:0;">Accumulates a running RPM total via <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">zerotosixtyRPMtotal</code> and <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">zerotosixtyRPMcount</code> while <code style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:rgba(56,189,248,0.8);background:rgba(56,189,248,0.06);padding:1px 5px;border-radius:3px;">is_data_collecting</code> is true, then calculates average RPM on completion.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code blocks — 2 columns below the timeline -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2rem;">
+              <pre class="code-block"><span class="cm">// Background thread — reads serial into queue</span>
+<span class="kw">private void</span> <span class="fn">ReadSerial</span>() {
+  <span class="kw">while</span> (keepReading && serialPort.<span class="nm">IsOpen</span>) {
+    <span class="kw">try</span> {
+      <span class="kw">string</span> response = serialPort.<span class="fn">ReadLine</span>().<span class="fn">Trim</span>();
+      response = response.<span class="fn">Replace</span>(<span class="str">">"</span>, <span class="str">""</span>).<span class="fn">Trim</span>();
+      <span class="kw">lock</span> (queueLock) { dataQueue.<span class="fn">Enqueue</span>(response); }
+    }
+    <span class="kw">catch</span> (TimeoutException) { <span class="cm">/* ECU slow — skip */</span> }
+  }
+}
+
+<span class="cm">// Main thread — drain queue, send next PID</span>
+<span class="kw">void</span> <span class="fn">Update</span>() {
+  <span class="kw">lock</span> (queueLock) {
+    <span class="kw">while</span> (dataQueue.<span class="nm">Count</span> > <span class="nm">0</span>)
+      <span class="fn">ProcessOBDData</span>(dataQueue.<span class="fn">Dequeue</span>());
+  }
+  <span class="kw">if</span> (Time.frameCount % <span class="nm">3</span> == <span class="nm">0</span> && BothActive)
+    <span class="fn">SendCommand</span>();
+}
+
+<span class="cm">// RPM parse: bytes[0]="41" bytes[1]="0C"</span>
+<span class="kw">int</span> A = Convert.<span class="fn">ToInt32</span>(bytes[<span class="nm">2</span>], <span class="nm">16</span>);
+<span class="kw">int</span> B = Convert.<span class="fn">ToInt32</span>(bytes[<span class="nm">3</span>], <span class="nm">16</span>);
+rpm = ((A * <span class="nm">256</span>) + B) / <span class="nm">4</span>;</pre>
+
+              <pre class="code-block"><span class="cm">// Gear estimation — CarMath.cs</span>
+<span class="kw">float</span>[] gearRatios = {
+  <span class="nm">3.636f</span>, <span class="nm">2.235f</span>, <span class="nm">1.590f</span>,
+  <span class="nm">1.137f</span>, <span class="nm">0.971f</span>, <span class="nm">0.756f</span>
+};
+<span class="kw">float</span> finalDrive    = <span class="nm">3.90f</span>;
+<span class="kw">float</span> circumference = <span class="nm">80.7f</span>; <span class="cm">// inches</span>
+
+<span class="kw">void</span> <span class="fn">GearCalc</span>() {
+  <span class="kw">if</span> (mph == <span class="nm">0</span> || (rpm &lt;= <span class="nm">1000</span> && mph > <span class="nm">5</span>))
+    { gear = <span class="nm">0</span>; <span class="kw">return</span>; } <span class="cm">// Neutral</span>
+
+  <span class="kw">float</span> wheelspeed = mph * <span class="nm">5280</span> * <span class="nm">12</span> / <span class="nm">60f</span>;
+  <span class="kw">float</span> wheelrpm   = wheelspeed / circumference;
+  <span class="kw">float</span> ratio      = (rpm / wheelrpm) / finalDrive;
+
+  <span class="kw">float</span> bestDiff = <span class="nm">float</span>.MaxValue;
+  <span class="kw">for</span> (<span class="kw">int</span> i = <span class="nm">0</span>; i &lt; gearRatios.Length; i++) {
+    <span class="kw">float</span> diff = Mathf.<span class="fn">Abs</span>(ratio - gearRatios[i]);
+    <span class="kw">if</span> (diff &lt; bestDiff) { bestDiff = diff; gear = i + <span class="nm">1</span>; }
+  }
+}
+
+<span class="cm">// Throttle — calibrated to STI pedal range</span>
+rawPedal = Mathf.<span class="fn">Clamp</span>(rawPedal, <span class="nm">30</span>, <span class="nm">153</span>);
+throttleper = ((rawPedal - <span class="nm">30</span>) / <span class="nm">123f</span>) * <span class="nm">100f</span>;</pre>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Key Features</h2>
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;" data-reveal>
+
+            <div class="card">
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Real-Time OBD-II Data</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Reads RPM, speed, throttle position, gear estimate, and more via a USB OBD-II adapter at high polling rates without dropping frames.</p>
+            </div>
+            <div class="card">
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">RPM Ladders & Shift Lights</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Animated RPM bars that follow the engine in real time, which flash to signal when the user should shift.</p>
+            </div>
+            <div class="card">
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">0–60 mph Tracker</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Arms on launch, times to 60mph, and logs run stats including elapsed time, average RPM, max RPM, and launch delay. Best times saved to disk.</p>
+            </div>
+            <div class="card">
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Custom UI Themes</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Swap backgrounds, accent colors, icon sets, and layout presets. Drop in your own photos or artwork to make the dashboard yours.</p>
+            </div>
+            <div class="card">
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Audio Feedback</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Sound effects for shift alerts, redline warnings, and performance milestones make every run feel like a game.</p>
+            </div>
+            <div class="card">
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">ML-Agents (Planned)</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Next milestone: Unity ML-Agents to analyze driving patterns over time and surface personalized shift and performance insights.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- HARDWARE -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Hardware Setup</h2>
+          <p style="margin-top:1rem;color:#71717a;font-size:0.95rem;max-width:50ch;">The full in-car setup running this dashboard.</p>
+
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;" data-reveal>
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0;">Components</h3>
+              <div class="skill-row"><span class="skill-label">Computer</span><span class="skill-value">Windows mini PC (runs Unity build)</span></div>
+              <div class="skill-row"><span class="skill-label">Adapter</span><span class="skill-value">USB OBD-II ELM327 adapter</span></div>
+              <div class="skill-row"><span class="skill-label">Display</span><span class="skill-value">Touchscreen monitor, dash-mounted</span></div>
+              <div class="skill-row"><span class="skill-label">Car</span><span class="skill-value">Subaru WRX STI (6-speed manual)</span></div>
+              <div class="skill-row"><span class="skill-label">Protocol</span><span class="skill-value">ELM327 AT commands over USB serial</span></div>
+            </div>
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.5rem;display:flex;flex-direction:column;gap:1rem;">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0;">Tech Stack</h3>
+              <div class="skill-row"><span class="skill-label">Engine</span><span class="skill-value">Unity (URP, 2D overlay)</span></div>
+              <div class="skill-row"><span class="skill-label">Language</span><span class="skill-value">C#</span></div>
+              <div class="skill-row"><span class="skill-label">Serial I/O</span><span class="skill-value">System.IO.Ports.SerialPort</span></div>
+              <div class="skill-row"><span class="skill-label">UI</span><span class="skill-value">Unity UI Toolkit + TextMeshPro</span></div>
+              <div class="skill-row"><span class="skill-label">Storage</span><span class="skill-value">JSON via JsonUtility (run logs)</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CHALLENGES -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Challenges</h2>
+          <p style="margin-top:1rem;color:#71717a;font-size:0.95rem;max-width:52ch;">The hardest parts of this project, and how I learned from them.</p>
+
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;" data-reveal>
+            <div class="card">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(56,189,248,0.6);letter-spacing:0.06em;">CHALLENGE 01</span>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Overloading the Serial Port</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">The first and hardest issue to debug was how often I needed to send commands to the serial port without overloading it. Very early on in the project, I struggled for hours before I realized I was sending commands too fast, which meant the previous command wouldn't have time to process before coming back, resulting in no data coming back at all. When I figured out the issue, I made a timer that sends commands fast enough to have accurate data, but slow enough to avoid overloading the port.</p>
+            </div>
+            <div class="card">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(56,189,248,0.6);letter-spacing:0.06em;">CHALLENGE 02</span>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Handling Bad & Timed Out Responses</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">After getting consistent data flowing, I noticed it would occasionally come back inaccurate or time out completely. I built a robust parser that could handle both bad responses and timeouts gracefully. This took a while to nail down.</p>
+            </div>
+            <div class="card">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(56,189,248,0.6);letter-spacing:0.06em;">CHALLENGE 03</span>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Gear Estimation Without a Gear PID</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Most OBD-II implementations don't expose the current gear directly. I had to reverse-engineer the WRX STI's gear ratios, compute a speed/RPM ratio, and match it against a lookup table. My current script for this is faster than the built-in gear detector that is on my gauge cluster.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FUTURE PLANS -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Future Plans</h2>
+          <p style="margin-top:1rem;color:#71717a;font-size:0.95rem;max-width:52ch;">What's coming next for the dashboard.</p>
+
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;" data-reveal>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.75rem;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(56,189,248,0.6);letter-spacing:0.08em;border:1px solid rgba(56,189,248,0.2);padding:2px 7px;border-radius:3px;background:rgba(56,189,248,0.04);">NEXT UP</span>
+              </div>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">ML-Agents Integration</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Use Unity ML-Agents to analyze driving patterns over time, such as shift points, throttle habits, and launch consistency, to give a breakdown on what you're doing well and what to improve on.</p>
+            </div>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.75rem;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#52525b;letter-spacing:0.08em;border:1px solid #222426;padding:2px 7px;border-radius:3px;background:#111314;">PLANNED</span>
+              </div>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Expanded PID Support</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Add coolant temperature, intake air temp, boost pressure, and battery voltage readouts.</p>
+            </div>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.75rem;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#52525b;letter-spacing:0.08em;border:1px solid #222426;padding:2px 7px;border-radius:3px;background:#111314;">PLANNED</span>
+              </div>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Run History & Stats</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">With the current stored data from the 0-60 tracker, I want to expand it to save all runs and show where to improve with throttle and shifts.</p>
+            </div>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.75rem;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#52525b;letter-spacing:0.08em;border:1px solid #222426;padding:2px 7px;border-radius:3px;background:#111314;">PLANNED</span>
+              </div>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Wireless OBD-II</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Swap the USB adapter for a Bluetooth or Wi-Fi ELM327 to clean up the wiring and remove the physical cable between the OBD port and the mini PC.</p>
+            </div>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.75rem;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#52525b;letter-spacing:0.08em;border:1px solid #222426;padding:2px 7px;border-radius:3px;background:#111314;">EXPLORING</span>
+              </div>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Commercial Release</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Exploring options to release the dashboard, either as a paid GitHub repo or a hardware and software bundle, with social media being the primary marketing channel.</p>
+            </div>
+
+            <div class="card">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.75rem;">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#52525b;letter-spacing:0.08em;border:1px solid #222426;padding:2px 7px;border-radius:3px;background:#111314;">EXPLORING</span>
+              </div>
+              <h3 style="font-size:0.95rem;font-weight:600;color:#e4e4e7;margin:0 0 0.5rem;">Multi-Vehicle Support</h3>
+              <p style="color:#71717a;font-size:0.855rem;line-height:1.65;margin:0;">Right now gear ratios and pedal calibration are hardcoded for the WRX STI. A vehicle profile system would let users configure their own specs and switch between cars from the settings menu.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- GALLERY -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Gallery</h2>
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;" data-reveal>
+            <div class="gallery-img" style="aspect-ratio:16/9;">
+              <img src="/assets/projects/cardash.jpg" alt="Dashboard main view" />
+            </div>
+            <div class="gallery-img" style="aspect-ratio:16/9;">
+              <img src="/assets/projects/cardash2.jpg" alt="Dashboard screenshot 2" />
+            </div>
+            <div class="gallery-img" style="aspect-ratio:16/9;">
+              <img src="/assets/projects/cardash3.jpg" alt="Dashboard screenshot 3" />
+            </div>
+            <div class="gallery-img" style="aspect-ratio:16/9;">
+              <video src="/assets/projects/test.mp4" controls style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="border-top:1px solid #1e2022;">
+      <div style="max-width:72rem;margin:0 auto;padding:2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <p style="font-size:0.82rem;color:#3f3f46;margin:0;">© <span id="y"></span> Carter Lynn</p>
+        <a href="/" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#52525b;text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#52525b'">← Back to portfolio</a>
+        <div style="display:flex;gap:1.5rem;">
+          <a href="https://github.com/piplynn" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#3f3f46'">GitHub</a>
+          <a href="https://piplynnn.itch.io" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#3f3f46'">Itch.io</a>
         </div>
       </div>
     </footer>
 
+    <!-- SCROLL REVEAL + UNDERLINES -->
     <script>
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+          const t = e.target.closest('section')?.querySelector('[data-underline]');
+          if (t) t.classList.add('underline-on');
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+
+      new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          const t = e.target.querySelector('[data-underline]');
+          if (t) t.classList.add('underline-on');
+        });
+      }, { threshold: 0.2 }).observe(document.querySelector('main'));
+
       document.getElementById('y').textContent = new Date().getFullYear();
     </script>
+
   </body>
 </html>
