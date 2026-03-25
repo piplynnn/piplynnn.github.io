@@ -4,537 +4,596 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Carter Lynn</title>
-    <meta name="description" content="Portfolio of Carter Lynn — game developer and MSU student. Unity, C#, C++, and interactive projects." />
-
+    <meta name="description" content="Portfolio of Carter Lynn — game developer and MSU student. Unity, C#, XR/VR, and interactive projects." />
     <meta property="og:title" content="Carter Lynn" />
-    <meta property="og:description" content="Unity + C# projects, prototypes, and experiments." />
+    <meta property="og:description" content="Unity · C# · XR — game systems, VR simulators, and automotive tools." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://piplynn.com/" />
     <meta property="og:image" content="/assets/projects/carter.png" />
     <meta name="twitter:card" content="summary_large_image" />
-   
-
-
     <link rel="icon" href="/assets/projects/carter.png" />
     <link rel="preload" as="image" href="/assets/hero-shot.jpg" />
     <link rel="preload" as="video" href="/assets/projects/gifvideo1.mp4" type="video/mp4" />
     <link rel="preload" as="video" href="/assets/projects/gifvideo2.mp4" type="video/mp4" />
 
+    <!-- Fonts: Syne (display) + Inter (body) + JetBrains Mono (tags/code) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              display: ['Inter', 'system-ui', 'sans-serif'],
-              body: ['Inter', 'system-ui', 'sans-serif']
-            },
-            colors: {
-              accent: '#00E0FF',
-              accentDark: '#00B5CC'
-            },
-            boxShadow: {
-              soft: '0 8px 30px rgba(0,0,0,0.08)'
-            }
-          }
-        },
-        darkMode: 'class'
-      };
-    </script>
     <style>
-      :root { --ring: 0 224 255; }
-      .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px hsl(var(--ring) / .5); }
+      :root { --accent: #00E0FF; }
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #080f10;
+        color: #d4d4d8;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      h1, h2, h3 { font-family: 'Syne', system-ui, sans-serif; }
+
+      /* Subtle noise texture for depth */
+      body::after {
+        content: '';
+        position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        background-size: 180px;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.5;
+      }
+
+      header, main, footer, section { position: relative; z-index: 1; }
+
+      .focus-ring:focus { outline: none; box-shadow: 0 0 0 3px rgba(0,224,255,0.3); }
+
       /* Section title underline animation */
-      .section-title{position:relative;display:inline-block}
-      .section-title::after{content:"";position:absolute;left:0;bottom:-8px;height:2px;width:0;background:linear-gradient(90deg,#00E0FF,transparent);transition:width .6s cubic-bezier(.2,.7,.2,1)}
-      .section-title.underline-on::after{width:100%}
+      .section-title { position: relative; display: inline-block; }
+      .section-title::after {
+        content: '';
+        position: absolute; left: 0; bottom: -6px;
+        height: 2px; width: 0;
+        background: linear-gradient(90deg, #00E0FF, transparent);
+        transition: width .65s cubic-bezier(.2,.7,.2,1);
+      }
+      .section-title.underline-on::after { width: 100%; }
+
+      /* Nav */
+      nav a {
+        position: relative;
+        color: #71717a;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      nav a:hover { color: #e4e4e7; }
+      nav a::after {
+        content: '';
+        position: absolute; left: 0; bottom: -2px;
+        height: 1px; width: 0;
+        background: var(--accent);
+        transition: width 0.2s ease;
+      }
+      nav a:hover::after { width: 100%; }
+
+      /* Tag pills */
+      .tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.03em;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        border: 1px solid #1e2e30;
+        color: #71717a;
+        background: #0d1a1c;
+        display: inline-block;
+      }
+
+      /* Stack badges */
+      .stack-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+        padding: 0.3rem 0.75rem;
+        border-radius: 6px;
+        border: 1px solid #1e3235;
+        color: rgba(0,224,255,0.75);
+        background: rgba(0,224,255,0.04);
+        display: inline-block;
+      }
+
+      /* Status dot */
+      .status-dot {
+        display: inline-block;
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: #00E0FF;
+        box-shadow: 0 0 6px rgba(0,224,255,0.7);
+        animation: pulse 2.4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50%       { opacity: 0.4; transform: scale(0.85); }
+      }
+
+      /* Hero rotator */
+      #heroRotator { position: relative; overflow: hidden; }
+      #heroRotator .layer {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover; object-position: center;
+        opacity: 0; transition: opacity 0.65s ease;
+        will-change: opacity; pointer-events: none;
+      }
+      #heroRotator .active { opacity: 1; }
+
+      /* Project card */
+      .project-card {
+        border: 1px solid #1c2a2c;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #0a1516;
+        transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+        display: block;
+        text-decoration: none;
+      }
+      .project-card:hover {
+        border-color: rgba(0,224,255,0.3);
+        box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(0,224,255,0.05);
+        transform: translateY(-2px);
+      }
+      .project-card .thumb {
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        background: #0d1a1c;
+      }
+      .project-card .thumb img {
+        width: 100%; height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+        display: block;
+      }
+      .project-card:hover .thumb img { transform: scale(1.04); }
+
+      /* Highlight card */
+      .highlight-card {
+        position: relative;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid #1c2a2c;
+        background: #0a1516;
+        transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+        display: block;
+        text-decoration: none;
+      }
+      .highlight-card:hover {
+        border-color: rgba(0,224,255,0.3);
+        box-shadow: 0 12px 50px rgba(0,0,0,0.35), 0 0 0 1px rgba(0,224,255,0.05);
+        transform: translateY(-2px);
+      }
+      .highlight-card img.bg {
+        position: absolute; inset: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        opacity: 0.45;
+        transition: opacity 0.3s;
+        display: block;
+      }
+      .highlight-card:hover img.bg { opacity: 0.55; }
+      .highlight-card::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(to top, rgba(8,15,16,0.92) 35%, rgba(8,15,16,0.5) 70%, transparent);
+        pointer-events: none;
+      }
+      .highlight-card .content {
+        position: absolute; bottom: 0; left: 0; right: 0;
+        padding: 1.5rem; z-index: 2;
+      }
+
+      /* Skill card */
+      .skill-card {
+        border: 1px solid #1c2a2c;
+        border-radius: 14px;
+        background: #0a1516;
+        padding: 1.5rem;
+      }
+      .skill-row {
+        display: flex; gap: 0.6rem;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid #121e20;
+        font-size: 0.875rem;
+        align-items: baseline;
+      }
+      .skill-row:last-child { border-bottom: none; }
+      .skill-label {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.68rem;
+        color: rgba(0,224,255,0.6);
+        min-width: 88px;
+        flex-shrink: 0;
+        font-weight: 500;
+      }
+      .skill-value { color: #a1a1aa; }
+
+      /* Form field */
+      .field {
+        width: 100%;
+        background: #0a1516;
+        border: 1px solid #1c2a2c;
+        border-radius: 10px;
+        color: #e4e4e7;
+        padding: 0.75rem 1rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        transition: border-color 0.2s, box-shadow 0.2s;
+      }
+      .field:focus { outline: none; border-color: rgba(0,224,255,0.4); box-shadow: 0 0 0 3px rgba(0,224,255,0.08); }
+      .field::placeholder { color: #3f3f46; }
+
+      /* Buttons */
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: #00E0FF; color: #080f10;
+        font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
+        padding: 0.65rem 1.35rem; border-radius: 9px;
+        border: none; cursor: pointer; text-decoration: none;
+        transition: opacity 0.2s, box-shadow 0.2s;
+      }
+      .btn-primary:hover { opacity: 0.92; box-shadow: 0 4px 20px rgba(0,224,255,0.22); }
+
+      .btn-ghost {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: transparent; color: #71717a;
+        font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
+        padding: 0.65rem 1.35rem; border-radius: 9px;
+        border: 1px solid #1c2a2c; cursor: pointer; text-decoration: none;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .btn-ghost:hover { border-color: #2e4446; color: #e4e4e7; }
 
       /* Toast */
-      #toast{position:fixed;right:24px;bottom:24px;padding:.75rem 1rem;border-radius:.75rem;background:#00E0FF;color:#0b1a1c;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s, transform .25s, background .2s,color .2s;transform:translateY(6px)}
-      #toast.show{opacity:1;transform:translateY(0)}
-      #toast.error{background:#ef4444;color:white}
-      #toast.success{background:#00E0FF;color:#031318}
+      #toast {
+        position: fixed; right: 24px; bottom: 24px;
+        padding: 0.7rem 1rem; border-radius: 10px;
+        background: #00E0FF; color: #080f10;
+        font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.25s, transform 0.25s;
+        transform: translateY(8px);
+      }
+      #toast.show { opacity: 1; transform: translateY(0); }
+      #toast.error { background: #ef4444; color: white; }
 
-      /* Highlight cards: image as background behind text */
-      .card-bg{position:relative}
-      .card-bg>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.6;pointer-events:none;user-select:none;z-index:3}
-      .card-bg::before{content:"";position:absolute;inset:0;background:linear-gradient(to top, rgba(9,9,11,.7), rgba(9,9,11,.35), transparent);z-index:4}
-      .card-bg>.absolute{z-index:5}
-      .card-bg>h3,.card-bg>p{position:relative;z-index:10}
-
-      /* Hero rotator (single image crossfade) */
-    /* Hero rotator (images + videos) */
-        #heroRotator { position: relative; overflow: hidden; border-radius: 1rem; }
-        #heroRotator .layer { 
-        position:absolute; inset:0; width:100%; height:100%;
-        object-fit:cover; object-position:center;
-        opacity:0; transition:opacity .6s ease;
-        will-change: opacity; pointer-events:none;
-        }
-        #heroRotator .active { opacity:1; }
-
-      
+      /* Reveal */
+      [data-reveal] {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 600ms ease, transform 600ms cubic-bezier(.2,.7,.2,1);
+      }
     </style>
   </head>
-  <body class="antialiased bg-zinc-950 text-zinc-100">
-    <header class="sticky top-0 z-40 backdrop-blur bg-zinc-950/80 border-b border-zinc-800">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6">
-        <div class="flex h-16 items-center justify-between">
-          <a href="#" class="font-semibold tracking-tight text-lg text-accent">Carter Lynn</a>
-          <nav class="hidden gap-6 sm:flex text-sm">
-            <a href="#highlights" class="hover:text-accent">Highlights</a>
-            <a href="#projects" class="hover:text-accent">Projects</a>
-            <a href="#about" class="hover:text-accent">About</a>
-            <a href="#contact" class="hover:text-accent">Contact</a>
+
+  <body>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40" style="background:rgba(8,15,16,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #1c2a2c;">
+      <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;">
+        <div style="display:flex;height:64px;align-items:center;justify-content:space-between;">
+          <a href="#" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#e4e4e7;letter-spacing:-0.01em;text-decoration:none;">Carter Lynn</a>
+          <nav style="display:flex;gap:2rem;">
+            <a href="#highlights">Highlights</a>
+            <a href="#projects">Projects</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
           </nav>
         </div>
       </div>
     </header>
 
-    <section class="relative overflow-hidden">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 sm:py-24 grid gap-10 md:grid-cols-2 items-center">
+    <!-- HERO -->
+    <section style="padding:5rem 0 6rem;">
+      <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+
         <div data-reveal>
-          <h1 class="font-display text-4xl sm:text-5xl font-semibold leading-tight text-white">Game Developer & Interactive Systems</h1>
-          <p class="mt-4 text-zinc-400 max-w-prose">MSU student building Unity projects, gameplay systems, and tools. Focused on sleek UI, immersive VR, and automotive tech integrations.</p>
-          <div class="mt-6 flex flex-wrap gap-3 opacity-0 translate-y-6" data-reveal>
-            <a href="#projects" class="focus-ring inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-zinc-900 font-medium shadow-soft hover:opacity-90">See projects →</a>
-            <a href="/assets/projects/carterlynnresume.pdf" class="focus-ring inline-flex items-center gap-2 rounded-xl border border-zinc-700 px-4 py-2 font-medium hover:bg-zinc-900">Download résumé</a>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:1.5rem;">
+            <span class="status-dot"></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:rgba(0,224,255,0.55);letter-spacing:0.08em;">Available for internships · 2025</span>
+          </div>
+
+          <h1 style="font-size:clamp(2rem,4.5vw,3rem);font-weight:700;color:#f4f4f5;line-height:1.15;letter-spacing:-0.02em;margin:0;">
+            Game Developer<br/>
+            <span style="color:#00E0FF;">&amp; Interactive Systems</span>
+          </h1>
+
+          <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:1.25rem;">
+            <span class="stack-badge">Unity</span>
+            <span class="stack-badge">C#</span>
+            <span class="stack-badge">XR / VR</span>
+            <span class="stack-badge">NavMesh AI</span>
+            <span class="stack-badge">C++</span>
+            <span class="stack-badge">URP</span>
+          </div>
+
+          <p style="margin-top:1.25rem;color:#71717a;line-height:1.75;font-size:0.95rem;max-width:38ch;">
+            MSU student building gameplay systems, XR simulators, and automotive tools in Unity. Member of Spartasoft Studio.
+          </p>
+
+          <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:2rem;">
+            <a href="#projects" class="btn-primary focus-ring">See projects →</a>
+            <a href="/assets/projects/carterlynnresume.pdf" class="btn-ghost focus-ring">Download résumé</a>
           </div>
         </div>
+
         <div data-reveal>
-          <!-- Single-image hero rotator -->
-          <div id="heroRotator" class="relative rounded-2xl border border-zinc-800 shadow-soft overflow-hidden aspect-[4/3] bg-zinc-900"></div>
+          <div id="heroRotator" style="border-radius:14px;aspect-ratio:4/3;background:#0a1516;border:1px solid #1c2a2c;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,0.4);"></div>
         </div>
+
       </div>
     </section>
 
-  <main id="main">
-    <section id="highlights" class="border-t border-zinc-800 scroll-mt-24">
-      <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20">
-        <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>Highlights</h2>
-        <div class="mt-10 grid gap-6 sm:grid-cols-2">
+    <main>
 
-          <!-- Car Dashboard Card -->
-          <a href="/cardash.html" class="group relative rounded-2xl overflow-hidden h-56 sm:h-64 card-bg border border-zinc-800 p-5 transition-all duration-300 hover:border-accent hover:shadow-[0_0_40px_rgba(0,224,255,0.15)] opacity-0 translate-y-6 will-change-transform" data-reveal>
-            <div class="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: radial-gradient(60% 60% at 50% 0%, rgba(0,224,255,.06), transparent 70%);"></div>
-            <img src="/assets/projects/cardash.jpg" class="relative rounded-xl mb-4 transition-transform duration-300 group-hover:scale-[1.02]" />
-            <h3 class="text-xl font-medium">All Purpose Car Dashboard</h3>
-            <p class="text-zinc-400 mt-2">Real-time OBD-II data visualization in Unity — RPM ladders, shift lights, and a 0–60 tracker with animated UI and sound design.</p>
-          </a>
+      <!-- HIGHLIGHTS -->
+      <section id="highlights" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Highlights</h2>
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
 
-          <!-- VR Project Card -->
-          <a href = "/vrproject.html" class="group relative rounded-2xl overflow-hidden h-56 sm:h-64 card-bg border border-zinc-800 p-5 transition-all duration-300 hover:border-accent hover:shadow-[0_0_40px_rgba(0,224,255,0.15)] opacity-0 translate-y-6 will-change-transform" data-reveal>
-            <div class="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="background: radial-gradient(60% 60% at 50% 0%, rgba(0,224,255,.06), transparent 70%);"></div>
-            <img src="/assets/projects/vr2.jpg" class="relative rounded-xl mb-4 transition-transform duration-300 group-hover:scale-[1.02]" alt="Upcoming VR Project" />
-            <h3 class="text-xl font-medium">Upcoming VR Project</h3>
-            <p class="text-zinc-400 mt-2">Coming soon...</p>
-          </a>
+            <a href="/cardash.html" class="highlight-card" style="height:270px;" data-reveal>
+              <img class="bg" src="/assets/projects/cardash.jpg" alt="Car Dashboard" />
+              <div class="content">
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.6rem;">
+                  <span class="tag">Unity</span><span class="tag">OBD-II</span><span class="tag">C#</span><span class="tag">UI Toolkit</span>
+                </div>
+                <h3 style="font-size:1.1rem;font-weight:600;color:#f4f4f5;margin:0;">All Purpose Car Dashboard</h3>
+                <p style="color:#71717a;font-size:0.855rem;margin:0.4rem 0 0;line-height:1.55;">Real-time OBD-II data visualization — RPM ladders, shift lights, and a 0–60 tracker with animated UI and sound design.</p>
+              </div>
+            </a>
 
-        </div>
-      </div>
-    </section>
+            <a href="/vrproject.html" class="highlight-card" style="height:270px;" data-reveal>
+              <img class="bg" src="/assets/projects/vr2.jpg" alt="VR Distracted Driving Simulator" />
+              <div class="content">
+                <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:0.6rem;">
+                  <span class="tag">Meta Quest</span><span class="tag">XR Toolkit</span><span class="tag">NavMesh AI</span>
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.06em;color:rgba(0,224,255,0.7);border:1px solid rgba(0,224,255,0.25);padding:2px 7px;border-radius:4px;background:rgba(0,224,255,0.04);">In progress</span>
+                </div>
+                <h3 style="font-size:1.1rem;font-weight:600;color:#f4f4f5;margin:0;">VR Distracted Driving Simulator</h3>
+                <p style="color:#71717a;font-size:0.855rem;margin:0.4rem 0 0;line-height:1.55;">Meta Quest XR experience with NavMesh pedestrian AI, cinematic camera sequences, and crash detection — built for road safety education.</p>
+              </div>
+            </a>
 
-
-
-      <section id="projects" class="border-t border-zinc-800 scroll-mt-24">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20 space-y-16">
-      
-          <!-- Spartasoft -->
-          <section aria-labelledby="projects-spartasoft-title">
-            <h2 id="projects-spartasoft-title" class="font-display text-3xl font-semibold text-accent section-title" data-underline>Spartasoft</h2>
-            <div id="grid-spartasoft" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
-          </section>
-      
-          <!-- Game Jams -->
-          <section aria-labelledby="projects-gamejams-title">
-            <h2 id="projects-gamejams-title" class="font-display text-3xl font-semibold text-accent section-title" data-underline>Game Jams</h2>
-            <div id="grid-gamejams" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
-          </section>
-      
-          <!-- Others -->
-          <section aria-labelledby="projects-others-title">
-            <h2 id="projects-others-title" class="font-display text-3xl font-semibold text-accent section-title" data-underline>Others</h2>
-            <div id="grid-others" class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
-          </section>
-      
+          </div>
         </div>
       </section>
-      
 
-      <section id="about" class="border-t border-zinc-800 scroll-mt-24">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20 grid gap-10 md:grid-cols-3" data-reveal>
+      <!-- PROJECTS -->
+      <section id="projects" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;display:flex;flex-direction:column;gap:4rem;">
+
           <div>
-            <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>About</h2>
-            <p class="mt-4 text-zinc-400">I’m Carter Lynn, a game developer at Michigan State University and a member of Spartasoft Studio. I build gameplay systems, UI/UX for in-game tools, and rapid prototypes.</p>
-            <p class="mt-4 text-zinc-400">Currently: polishing a Unity-based car dashboard project (real-time OBD-II visualization, animated UI, sound design) and exploring ML-Agents.</p>
+            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Spartasoft</h2>
+            <div id="grid-spartasoft" style="margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;"></div>
           </div>
-          <div class="md:col-span-2 grid gap-6 sm:grid-cols-2 items-start">
-            <!-- Skills (now a card for visual balance on mobile) -->
-            <div class="rounded-2xl border border-zinc-800 p-5">
-              <h3 class="font-medium">Core Skills</h3>
-              <ul class="mt-3 space-y-2 text-zinc-400">
-                <li><strong>Languages</strong>: C#, C++, Python</li>
-                <li><strong>Engines</strong>: Unity (URP, 2D & 3D)</li>
-                <li><strong>Tools</strong>: GitHub, Rider, Photoshop, Premiere Pro</li>
-                <li><strong>Systems</strong>: UI Toolkit, TextMeshPro, coroutines, input systems</li>
-              </ul>
-            </div>
-          
-            <!-- Highlights (kept as a matching card) -->
-            <div class="rounded-2xl border border-zinc-800 p-5">
-              <h3 class="font-medium">Highlights</h3>
-              <ul class="mt-3 list-disc pl-5 text-zinc-400 space-y-1">
-                <li>Programmer for multiple Spartasoft Studio projects, collaborating in team-based Unity development</li>
-                <li>Developed a custom Unity-based car dashboard with real-time OBD-II data visualization</li>
-                <li>Created interactive performance tracking tools, including a 0–60 mph timer with animated UI and SFX</li>
-              </ul>
-            </div>
+
+          <div>
+            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Game Jams</h2>
+            <div id="grid-gamejams" style="margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;"></div>
           </div>
-          
+
+          <div>
+            <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Others</h2>
+            <div id="grid-others" style="margin-top:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;"></div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;" data-reveal>
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>About</h2>
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 2fr;gap:2.5rem;">
+
+            <div>
+              <p style="color:#71717a;line-height:1.8;font-size:0.93rem;margin:0;">I'm Carter Lynn — a game developer at Michigan State University and member of Spartasoft Studio. I build gameplay systems, UI/UX for in-game tools, and rapid prototypes.</p>
+              <p style="color:#71717a;line-height:1.8;font-size:0.93rem;margin:1rem 0 0;">Currently shipping a Unity car dashboard with real-time OBD-II visualization, and a VR Distracted Driving Simulator on Meta Quest with NavMesh AI pedestrians and cinematic camera logic.</p>
+              <p style="color:#71717a;line-height:1.8;font-size:0.93rem;margin:1rem 0 0;">Next on deck: Unity ML-Agents integration for autonomous driving behavior.</p>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+              <div class="skill-card">
+                <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Core Skills</h3>
+                <div class="skill-row"><span class="skill-label">Languages</span><span class="skill-value">C#, C++, Python</span></div>
+                <div class="skill-row"><span class="skill-label">Engine</span><span class="skill-value">Unity (URP, 2D & 3D)</span></div>
+                <div class="skill-row"><span class="skill-label">XR / VR</span><span class="skill-value">XR Toolkit, Meta Quest, NavMesh</span></div>
+                <div class="skill-row"><span class="skill-label">UI</span><span class="skill-value">UI Toolkit, TextMeshPro, Figma</span></div>
+                <div class="skill-row"><span class="skill-label">Systems</span><span class="skill-value">Coroutines, Input System, Post Processing</span></div>
+                <div class="skill-row"><span class="skill-label">Tools</span><span class="skill-value">GitHub, Rider, Photoshop, Premiere</span></div>
+              </div>
+
+              <div class="skill-card">
+                <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Highlights</h3>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.85rem;">
+                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>Programmer across multiple Spartasoft Studio team projects</li>
+                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>Built Unity car dashboard with live OBD-II data, shift lights, and 0–60 timer</li>
+                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>VR simulator with NavMesh AI, crash detection, and cinematic camera sequences</li>
+                  <li style="display:flex;gap:0.6rem;font-size:0.875rem;color:#71717a;line-height:1.6;"><span style="color:rgba(0,224,255,0.5);flex-shrink:0;margin-top:2px;">→</span>FPS recoil & ADS systems with multi-weapon input and procedural camera recovery</li>
+                </ul>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      <section id="contact" class="border-t border-zinc-800 scroll-mt-24">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-14 sm:py-20" data-reveal>
-          <h2 class="font-display text-3xl font-semibold text-accent section-title" data-underline>Contact</h2>
-          <p class="mt-3 text-zinc-400">Reach out for collaborations, internships, or freelance work.</p>
-          <form id="contactForm" class="mt-8 max-w-xl grid gap-3" method="POST" data-endpoint="https://formspree.io/f/mblkqdgv">
-            <!-- Honeypot -->
+      <!-- CONTACT -->
+      <section id="contact" style="border-top:1px solid #1c2a2c;scroll-margin-top:6rem;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;" data-reveal>
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#00E0FF;" data-underline>Contact</h2>
+          <p style="margin-top:0.6rem;color:#71717a;font-size:0.95rem;">Open to collaborations, internships, and freelance work.</p>
+          <form id="contactForm" style="margin-top:2rem;max-width:32rem;display:grid;gap:10px;" method="POST" data-endpoint="https://formspree.io/f/mblkqdgv">
             <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
-            <!-- Helpful metadata for your inbox -->
             <input type="hidden" name="subject" value="New message from piplynn.com" />
             <input type="hidden" name="_origin" value="piplynn.com/contact" />
-
-            <input class="focus-ring rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3" type="text" name="name" placeholder="Your name" required>
-            <input class="focus-ring rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3" type="email" name="email" placeholder="Email" required>
-            <textarea class="focus-ring rounded-xl border border-zinc-700 bg-zinc-900 px-4 py-3" name="message" rows="5" placeholder="Message" required></textarea>
-            <button class="focus-ring inline-flex justify-center rounded-xl bg-accent px-4 py-3 text-zinc-900 font-medium shadow-soft hover:opacity-90">Send</button>
-            <p class="text-xs text-zinc-500">Or email <a class="underline" href="mailto:carterlynnmsu@gmail.com">carterlynnmsu@gmail.com</a></p>
-            <p id="formStatus" class="text-sm" aria-live="polite"></p>
+            <input class="field focus-ring" type="text" name="name" placeholder="Your name" required>
+            <input class="field focus-ring" type="email" name="email" placeholder="Email" required>
+            <textarea class="field focus-ring" name="message" rows="5" placeholder="Message" required></textarea>
+            <button type="submit" class="btn-primary focus-ring" style="width:fit-content;">Send message</button>
+            <p style="font-size:0.8rem;color:#3f3f46;margin-top:2px;">Or email <a href="mailto:carterlynnmsu@gmail.com" style="color:rgba(0,224,255,0.5);text-decoration:underline;">carterlynnmsu@gmail.com</a></p>
+            <p id="formStatus" style="font-size:0.82rem;color:#71717a;" aria-live="polite"></p>
           </form>
         </div>
       </section>
+
     </main>
 
-    <footer class="border-t border-zinc-800">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-10 text-sm text-zinc-500 relative flex justify-between">
-          
-          <!-- Left -->
-          <p>© <span id="y"></span> Carter Lynn</p>
-      
-          <!-- Center -->
-          <p id="visitCounter" class="text-[0.65rem] text-zinc-600 italic tracking-wide">
-            Total site visits: …
-          </p>
-      
-          <!-- Right -->
-          <div class="flex gap-4">
-            <a href="https://github.com/piplynn" class="hover:text-accent">GitHub</a>
-            <a href="https://piplynnn.itch.io" class="hover:text-accent">Itch.io</a>
-          </div>
-      
+    <!-- FOOTER -->
+    <footer style="border-top:1px solid #1c2a2c;">
+      <div style="max-width:72rem;margin:0 auto;padding:2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <p style="font-size:0.82rem;color:#3f3f46;margin:0;">© <span id="y"></span> Carter Lynn</p>
+        <p id="visitCounter" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:#3f3f46;letter-spacing:0.06em;margin:0;">Total visits: …</p>
+        <div style="display:flex;gap:1.5rem;">
+          <a href="https://github.com/piplynn" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#00E0FF'" onmouseout="this.style.color='#3f3f46'">GitHub</a>
+          <a href="https://piplynnn.itch.io" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#00E0FF'" onmouseout="this.style.color='#3f3f46'">Itch.io</a>
         </div>
-      </footer>
-      
-      
+      </div>
+    </footer>
+
     <div id="toast" role="status" aria-live="polite">Message sent ✅</div>
 
+    <!-- HERO ROTATOR -->
     <script>
-        const heroImages = [
-          '/assets/projects/gifvideo1.mp4',
-          '/assets/projects/caro3.jpg',
-          '/assets/projects/gifvideo2.mp4',
-          '/assets/projects/caro2.jpg',
-        ];
-        
-        (function buildHeroRotator(){
-          const mount = document.getElementById('heroRotator');
-          if (!mount || heroImages.length === 0) return;
-        
-          const FADE_MS = 600;
-          const INTERVAL_MS = 6000;
-          let rotating = false; // lock
-        
-          function createMedia(src) {
-            const isVideo = src.toLowerCase().endsWith('.mp4');
-            const el = document.createElement(isVideo ? 'video' : 'img');
-            el.className = 'layer'; // baseline (opacity:0)
-            if (isVideo) {
-              el.src = src;
-              el.muted = true; el.loop = true; el.autoplay = true; el.playsInline = true;
-              el.preload = 'auto';
-            } else {
-              el.src = src;
-              el.decoding = 'async';
-            }
-            el.setAttribute('aria-hidden','true');
-            return el;
-          }
-        
-          let index = 0;
-          let a = createMedia(heroImages[0]); a.classList.add('active');
-          mount.appendChild(a);
-          let b = createMedia(heroImages[1] || heroImages[0]);
-          mount.appendChild(b);
-        
-          // start video if first is video
-          a.play && a.play().catch(()=>{});
-        
-          if (heroImages.length < 2) return;
-        
-          async function rotateOnce(){
-            if (rotating) return;
-            rotating = true;
-        
-            index = (index + 1) % heroImages.length;
-            const nextSrc = heroImages[index];
-            const nextEl = createMedia(nextSrc);
-        
-            const showingA = a.classList.contains('active');
-        
-            // Swap the hidden layer first, keep it at opacity:0 initially
-            if (showingA) {
-              mount.replaceChild(nextEl, b);
-              b = nextEl;
-            } else {
-              mount.replaceChild(nextEl, a);
-              a = nextEl;
-            }
-        
-            // Ensure the browser commits initial styles before activating (double RAF)
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                if (showingA) {
-                  b.classList.add('active');   // fade in b
-                  a.classList.remove('active'); // fade out a
-                  b.play && b.play().catch(()=>{});
-                } else {
-                  a.classList.add('active');   // fade in a
-                  b.classList.remove('active'); // fade out b
-                  a.play && a.play().catch(()=>{});
-                }
-        
-                // Release the lock after the fade
-                setTimeout(() => { rotating = false; }, FADE_MS + 50);
-              });
-            });
-          }
-        
-          const timer = setInterval(rotateOnce, INTERVAL_MS);
-        
-          // Pause videos when hero is offscreen (saves battery/data)
-          const io = new IntersectionObserver(([entry])=>{
-            const vids = [a,b].filter(el => el && el.tagName === 'VIDEO');
-            if (entry.isIntersecting) vids.forEach(v => v.play().catch(()=>{}));
-            else vids.forEach(v => v.pause());
-          }, { threshold: 0.1 });
-          io.observe(mount);
-        })();
+      const heroImages = ['/assets/projects/gifvideo1.mp4','/assets/projects/caro3.jpg','/assets/projects/gifvideo2.mp4','/assets/projects/caro2.jpg'];
+      (function(){
+        const mount = document.getElementById('heroRotator');
+        if (!mount || !heroImages.length) return;
+        const FADE=650, INT=6000; let rotating=false;
+        function make(src){
+          const isV=src.endsWith('.mp4'), el=document.createElement(isV?'video':'img');
+          el.className='layer';
+          if(isV){el.src=src;el.muted=true;el.loop=true;el.autoplay=true;el.playsInline=true;el.preload='auto';}
+          else{el.src=src;el.decoding='async';}
+          el.setAttribute('aria-hidden','true'); return el;
+        }
+        let idx=0, a=make(heroImages[0]), b=make(heroImages[1]||heroImages[0]);
+        a.classList.add('active'); mount.appendChild(a); mount.appendChild(b);
+        a.play&&a.play().catch(()=>{});
+        if(heroImages.length<2)return;
+        function rotate(){
+          if(rotating)return; rotating=true;
+          idx=(idx+1)%heroImages.length;
+          const next=make(heroImages[idx]), showA=a.classList.contains('active');
+          if(showA){mount.replaceChild(next,b);b=next;}else{mount.replaceChild(next,a);a=next;}
+          requestAnimationFrame(()=>requestAnimationFrame(()=>{
+            if(showA){b.classList.add('active');a.classList.remove('active');b.play&&b.play().catch(()=>{});}
+            else{a.classList.add('active');b.classList.remove('active');a.play&&a.play().catch(()=>{});}
+            setTimeout(()=>{rotating=false;},FADE+50);
+          }));
+        }
+        setInterval(rotate,INT);
+        new IntersectionObserver(([e])=>{
+          const v=[a,b].filter(el=>el&&el.tagName==='VIDEO');
+          e.isIntersecting?v.forEach(x=>x.play().catch(()=>{})):v.forEach(x=>x.pause());
+        },{threshold:0.1}).observe(mount);
+      })();
     </script>
 
-
-<script>
-    // PROJECT CARD TEMPLATE
-    function projectCard(p) {
-      return `
-        <a href="${p.href}" target="_blank" class="group block rounded-2xl border border-zinc-800 overflow-hidden hover:border-accent transition-colors" data-reveal>
-          <div class="aspect-video bg-zinc-900 overflow-hidden">
-            <img src="${p.img}" alt="${p.title}" class="h-full w-full object-cover group-hover:scale-105 transition-transform" />
-          </div>
-          <div class="p-4">
-            <h3 class="font-medium">${p.title}</h3>
-            <p class="mt-1 text-sm text-zinc-400">${p.desc}</p>
-            <ul class="mt-3 flex flex-wrap gap-2">
-              ${p.tags.map(t => `<li class='text-xs rounded-full border border-zinc-800 px-2 py-0.5'>${t}</li>`).join('')}
-            </ul>
-          </div>
-        </a>
-      `;
-    }
-  
-    function renderGrid(rootId, list) {
-      const root = document.getElementById(rootId);
-      if (!root) return;
-      root.innerHTML = list.map(projectCard).join('');
-    }
-  
-    // --- CATEGORIZED PROJECTS ---
-    const projectsSpartasoft = [
-      {
-        title: 'Escape Velocity',
-        href: 'https://piplynnn.itch.io/escape-velocity',
-        img: '/assets/projects/escapevelocity.jpg',
-        tags: ['Unity', 'C#', 'Enemy AI'],
-        desc: 'Spartasoft team project with grapple and turret mechanics'
-      },
-      {
-        title: 'Slime Game',
-        href: 'https://piplynnn.itch.io/slime-game',
-        img: '/assets/projects/slimegame.jpg',
-        tags: ['Unity', '2D'],
-        desc: 'Timed 2D platformer built as a Spartasoft project'
-      }
-      
-    ];
-  
-    const projectsGameJams = [
-      {
-        title: 'SpartaDrift',
-        href: 'https://piplynnn.itch.io/hackathon',
-        img: '/assets/projects/spartadrift.jpg',
-        tags: ['Unity', 'Game Jam', 'Arcade', 'Racing'],
-        desc: 'Arcade drifting prototype built in 24 hours during Spartahack 2025'
-      },
-      {
-        title: 'Mechanical Ascension',
-        href: 'https://piplynnn.itch.io/fs',
-        img: '/assets/projects/web.png',
-        tags: ['Unity', 'Platformer', 'Game Jam'],
-        desc: 'MSU Hackathon platformer built over 24 hours complete with fluid climbing mechanics'
-      }
-    ];
-  
-    const projectsOthers = [
-      {
-        title: 'The Last Trick',
-        href: 'https://piplynnn.itch.io/the-last-trick-v10',
-        img: '/assets/projects/thelasttrick.jpg',
-        tags: ['Unity', 'Card Game'],
-        desc: 'Trick-taking card game made with colleagues'
-      }
-    ];
-  
-    // Render each category into its grid
-    renderGrid('grid-spartasoft', projectsSpartasoft);
-    renderGrid('grid-gamejams', projectsGameJams);
-    renderGrid('grid-others', projectsOthers);
-  
-    // Footer year
-    document.getElementById('y').textContent = new Date().getFullYear();
-  </script>
-  
- 
+    <!-- PROJECT CARDS + GRIDS -->
     <script>
+      function card(p){
+        return `<a href="${p.href}" target="_blank" class="project-card" data-reveal>
+          <div class="thumb"><img src="${p.img}" alt="${p.title}" /></div>
+          <div style="padding:1rem 1.1rem 1.25rem;">
+            <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;color:#e4e4e7;margin:0;">${p.title}</h3>
+            <p style="margin:0.35rem 0 0;font-size:0.82rem;color:#52525b;line-height:1.6;">${p.desc}</p>
+            <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:5px;">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          </div></a>`;
+      }
+      function renderGrid(id,list){
+        const el=document.getElementById(id); if(!el)return;
+        el.innerHTML=list.map(card).join('');
+        el.querySelectorAll('[data-reveal]').forEach(c=>obs.observe(c));
+      }
+      const spartasoft=[
+        {title:'Escape Velocity',href:'https://piplynnn.itch.io/escape-velocity',img:'/assets/projects/escapevelocity.jpg',tags:['Unity','C#','Enemy AI','3D'],desc:'Spartasoft team project with grapple mechanics and custom turret enemy AI.'},
+        {title:'Slime Game',href:'https://piplynnn.itch.io/slime-game',img:'/assets/projects/slimegame.jpg',tags:['Unity','C#','2D','Platformer'],desc:'Timed 2D platformer built as a Spartasoft Studio collaboration.'}
+      ];
+      const jams=[
+        {title:'SpartaDrift',href:'https://piplynnn.itch.io/hackathon',img:'/assets/projects/spartadrift.jpg',tags:['Unity','Arcade','Racing','24hr'],desc:'Arcade drifting prototype shipped in 24 hours at Spartahack 2025.'},
+        {title:'Mechanical Ascension',href:'https://piplynnn.itch.io/fs',img:'/assets/projects/web.png',tags:['Unity','Platformer','Climbing','Game Jam'],desc:'MSU Hackathon platformer with fluid climbing mechanics, built in 24 hours.'}
+      ];
+      const others=[
+        {title:'The Last Trick',href:'https://piplynnn.itch.io/the-last-trick-v10',img:'/assets/projects/thelasttrick.jpg',tags:['Unity','C#','Card Game'],desc:'Trick-taking card game developed with a small team of collaborators.'}
+      ];
+    </script>
 
-  // reveal-on-scroll and underline sync
-  const observer = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.remove('opacity-0','translate-y-6');
-        e.target.classList.add('opacity-100','translate-y-0');
-        const h2 = e.target.closest('section')?.querySelector('[data-underline]');
-        if (h2) h2.classList.add('underline-on');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.25 });
-  document.querySelectorAll('[data-reveal]').forEach(el=>{
-    el.style.transition = 'transform 600ms cubic-bezier(.2,.7,.2,1), opacity 600ms';
-    observer.observe(el);
-  });
-
-  // Formspree async submit with friendly status & console details
-  const form = document.getElementById('contactForm');
-  const toast = document.getElementById('toast');
-  function showToast(message="", type="success"){
-    if(message) toast.textContent = message;
-    toast.classList.remove('error','success');
-    toast.classList.add(type,'show');
-    setTimeout(()=>toast.classList.remove('show'), 3000);
-  }
-
-  if(form){
-    form.addEventListener('submit', async (e)=>{
-      e.preventDefault();
-      const status = document.getElementById('formStatus');
-      status.textContent = 'Sending…';
-      const endpoint = (form.dataset.endpoint || '').trim();
-      if(!endpoint){
-        status.textContent = 'No endpoint configured.';
-        console.error('Missing Formspree endpoint in data-endpoint attribute.');
-        return;
-      }
-      try{
-        const res = await fetch(endpoint, { method:'POST', body: new FormData(form), headers:{ 'Accept':'application/json' }});
-        const bodyText = await res.text();
-        if(res.ok){
-          status.textContent = 'Thanks! I\'ll get back to you soon.';
-          showToast('Message sent ✅','success');
-          form.reset();
-        } else {
-          status.textContent = 'Form error. See console for details.';
-          showToast('⚠️ Failed to send. Try again.','error');
-          console.error('Formspree error', res.status, bodyText);
-        }
-      }catch(err){
-        status.textContent = 'Network error. Please try again later or email me directly.';
-        showToast('⚠️ Network error. Try again.','error');
-        console.error('Network error', err);
-      }
-    });
-  }
-</script>
-<!-- Firebase global visit counter -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc, runTransaction, increment } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-  
-    // Your config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBaFvlwY5AICG8m9pZBCg_UKY1OOlD0Fng",
-      authDomain: "carter-website-57e61.firebaseapp.com",
-      databaseURL: "https://carter-website-57e61-default-rtdb.firebaseio.com",
-      projectId: "carter-website-57e61",
-      storageBucket: "carter-website-57e61.firebasestorage.app",
-      messagingSenderId: "579842561951",
-      appId: "1:579842561951:web:afad008bdbdc66334e4faa",
-      measurementId: "G-6BTRVXW09G"
-    };
-  
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const counterRef = doc(db, "counters", "visits");
-    const counterEl = document.getElementById("visitCounter");
-    const SESSION_KEY = "visited_this_session";
-  
-    async function showCount() {
-      try {
-        const snap = await getDoc(counterRef);
-        if (snap.exists()) {
-          counterEl.textContent = `Total site visits: ${snap.data().count}`;
-        } else {
-          await setDoc(counterRef, { count: 0 });
-          counterEl.textContent = "Total site visits: 0";
-        }
-      } catch (e) {
-        counterEl.textContent = "Total site visits: ?";
-        console.error(e);
-      }
-    }
-  
-    async function bumpOncePerSession() {
-      if (sessionStorage.getItem(SESSION_KEY) === "1") {
-        return showCount();
-      }
-      try {
-        await runTransaction(db, async (tx) => {
-          const snap = await tx.get(counterRef);
-          if (!snap.exists()) {
-            tx.set(counterRef, { count: 1 });
-          } else {
-            tx.update(counterRef, { count: increment(1) });
-          }
+    <!-- SCROLL REVEAL -->
+    <script>
+      const obs = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(!e.isIntersecting)return;
+          e.target.style.opacity='1';
+          e.target.style.transform='translateY(0)';
+          obs.unobserve(e.target);
+          const t=e.target.closest('section')?.querySelector('[data-underline]');
+          if(t)t.classList.add('underline-on');
         });
-        sessionStorage.setItem(SESSION_KEY, "1");
-      } catch (e) {
-        console.error("Increment failed", e);
-      } finally {
-        showCount();
+      },{threshold:0.12});
+
+      document.querySelectorAll('[data-reveal]').forEach(el=>obs.observe(el));
+
+      // Trigger underlines for sections without data-reveal children
+      new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(!e.isIntersecting)return;
+          const t=e.target.querySelector('[data-underline]');
+          if(t)t.classList.add('underline-on');
+        });
+      },{threshold:0.3}).observe(document.querySelector('#about'));
+
+      renderGrid('grid-spartasoft',spartasoft);
+      renderGrid('grid-gamejams',jams);
+      renderGrid('grid-others',others);
+      document.getElementById('y').textContent=new Date().getFullYear();
+    </script>
+
+    <!-- CONTACT FORM -->
+    <script>
+      const form=document.getElementById('contactForm'), toast=document.getElementById('toast');
+      function showToast(msg,type){toast.textContent=msg;toast.className=type;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),3000);}
+      if(form)form.addEventListener('submit',async e=>{
+        e.preventDefault();
+        const status=document.getElementById('formStatus');
+        status.textContent='Sending…';
+        const ep=form.dataset.endpoint.trim();
+        try{
+          const res=await fetch(ep,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}});
+          if(res.ok){status.textContent="Thanks! I'll get back to you soon.";showToast('Message sent ✅','success');form.reset();}
+          else{status.textContent='Something went wrong. Try emailing directly.';showToast('⚠️ Failed to send.','error');}
+        }catch{status.textContent='Network error. Please try again.';showToast('⚠️ Network error.','error');}
+      });
+    </script>
+
+    <!-- FIREBASE COUNTER -->
+    <script type="module">
+      import{initializeApp}from"https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+      import{getFirestore,doc,getDoc,setDoc,runTransaction,increment}from"https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+      const app=initializeApp({apiKey:"AIzaSyBaFvlwY5AICG8m9pZBCg_UKY1OOlD0Fng",authDomain:"carter-website-57e61.firebaseapp.com",databaseURL:"https://carter-website-57e61-default-rtdb.firebaseio.com",projectId:"carter-website-57e61",storageBucket:"carter-website-57e61.firebasestorage.app",messagingSenderId:"579842561951",appId:"1:579842561951:web:afad008bdbdc66334e4faa",measurementId:"G-6BTRVXW09G"});
+      const db=getFirestore(app),ref=doc(db,'counters','visits'),el=document.getElementById('visitCounter');
+      async function show(){try{const s=await getDoc(ref);el.textContent=s.exists()?`Total visits: ${s.data().count}`:'Total visits: 0';}catch{el.textContent='Total visits: ?';}}
+      async function bump(){
+        if(sessionStorage.getItem('v')==='1')return show();
+        try{await runTransaction(db,async tx=>{const s=await tx.get(ref);s.exists()?tx.update(ref,{count:increment(1)}):tx.set(ref,{count:1});});sessionStorage.setItem('v','1');}
+        catch(e){console.error(e);}finally{show();}
       }
-    }
-  
-    bumpOncePerSession();
-  </script>
-  
+      bump();
+    </script>
+
+  </body>
+</html>
