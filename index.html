@@ -334,9 +334,9 @@
       <section id="highlights" style="border-top:1px solid #1e2022;scroll-margin-top:6rem;">
         <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
           <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Highlights</h2>
-          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.25rem;">
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
 
-            <a href="/cardash.html" class="highlight-card" style="height:340px;" data-reveal>
+            <a href="/cardash.html" class="highlight-card" style="height:270px;" data-reveal>
               <img class="bg" src="/assets/projects/cardash2.jpg" alt="Car Dashboard" />
               <div class="content">
                 <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.6rem;">
@@ -347,7 +347,7 @@
               </div>
             </a>
 
-            <a href="/vrproject.html" class="highlight-card" style="height:340px;" data-reveal>
+            <a href="/vrproject.html" class="highlight-card" style="height:270px;" data-reveal>
               <img class="bg" src="/assets/projects/vr/VRheroimage1.png" alt="VR Distracted Driving Simulator" />
               <div class="content">
                 <div style="display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:0.6rem;">
@@ -358,16 +358,6 @@
                 <p style="color:#71717a;font-size:0.855rem;margin:0.4rem 0 0;line-height:1.55;">Meta Quest XR experience with a full controllable VR vehicle, crash detection, and camera sequences. Built for road safety education.</p>
               </div>
             </a>
-
-            <div class="highlight-card" style="height:340px;" data-reveal>
-              <div class="content">
-                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:0.6rem;">
-                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.06em;color:rgba(56,189,248,0.7);border:1px solid rgba(56,189,248,0.25);padding:2px 7px;border-radius:4px;background:rgba(56,189,248,0.04);">Coming Soon</span>
-                </div>
-                <h3 style="font-size:1.1rem;font-weight:600;color:#f4f4f5;margin:0;">Aslau</h3>
-                <p style="color:#71717a;font-size:0.855rem;margin:0.4rem 0 0;line-height:1.55;">More details coming soon.</p>
-              </div>
-            </div>
 
           </div>
         </div>
@@ -562,11 +552,14 @@
     <!-- PROJECT CARDS + GRIDS -->
     <script>
       function card(p){
-        return `<a href="${p.href}" target="_blank" class="project-card" data-reveal>
-          <div class="thumb"><img src="${p.img}" alt="${p.title}" /></div>
+        return `<a href="${p.href}" target="_blank" class="project-card" data-reveal style="${!p.img ? 'pointer-events:none;' : ''}">
+          ${p.img ? `<div class="thumb"><img src="${p.img}" alt="${p.title}" /></div>` : `<div class="thumb" style="display:flex;align-items:center;justify-content:center;"><span style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#3f3f46;letter-spacing:0.06em;">— Coming Soon —</span></div>`}
           <div style="padding:1rem 1.1rem 1.25rem;">
-            <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;color:#e4e4e7;margin:0;">${p.title}</h3>
-            <p style="margin:0.35rem 0 0;font-size:0.82rem;color:#52525b;line-height:1.6;">${p.desc}</p>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.4rem;">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;color:#e4e4e7;margin:0;">${p.title}</h3>
+              ${p.badge ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;font-weight:500;letter-spacing:0.06em;color:rgba(56,189,248,0.7);border:1px solid rgba(56,189,248,0.25);padding:2px 6px;border-radius:4px;background:rgba(56,189,248,0.04);">${p.badge}</span>` : ''}
+            </div>
+            <p style="margin:0;font-size:0.82rem;color:#52525b;line-height:1.6;">${p.desc}</p>
             ${p.role ? `<p style="margin:0.5rem 0 0;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:rgba(56,189,248,0.6);"><span style="color:rgba(56,189,248,0.4);">MY ROLE —</span> ${p.role}</p>` : ''}
             <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:5px;">${p.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
           </div></a>`;
@@ -578,7 +571,8 @@
       }
       const spartasoft=[
         {title:'Escape Velocity',href:'https://piplynnn.itch.io/escape-velocity',img:'/assets/projects/escapevelocity.jpg',tags:['Unity','C#','Enemy AI','3D'],desc:'Spartasoft team project with grapple mechanics and custom turret enemy AI.',role:'Custom turret and enemy AI programming'},
-        {title:'Slime Game',href:'https://piplynnn.itch.io/slime-game',img:'/assets/projects/slimegame.jpg',tags:['Unity','C#','2D','Platformer'],desc:'Timed 2D platformer built as a Spartasoft Studio collaboration.',role:'Player controller and power-up programmer'}
+        {title:'Slime Game',href:'https://piplynnn.itch.io/slime-game',img:'/assets/projects/slimegame.jpg',tags:['Unity','C#','2D','Platformer'],desc:'Timed 2D platformer built as a Spartasoft Studio collaboration.',role:'Player controller and power-up programmer'},
+        {title:'Aslau',href:'#',img:'',tags:['Unity','C#'],desc:'More details coming soon.',role:'',badge:'Coming Soon'}
       ];
       const jams=[
         {title:'SpartaDrift',href:'https://piplynnn.itch.io/hackathon',img:'/assets/projects/spartadrift.jpg',tags:['Unity','Arcade','Racing','24hr'],desc:'Arcade drifting prototype shipped in 24 hours at Spartahack 2025.',role:'Player controller and boost programmer'},
