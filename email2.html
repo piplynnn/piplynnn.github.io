@@ -4,11 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>See the Dashboard in Action — Piplynn Motorsports</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
   <style>
     :root {
       --accent: #38BDF8;
@@ -22,7 +20,6 @@
       --text-muted: #71717a;
       --text-faint: #3f3f46;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
@@ -31,413 +28,239 @@
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       min-height: 100vh;
-      padding: 0;
     }
-
     body::before {
       content: '';
       position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      background-size: 180px;
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.45;
+      background-size: 180px; pointer-events: none; z-index: 0; opacity: 0.45;
     }
 
-    .email-wrap {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      background: var(--surface);
-      border-radius: 0;
-      overflow: hidden;
-    }
+    .page { position: relative; z-index: 1; width: 100%; background: var(--surface); }
 
-    /* ── HEADER ── */
-    .email-header {
-      padding: 1.25rem 2rem;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* HEADER */
+    .header {
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 1rem 3rem; display: flex; align-items: center; justify-content: space-between;
     }
     .wordmark {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #e4e4e7;
-      letter-spacing: -0.01em;
-      text-decoration: none;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.05rem;
+      color: #e4e4e7; letter-spacing: -0.01em; text-decoration: none;
     }
-    .issue-info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 2px;
-    }
-    .issue-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      border: 1px solid var(--accent-border);
-      background: var(--accent-dim);
-      padding: 2px 7px;
-      border-radius: 4px;
+    .header-meta { display: flex; align-items: center; gap: 1rem; }
+    .pill {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+      letter-spacing: 0.1em; color: var(--accent);
+      border: 1px solid var(--accent-border); background: var(--accent-dim);
+      padding: 3px 8px; border-radius: 4px;
     }
     .issue-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      color: var(--text-faint);
-      letter-spacing: 0.06em;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.56rem;
+      color: var(--text-faint); letter-spacing: 0.06em;
     }
 
-    /* ── HERO TEXT BAND ── */
-    .hero-band {
-      padding: 2rem 2rem 1.5rem;
-      background: linear-gradient(135deg, rgba(56,189,248,0.05) 0%, transparent 60%);
-      border-bottom: 1px solid var(--border);
+    /* BANNER */
+    .banner {
+      background: linear-gradient(135deg, rgba(56,189,248,0.07) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border); padding: 2.25rem 3rem;
     }
     .eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 0.7rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      letter-spacing: 0.14em; color: var(--accent); text-transform: uppercase;
+      display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.65rem;
     }
-    .eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 20px; height: 1px;
-      background: var(--accent);
+    .eyebrow::before { content: ''; display: inline-block; width: 18px; height: 1px; background: var(--accent); }
+    .banner h1 {
+      font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 700;
+      color: #f4f4f5; line-height: 1.15; letter-spacing: -0.025em;
     }
-    h1 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: #f4f4f5;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-    }
-    h1 .accent { color: var(--accent); }
-    .hero-sub {
-      margin-top: 0.65rem;
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.65;
+    .banner h1 em { color: var(--accent); font-style: normal; }
+    .banner-sub {
+      margin-top: 0.55rem; font-size: 0.875rem; color: var(--text-muted); line-height: 1.7; max-width: 65ch;
     }
 
-    /* ── VIDEO BLOCK ── */
-    .video-block {
-      position: relative;
-      background: #080d0e;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+    /* SECTION */
+    .section { padding: 2.25rem 3rem; border-bottom: 1px solid var(--border); }
+
+    /* MEDIA ROW — video left, text right */
+    .media-row { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .media-row.reverse { flex-direction: row-reverse; }
+
+    .video-thumb {
+      flex-shrink: 0; width: 280px;
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--border); background: #080d0e;
     }
-    .video-block video {
-      width: 100%;
-      display: block;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-    }
+    .video-thumb video { width: 100%; display: block; aspect-ratio: 16/10; object-fit: cover; }
     .video-caption {
-      padding: 0.75rem 2rem;
-      background: var(--surface-2);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 0.45rem 0.75rem; background: var(--surface-2); border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
     }
     .video-caption span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      color: var(--text-faint);
-      letter-spacing: 0.06em;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      color: var(--text-faint); letter-spacing: 0.04em;
     }
-    .video-caption .live-dot {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      color: rgba(56,189,248,0.7);
-      letter-spacing: 0.06em;
+    .live-dot {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      color: rgba(56,189,248,0.7); letter-spacing: 0.04em;
     }
     .live-dot::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 6px rgba(56,189,248,0.6);
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 5px rgba(56,189,248,0.6);
       animation: pulse 2.4s ease-in-out infinite;
     }
     @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50%       { opacity: 0.4; transform: scale(0.8); }
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.4; transform:scale(0.8); }
     }
 
-    /* ── BODY ── */
-    .email-body {
-      padding: 2rem 2rem 1.75rem;
+    .media-copy { flex: 1; }
+    .media-copy h2 {
+      font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700;
+      color: #f4f4f5; letter-spacing: -0.015em; margin-bottom: 0.55rem;
     }
+    .media-copy p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.75; }
+    .media-copy p + p { margin-top: 0.55rem; }
 
-    h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #e4e4e7;
-      margin-bottom: 1rem;
-      letter-spacing: -0.01em;
-    }
-
-    /* Spec table */
-    .spec-table {
-      width: 100%;
-      border-collapse: collapse;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-    }
-    .spec-table tr {
-      border-bottom: 1px solid var(--border);
-    }
-    .spec-table tr:last-child { border-bottom: none; }
-    .spec-table tr:nth-child(even) td { background: rgba(255,255,255,0.01); }
-    .spec-table td {
-      padding: 0.7rem 1rem;
-      font-size: 0.82rem;
-      background: var(--surface-2);
-    }
-    .spec-table td:first-child {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      color: rgba(56,189,248,0.65);
-      font-weight: 500;
-      letter-spacing: 0.03em;
-      width: 38%;
-    }
-    .spec-table td:last-child {
-      color: #a1a1aa;
-    }
-
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 1.75rem 0;
-    }
-
-    /* Highlight quote */
+    /* PULL QUOTE */
     .pull-quote {
       border-left: 3px solid var(--accent);
-      padding: 0.85rem 1.25rem;
-      background: var(--accent-dim);
-      border-radius: 0 10px 10px 0;
-      margin: 1.75rem 0;
+      padding: 0.8rem 1.1rem;
+      background: var(--accent-dim); border-radius: 0 10px 10px 0;
+      margin-top: 1.5rem;
     }
     .pull-quote p {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #e4e4e7;
-      line-height: 1.5;
-      margin: 0;
+      font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 600;
+      color: #e4e4e7; line-height: 1.5; margin: 0;
     }
     .pull-quote span {
-      display: block;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-top: 0.35rem;
+      display: block; font-family: 'Inter', sans-serif;
+      font-size: 0.72rem; color: var(--text-muted); margin-top: 0.3rem;
     }
 
-    /* 2-col mini grid */
-    .mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
+    /* SPEC TABLE */
+    .spec-section h3 {
+      font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 600;
+      color: #e4e4e7; margin-bottom: 0.85rem;
     }
+    .spec-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .spec-table tr { border-bottom: 1px solid var(--border); }
+    .spec-table tr:last-child { border-bottom: none; }
+    .spec-table td { padding: 0.6rem 0.9rem; font-size: 0.8rem; background: var(--surface-2); }
+    .spec-table td:first-child {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: rgba(56,189,248,0.65); font-weight: 500; letter-spacing: 0.03em; width: 36%;
+    }
+    .spec-table td:last-child { color: #a1a1aa; }
+
+    /* MINI GRID */
+    .mini-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0.7rem; margin-top: 1.4rem; }
     .mini-card {
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem;
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.85rem 0.9rem;
     }
-    .mini-card .mc-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      color: rgba(56,189,248,0.6);
-      letter-spacing: 0.08em;
-      margin-bottom: 0.35rem;
+    .mc-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      color: rgba(56,189,248,0.6); letter-spacing: 0.08em; margin-bottom: 0.3rem;
     }
-    .mini-card .mc-value {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1;
+    .mc-value {
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: var(--accent); line-height: 1;
     }
-    .mini-card .mc-desc {
-      font-size: 0.73rem;
-      color: var(--text-faint);
-      margin-top: 0.3rem;
-      line-height: 1.5;
-    }
+    .mc-desc { font-size: 0.67rem; color: var(--text-faint); margin-top: 0.25rem; line-height: 1.45; }
 
-    /* Exclusive CTA */
+    /* CTA */
     .cta-exclusive {
-      margin-top: 1.75rem;
-      border: 1px solid var(--accent-border);
-      border-radius: 14px;
-      overflow: hidden;
+      border: 1px solid var(--accent-border); border-radius: 12px; overflow: hidden; margin-top: 1.5rem;
     }
-    .cta-exclusive .cta-top {
-      padding: 1.4rem 1.75rem 1.25rem;
+    .cta-top {
+      padding: 1.6rem 2rem; text-align: center;
       background: linear-gradient(135deg, rgba(56,189,248,0.09) 0%, rgba(56,189,248,0.02) 100%);
-      text-align: center;
     }
-    .cta-exclusive .cta-headline {
-      font-family: 'Syne', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #f4f4f5;
-      letter-spacing: -0.01em;
+    .cta-headline {
+      font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700;
+      color: #f4f4f5; letter-spacing: -0.01em;
     }
-    .cta-exclusive .cta-headline .accent { color: var(--accent); }
-    .cta-exclusive .cta-sub {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin: 0.5rem 0 1.1rem;
-      line-height: 1.6;
-    }
+    .cta-headline em { color: var(--accent); font-style: normal; }
+    .cta-sub { font-size: 0.83rem; color: var(--text-muted); margin: 0.5rem 0 1.1rem; line-height: 1.65; }
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--accent);
-      color: #080f10;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 0.875rem;
-      padding: 0.7rem 1.6rem;
-      border-radius: 9px;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--accent); color: #080f10;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.875rem;
+      padding: 0.65rem 1.5rem; border-radius: 9px; text-decoration: none;
       transition: opacity 0.2s, box-shadow 0.2s;
     }
-    .btn-primary:hover {
-      opacity: 0.9;
-      box-shadow: 0 6px 24px rgba(56,189,248,0.28);
+    .btn-primary:hover { opacity: 0.9; box-shadow: 0 6px 24px rgba(56,189,248,0.28); }
+    .cta-bottom {
+      padding: 0.8rem 2rem; background: var(--surface-2); border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
     }
-    .cta-exclusive .cta-bottom {
-      padding: 0.85rem 1.75rem;
-      background: var(--surface-2);
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    .cta-bottom p { font-size: 0.72rem; color: var(--text-faint); }
+    .cta-bottom a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      color: rgba(56,189,248,0.55); text-decoration: none; transition: color 0.2s;
     }
-    .cta-exclusive .cta-bottom p {
-      font-size: 0.75rem;
-      color: var(--text-faint);
-    }
-    .cta-exclusive .cta-bottom a {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: rgba(56,189,248,0.55);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-    }
-    .cta-exclusive .cta-bottom a:hover { color: var(--accent); }
+    .cta-bottom a:hover { color: var(--accent); }
 
-    /* Footer */
-    .email-footer {
-      padding: 1.25rem 2rem;
-      border-top: 1px solid var(--border);
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+    /* FOOTER */
+    .footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 1.1rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
     }
-    .email-footer p {
-      font-size: 0.72rem;
-      color: var(--text-faint);
-    }
-    .email-footer .links {
-      display: flex;
-      gap: 1.25rem;
-    }
-    .email-footer a {
-      font-size: 0.72rem;
-      color: var(--text-faint);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .email-footer a:hover { color: var(--accent); }
-
-    .preheader {
-      display: none; max-height: 0; overflow: hidden;
-      font-size: 0; line-height: 0; color: transparent;
-    }
+    .footer p { font-size: 0.7rem; color: var(--text-faint); }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.7rem; color: var(--text-faint); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--accent); }
   </style>
 </head>
 <body>
+<div class="page">
 
-  <span class="preheader">Watch the All Purpose Car Dashboard live demo — RPM ladders, shift lights, and OBD-II data in real time.</span>
+  <div class="header">
+    <a href="https://piplynn.com" class="wordmark">Piplynn Motorsports</a>
+    <div class="header-meta">
+      <span class="issue-num">ISSUE #002 · CAR DASHBOARD</span>
+      <span class="pill">FEATURE NEWSLETTER</span>
+    </div>
+  </div>
 
-  <div class="email-wrap">
+  <div class="banner">
+    <p class="eyebrow">This week's feature</p>
+    <h1>Watch the dashboard<br/><em>run live.</em></h1>
+    <p class="banner-sub">
+      Real-time OBD-II telemetry. Animated RPM ladder. Precision 0–60 timing. This week I'm sharing the full demo walkthrough of the All Purpose Car Dashboard — and a closer look at how it was built.
+    </p>
+  </div>
 
-    <!-- Header -->
-    <div class="email-header">
-      <a href="https://piplynn.com" class="wordmark">Piplynn Motorsports</a>
-      <div class="issue-info">
-        <span class="issue-label">FEATURE NEWSLETTER</span>
-        <span class="issue-num">ISSUE #002 · CAR DASHBOARD</span>
+  <!-- VIDEO + intro text -->
+  <div class="section">
+    <div class="media-row">
+      <div class="video-thumb">
+        <video src="/assets/projects/demo.mp4" muted autoplay loop playsinline controls aria-label="Car Dashboard demo"></video>
+        <div class="video-caption">
+          <span>demo.mp4 — v1</span>
+          <span class="live-dot">Live data</span>
+        </div>
+      </div>
+      <div class="media-copy">
+        <h2>See every rev, every shift, every run.</h2>
+        <p>The demo above shows the dashboard running live with real OBD-II input — the RPM ladder climbing in real time, shift lights triggering at the programmed threshold, and the 0–60 timer capturing a full acceleration run.</p>
+        <p>Everything you see is driven by actual engine data parsed through the OBD-II serial connection and rendered at 60fps in Unity.</p>
+        <p>The UI adapts dynamically — redline zones shift based on the current gear, and the layout is designed to keep your eyes forward, not buried in numbers.</p>
       </div>
     </div>
 
-    <!-- Hero text band -->
-    <div class="hero-band">
-      <p class="eyebrow">This week's feature</p>
-      <h1>Watch the dashboard <span class="accent">run live.</span></h1>
-      <p class="hero-sub">
-        Real-time OBD-II telemetry. Animated RPM ladder. Precision 0–60 timing. 
-        This week I'm sharing the full demo walkthrough of the All Purpose Car Dashboard — and a closer look at how it was built.
-      </p>
+    <div class="pull-quote">
+      <p>"Built it because I couldn't find a dashboard app that actually showed what I wanted to see at a glance."</p>
+      <span>— Piplynn Motorsports</span>
     </div>
+  </div>
 
-    <!-- Video -->
-    <div class="video-block">
-      <video
-        src="/assets/projects/demo.mp4"
-        muted
-        autoplay
-        loop
-        playsinline
-        controls
-        aria-label="All Purpose Car Dashboard live demo"
-      ></video>
-    </div>
-    <div class="video-caption">
-      <span>demo.mp4 — All Purpose Car Dashboard v1</span>
-      <span class="live-dot">Live data feed</span>
-    </div>
-
-    <!-- Body -->
-    <div class="email-body">
-
-      <h2>Under the hood — how it works</h2>
-
+  <!-- Spec table + metrics -->
+  <div class="section">
+    <div class="spec-section">
+      <h3>Under the hood — how it works</h3>
       <table class="spec-table">
         <tbody>
           <tr><td>Platform</td><td>Unity (URP) — Windows / macOS</td></tr>
@@ -450,72 +273,59 @@
           <tr><td>WRX STI tuning</td><td>Default shift points set for 6-speed STI gearbox</td></tr>
         </tbody>
       </table>
-
-      <div class="pull-quote">
-        <p>"Built it because I couldn't find a dashboard app that actually showed what I wanted to see at a glance."</p>
-        <span>— Piplynn Motorsports</span>
-      </div>
-
-      <div class="divider"></div>
-
-      <h2>By the numbers</h2>
-
-      <div class="mini-grid">
-        <div class="mini-card">
-          <p class="mc-label">DATA POINTS</p>
-          <p class="mc-value">12+</p>
-          <p class="mc-desc">Live OBD-II channels parsed simultaneously</p>
-        </div>
-        <div class="mini-card">
-          <p class="mc-label">TARGET RATE</p>
-          <p class="mc-value">60fps</p>
-          <p class="mc-desc">Smooth render loop, no stutter under load</p>
-        </div>
-        <div class="mini-card">
-          <p class="mc-label">ACCURACY</p>
-          <p class="mc-value">±50ms</p>
-          <p class="mc-desc">0–60 timer sample resolution</p>
-        </div>
-        <div class="mini-card">
-          <p class="mc-label">GEAR MAPPING</p>
-          <p class="mc-value">6-spd</p>
-          <p class="mc-desc">WRX STI-tuned shift point defaults</p>
-        </div>
-      </div>
-
-      <!-- CTA with exclusive -->
-      <div class="cta-exclusive">
-        <div class="cta-top">
-          <p class="cta-headline">See the full project <span class="accent">breakdown.</span></p>
-          <p class="cta-sub">
-            Dive into the source breakdown, screenshot gallery, and architecture notes on the dedicated project page. 
-            The complete write-up covers every system from the serial parser to the shift-light logic.
-          </p>
-          <a href="/cardash.html" class="btn-primary">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            Read the Full Breakdown
-          </a>
-        </div>
-        <div class="cta-bottom">
-          <p>Project page → <strong style="color:#a1a1aa;">piplynn.com/cardash</strong></p>
-          <a href="/cardash.html">View project →</a>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Footer -->
-    <div class="email-footer">
-      <p>© <span id="yr"></span> Piplynn Motorsports · piplynn.com</p>
-      <div class="links">
-        <a href="https://piplynn.com">Portfolio</a>
-        <a href="https://github.com/piplynnn">GitHub</a>
-        <a href="https://piplynnn.itch.io">Itch.io</a>
+    <div class="mini-grid">
+      <div class="mini-card">
+        <p class="mc-label">DATA POINTS</p>
+        <p class="mc-value">12+</p>
+        <p class="mc-desc">Live OBD-II channels parsed simultaneously</p>
+      </div>
+      <div class="mini-card">
+        <p class="mc-label">RENDER RATE</p>
+        <p class="mc-value">60fps</p>
+        <p class="mc-desc">Smooth loop, no stutter under load</p>
+      </div>
+      <div class="mini-card">
+        <p class="mc-label">ACCURACY</p>
+        <p class="mc-value">±50ms</p>
+        <p class="mc-desc">0–60 timer sample resolution</p>
+      </div>
+      <div class="mini-card">
+        <p class="mc-label">GEARBOX</p>
+        <p class="mc-value">6-spd</p>
+        <p class="mc-desc">WRX STI-tuned shift defaults</p>
       </div>
     </div>
 
+    <div class="cta-exclusive">
+      <div class="cta-top">
+        <p class="cta-headline">See the full project <em>breakdown.</em></p>
+        <p class="cta-sub">Dive into the source breakdown, screenshot gallery, and architecture notes on the dedicated project page.</p>
+        <a href="/cardash.html" class="btn-primary">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          Read the Full Breakdown
+        </a>
+      </div>
+      <div class="cta-bottom">
+        <p>Project page → piplynn.com/cardash</p>
+        <a href="/cardash.html">View project →</a>
+      </div>
+    </div>
   </div>
 
-  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+  <div class="footer">
+    <p>© <span id="yr"></span> Piplynn Motorsports · piplynn.com</p>
+    <div class="footer-links">
+      <a href="https://piplynn.com">Portfolio</a>
+      <a href="https://github.com/piplynnn">GitHub</a>
+      <a href="https://piplynnn.itch.io">Itch.io</a>
+    </div>
+  </div>
+
+</div>
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
