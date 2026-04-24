@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VR Distracted Driving Simulator — Carter Lynn</title>
+    <meta name="description" content="VR Distracted Driving Simulator by Carter Lynn — Unity XR project built on Meta Quest with cinematic sequences and custom vehicle controls." />
+    <meta property="og:title" content="VR Distracted Driving Simulator" />
+    <meta property="og:description" content="An immersive VR experience built in Unity XR, placing users behind the wheel to experience the dangers of distracted driving." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://piplynn.com/vrproject.html" />
+    <meta property="og:image" content="/assets/projects/vr2.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/assets/projects/carter.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root { --accent: #38BDF8; }
+      *, *::before, *::after { box-sizing: border-box; }
+
+      body {
+        font-family: 'Inter', system-ui, sans-serif;
+        background: #050809;
+        color: #d4d4d8;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      h1, h2, h3, h4 { font-family: 'Syne', system-ui, sans-serif; }
+
+      body::after {
+        content: '';
+        position: fixed; inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        background-size: 180px;
+        pointer-events: none;
+        z-index: 0;
+        opacity: 0.5;
+      }
+
+      header, main, footer, section { position: relative; z-index: 1; }
+
+      nav a {
+        position: relative; color: #71717a;
+        font-size: 0.875rem; text-decoration: none;
+        transition: color 0.2s;
+      }
+      nav a:hover { color: #e4e4e7; }
+      nav a::after {
+        content: ''; position: absolute; left: 0; bottom: -2px;
+        height: 1px; width: 0; background: var(--accent);
+        transition: width 0.2s ease;
+      }
+      nav a:hover::after { width: 100%; }
+
+      .section-title { position: relative; display: inline-block; }
+      .section-title::after {
+        content: ''; position: absolute; left: 0; bottom: -6px;
+        height: 2px; width: 0;
+        background: linear-gradient(90deg, #38BDF8, transparent);
+        transition: width .65s cubic-bezier(.2,.7,.2,1);
+      }
+      .section-title.underline-on::after { width: 100%; }
+
+      .tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.65rem; font-weight: 500; letter-spacing: 0.03em;
+        padding: 0.2rem 0.6rem; border-radius: 4px;
+        border: 1px solid #222426; color: #71717a; background: #111314;
+        display: inline-block;
+      }
+
+      .stack-badge {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.7rem; letter-spacing: 0.04em;
+        padding: 0.3rem 0.75rem; border-radius: 6px;
+        border: 1px solid #1e2a2c;
+        color: rgba(56,189,248,0.75); background: rgba(56,189,248,0.04);
+        display: inline-block;
+      }
+
+      .card {
+        border: 1px solid #1e2022; border-radius: 14px;
+        background: #101214; padding: 1.5rem;
+        transition: border-color 0.25s, transform 0.25s;
+      }
+      .card:hover {
+        border-color: rgba(56,189,248,0.25);
+        transform: translateY(-2px);
+      }
+
+      /* Feature card — image on top */
+      .feature-card {
+        border: 1px solid #1e2022; border-radius: 14px;
+        background: #101214; overflow: hidden;
+        transition: border-color 0.25s, transform 0.25s;
+      }
+      .feature-card:hover {
+        border-color: rgba(56,189,248,0.25);
+        transform: translateY(-2px);
+      }
+      .feature-card .media {
+        aspect-ratio: 16/9; background: #0c0e0f; overflow: hidden;
+      }
+      .feature-card .media img,
+      .feature-card .media video {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+      }
+      .feature-card .body { padding: 1.25rem 1.5rem 1.5rem; }
+
+      .skill-row {
+        display: flex; gap: 0.6rem; padding: 0.6rem 0;
+        border-bottom: 1px solid #181a1b; font-size: 0.875rem;
+        align-items: baseline;
+      }
+      .skill-row:last-child { border-bottom: none; }
+      .skill-label {
+        font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+        color: rgba(56,189,248,0.6); min-width: 100px; flex-shrink: 0; font-weight: 500;
+      }
+      .skill-value { color: #a1a1aa; }
+
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: #38BDF8; color: #080f10;
+        font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
+        padding: 0.65rem 1.35rem; border-radius: 9px;
+        border: none; cursor: pointer; text-decoration: none;
+        transition: opacity 0.2s, box-shadow 0.2s;
+      }
+      .btn-primary:hover { opacity: 0.92; box-shadow: 0 4px 20px rgba(56,189,248,0.22); }
+
+      .btn-ghost {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: transparent; color: #71717a;
+        font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.875rem;
+        padding: 0.65rem 1.35rem; border-radius: 9px;
+        border: 1px solid #1e2022; cursor: pointer; text-decoration: none;
+        transition: border-color 0.2s, color 0.2s;
+      }
+      .btn-ghost:hover { border-color: rgba(56,189,248,0.3); color: #e4e4e7; }
+
+      [data-reveal] {
+        opacity: 0; transform: translateY(20px);
+        transition: opacity 600ms ease, transform 600ms cubic-bezier(.2,.7,.2,1);
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40" style="background:rgba(5,8,9,0.88);backdrop-filter:blur(12px);border-bottom:1px solid #1e2022;">
+      <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;">
+        <div style="display:flex;height:64px;align-items:center;justify-content:space-between;">
+          <a href="/" style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;color:#e4e4e7;letter-spacing:-0.01em;text-decoration:none;">Carter Lynn</a>
+          <nav style="display:flex;gap:2rem;">
+            <a href="/#highlights">Highlights</a>
+            <a href="/#projects">Projects</a>
+            <a href="/#about">About</a>
+            <a href="/#contact">Contact</a>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <main>
+
+      <!-- HERO -->
+      <section style="padding:5rem 0 4rem;border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:0 1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;" data-reveal>
+
+          <div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#3f3f46;">
+              <a href="/" style="color:#52525b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#52525b'">Carter Lynn</a>
+              <span>/</span>
+              <a href="/#highlights" style="color:#52525b;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#52525b'">Projects</a>
+              <span>/</span>
+              <span style="color:#71717a;">VR Simulator</span>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:1rem;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.06em;color:rgba(56,189,248,0.7);border:1px solid rgba(56,189,248,0.25);padding:2px 7px;border-radius:4px;background:rgba(56,189,248,0.04);">In Progress</span>
+            </div>
+
+            <h1 style="font-size:clamp(2rem,4vw,2.8rem);font-weight:700;color:#f4f4f5;line-height:1.15;letter-spacing:-0.02em;margin:0;">
+              VR Distracted<br/><span style="color:#38BDF8;">Driving Simulator</span>
+            </h1>
+
+            <p style="margin-top:1rem;color:#71717a;line-height:1.75;font-size:0.95rem;max-width:42ch;">
+              A collaborative VR project built in Unity for Meta Quest, designed to give users an immersive look at the dangers of distracted driving through VR vehicle controls and cinematics.
+            </p>
+
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:1.25rem;">
+              <span class="stack-badge">Unity</span>
+              <span class="stack-badge">C#</span>
+              <span class="stack-badge">Meta Quest</span>
+              <span class="stack-badge">XR Toolkit</span>
+              
+              <span class="stack-badge">URP</span>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:2rem;">
+              <a href="#features" class="btn-primary">See features →</a>
+              <a href="#overview" class="btn-ghost">Overview</a>
+            </div>
+
+            <p style="margin-top:1.25rem;font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:#52525b;letter-spacing:0.02em;">
+              This project is under NDA and the source code is not publicly available.
+            </p>
+          </div>
+
+          <div>
+            <div id="vrHeroCarousel" style="position:relative;border-radius:14px;overflow:hidden;border:1px solid #1e2022;box-shadow:0 24px 60px rgba(0,0,0,0.5);aspect-ratio:16/9;background:#0c0e0f;">
+
+              <!-- Slide 1 -->
+              <div class="vr-slide" style="position:absolute;inset:0;opacity:1;transition:opacity 0.7s ease;">
+                <img src="/assets/projects/vr/VRheroimage1.png" alt="VR Simulator" style="width:100%;height:100%;object-fit:cover;display:block;" />
+              </div>
+              <!-- Slide 2 -->
+              <div class="vr-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.7s ease;">
+                <img src="/assets/projects/vr/VRheroimage2.png" alt="VR Simulator" style="width:100%;height:100%;object-fit:cover;display:block;" />
+              </div>
+              <!-- Slide 3 -->
+              <div class="vr-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.7s ease;">
+                <video src="/assets/projects/vr/VRherovideo1.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+              </div>
+              <!-- Slide 4 -->
+              <div class="vr-slide" style="position:absolute;inset:0;opacity:0;transition:opacity 0.7s ease;">
+                <video src="/assets/projects/vr/VRherovideo2.mp4" autoplay muted loop playsinline style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+              </div>
+
+              <!-- Arrows -->
+              <button onclick="vrStep(-1)" aria-label="Previous" style="position:absolute;top:50%;left:10px;transform:translateY(-50%);background:rgba(5,8,9,0.7);border:1px solid #1e2022;color:#a1a1aa;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:0.9rem;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='rgba(56,189,248,0.4)';this.style.color='#38BDF8'" onmouseout="this.style.borderColor='#1e2022';this.style.color='#a1a1aa'">&#8249;</button>
+              <button onclick="vrStep(1)"  aria-label="Next"     style="position:absolute;top:50%;right:10px;transform:translateY(-50%);background:rgba(5,8,9,0.7);border:1px solid #1e2022;color:#a1a1aa;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10;font-size:0.9rem;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='rgba(56,189,248,0.4)';this.style.color='#38BDF8'" onmouseout="this.style.borderColor='#1e2022';this.style.color='#a1a1aa'">&#8250;</button>
+
+              <!-- Dots -->
+              <div id="vrDots" style="position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10;">
+                <button onclick="vrGoTo(0)" style="width:6px;height:6px;border-radius:50%;background:#38BDF8;border:none;padding:0;cursor:pointer;transform:scale(1.3);transition:background 0.2s,transform 0.2s;"></button>
+                <button onclick="vrGoTo(1)" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;padding:0;cursor:pointer;transition:background 0.2s,transform 0.2s;"></button>
+                <button onclick="vrGoTo(2)" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;padding:0;cursor:pointer;transition:background 0.2s,transform 0.2s;"></button>
+                <button onclick="vrGoTo(3)" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.25);border:none;padding:0;cursor:pointer;transition:background 0.2s,transform 0.2s;"></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- STATS -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:2.5rem 1.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#1e2022;" data-reveal>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">Meta Quest</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">Target platform</p>
+          </div>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">XR Toolkit</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">VR framework</p>
+          </div>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">Shader Graph</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">Custom effects</p>
+          </div>
+          <div style="background:#050809;padding:1.5rem 2rem;">
+            <p style="font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:700;color:#38BDF8;margin:0;">URP</p>
+            <p style="font-size:0.8rem;color:#52525b;margin:0.3rem 0 0;">Render pipeline</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- OVERVIEW -->
+      <section id="overview" style="border-bottom:1px solid #1e2022;scroll-margin-top:6rem;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Overview</h2>
+
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;" data-reveal>
+
+            <div class="card">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              </div>
+              <h3 style="font-size:1rem;font-weight:600;color:#e4e4e7;margin:0 0 0.6rem;">What It Is</h3>
+              <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0;">A VR experience built in Unity for Meta Quest that places users behind the wheel of a car and challenges them to navigate traffic while facing realistic distractions. Designed to make the dangers of distracted driving feel real rather than theoretical.</p>
+            </div>
+
+            <div class="card">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+              </div>
+              <h3 style="font-size:1rem;font-weight:600;color:#e4e4e7;margin:0 0 0.6rem;">The Goal</h3>
+              <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0;">To support driver education programs by giving new drivers an immersive way to experience the dangers of distracted driving.</p>
+            </div>
+
+            <div class="card">
+              <div style="width:36px;height:36px;border-radius:8px;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:1rem;">
+                <svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 010 1.4l-8 8a1 1 0 01-.4.25l-3 1a1 1 0 01-1.25-1.25l1-3a1 1 0 01.25-.4l8-8a1 1 0 011.4 0z"/><path d="M11 8l3 3"/></svg>
+              </div>
+              <h3 style="font-size:1rem;font-weight:600;color:#e4e4e7;margin:0 0 0.6rem;">My Role</h3>
+              <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0;">I've been responsible for all the core systems within the car. This includes building the VR vehicle controls, tutorial sequence, cinematic camera logic, and custom shaders.</p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" style="border-bottom:1px solid #1e2022;scroll-margin-top:6rem;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Key Features</h2>
+          <p style="margin-top:1rem;color:#71717a;font-size:0.95rem;max-width:52ch;">The systems I built and what makes each one interesting technically.</p>
+
+          <div style="margin-top:2.5rem;display:flex;flex-direction:column;gap:1.5rem;" data-reveal>
+
+            <!-- VR Car -->
+            <div class="feature-card">
+              <div style="display:grid;grid-template-columns:1fr 1fr;">
+                <div class="media">
+                  <video src="/assets/projects/drivingpov.mp4" controls></video>
+                </div>
+                <div class="body">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(56,189,248,0.6);letter-spacing:0.08em;">FEATURE 01</span>
+                  <h3 style="font-size:1.1rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">VR Car with Driving Functionality</h3>
+                  <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0 0 1rem;">A fully functional VR vehicle built from the ground up for the Meta Quest. The car responds to the player's inputs via the Meta Quest controllers, which controls steering, throttle, and braking. Furthermore, the vehicle has been tuned to feel realistic without causing simulator sickness.</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                    <span class="tag">XR Toolkit</span>
+                    <span class="tag">Vehicle Physics</span>
+                    
+                    <span class="tag">Meta Quest</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tutorial Sequence -->
+            <div class="feature-card">
+              <div style="display:grid;grid-template-columns:1fr 1fr;">
+                <div class="media">
+                  <video src="/assets/projects/tutorialpov.mp4" controls></video>
+                </div>
+                <div class="body">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(56,189,248,0.6);letter-spacing:0.08em;">FEATURE 02</span>
+                  <h3 style="font-size:1.1rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Tutorial Sequence</h3>
+                  <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0 0 1rem;">A short VR tutorial sequence that uses coroutines and line renderers to guide the player through the controls in a clean, intuitive way before putting them on the road.</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                    <span class="tag">C#</span>
+                    <span class="tag">Coroutines</span>
+                    <span class="tag">Trigger Zones</span>
+                    <span class="tag">UX Design</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Crash and Sound Effects -->
+            <div class="feature-card">
+              <div style="display:grid;grid-template-columns:1fr 1fr;">
+                <div class="media">
+                  <video src="/assets/projects/crashpov.mp4" controls></video>
+                </div>
+                <div class="body">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(56,189,248,0.6);letter-spacing:0.08em;">FEATURE 03</span>
+                  <h3 style="font-size:1.1rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Crash and Sound Effects</h3>
+                  <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0 0 1rem;">When the user crashes, a series of visual and audio cues drive home the consequences of distracted driving. Audio is handled through a custom singleton script that manages all sound in the scene, keeping it modular and easy to extend.</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                    <span class="tag">XR Origin</span>
+                    <span class="tag">Post Processing</span>
+                    <span class="tag">URP Vignette</span>
+                    <span class="tag">Cinemachine</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fire Shader -->
+            <div class="feature-card">
+              <div style="display:grid;grid-template-columns:1fr 1fr;">
+                <div class="media">
+                  <video src="/assets/projects/firepov.mp4" controls></video>
+                </div>
+                <div class="body">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(56,189,248,0.6);letter-spacing:0.08em;">FEATURE 04</span>
+                  <h3 style="font-size:1.1rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Fire Shader Effect</h3>
+                  <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0 0 1rem;">A custom fire shader built in Unity's Shader Graph to sell the aftermath of the collision. The effect uses scrolling noise textures paired with a custom sequencing script that gradually grows the fire until it peaks.</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                    <span class="tag">Shader Graph</span>
+                    <span class="tag">URP</span>
+                    <span class="tag">Noise Textures</span>
+                    <span class="tag">Vertex Displacement</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Replay Crash -->
+            <div class="feature-card">
+              <div style="display:grid;grid-template-columns:1fr 1fr;">
+                <div class="media">
+                  <video src="/assets/projects/replaypov.mp4" controls></video>
+                </div>
+                <div class="body">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(56,189,248,0.6);letter-spacing:0.08em;">FEATURE 05</span>
+                  <h3 style="font-size:1.1rem;font-weight:600;color:#e4e4e7;margin:0.5rem 0;">Replay Crash</h3>
+                  <p style="color:#71717a;font-size:0.875rem;line-height:1.7;margin:0 0 1rem;">A custom replay crash system that works by recording the positional and rotational data of all cars in the scene. Once the player crashes, it saves the first and last 5 seconds of the crash and allows the user to view it from different camera angles.</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;">
+                    <span class="tag">C#</span>
+                    <span class="tag">Singleton</span>
+                    <span class="tag">AudioSource</span>
+                    <span class="tag">Unity Audio</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- TECH STACK -->
+      <section style="border-bottom:1px solid #1e2022;">
+        <div style="max-width:72rem;margin:0 auto;padding:4rem 1.5rem 5rem;">
+          <h2 class="section-title" style="font-family:'Syne',sans-serif;font-size:1.875rem;font-weight:600;color:#38BDF8;" data-underline>Tech Stack</h2>
+
+          <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;" data-reveal>
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.5rem;">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Development</h3>
+              <div class="skill-row"><span class="skill-label">Engine</span><span class="skill-value">Unity (URP)</span></div>
+              <div class="skill-row"><span class="skill-label">Language</span><span class="skill-value">C#</span></div>
+              <div class="skill-row"><span class="skill-label">VR Framework</span><span class="skill-value">Unity XR Toolkit</span></div>
+              <div class="skill-row"><span class="skill-label">Shaders</span><span class="skill-value">Shader Graph (URP)</span></div>
+              <div class="skill-row"><span class="skill-label">Post FX</span><span class="skill-value">URP Post Processing (Vignette)</span></div>
+            </div>
+
+            <div style="border:1px solid #1e2022;border-radius:14px;background:#101214;padding:1.5rem;">
+              <h3 style="font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;color:#e4e4e7;margin:0 0 0.75rem;">Platform & Tools</h3>
+              <div class="skill-row"><span class="skill-label">Platform</span><span class="skill-value">Meta Quest (standalone + PCVR)</span></div>
+              <div class="skill-row"><span class="skill-label">Link</span><span class="skill-value">Meta Quest Link (development)</span></div>
+              <div class="skill-row"><span class="skill-label">Camera</span><span class="skill-value">XR Origin repositioning</span></div>
+              <div class="skill-row"><span class="skill-label">Sequences</span><span class="skill-value">Cinemachine + Coroutines</span></div>
+              <div class="skill-row"><span class="skill-label">Physics</span><span class="skill-value">Unity Vehicle Physics</span></div>
+              <div class="skill-row"><span class="skill-label">Version Control</span><span class="skill-value">GitHub</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer style="border-top:1px solid #1e2022;">
+      <div style="max-width:72rem;margin:0 auto;padding:2rem 1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+        <p style="font-size:0.82rem;color:#3f3f46;margin:0;">© <span id="y"></span> Carter Lynn</p>
+        <a href="/" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#52525b;text-decoration:none;letter-spacing:0.06em;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#52525b'">← Back to portfolio</a>
+        <div style="display:flex;gap:1.5rem;">
+          <a href="https://github.com/piplynn" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#3f3f46'">GitHub</a>
+          <a href="https://piplynnn.itch.io" style="font-size:0.82rem;color:#3f3f46;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#38BDF8'" onmouseout="this.style.color='#3f3f46'">Itch.io</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- VR HERO CAROUSEL -->
+    <script>
+      (function() {
+        var current = 0;
+        var slides = document.querySelectorAll('.vr-slide');
+        var dots   = document.querySelectorAll('#vrDots button');
+        var total  = slides.length;
+
+        function goTo(n) {
+          // pause any playing video on the outgoing slide
+          var outVid = slides[current].querySelector('video');
+          if (outVid) { outVid.pause(); }
+
+          slides[current].style.opacity = '0';
+          slides[current].style.pointerEvents = 'none';
+          dots[current].style.background = 'rgba(255,255,255,0.25)';
+          dots[current].style.transform = 'scale(1)';
+
+          current = (n + total) % total;
+
+          slides[current].style.opacity = '1';
+          slides[current].style.pointerEvents = 'auto';
+          dots[current].style.background = '#38BDF8';
+          dots[current].style.transform = 'scale(1.3)';
+        }
+
+        window.vrGoTo = goTo;
+        window.vrStep = function(d) { goTo(current + d); };
+
+        // init pointer-events on non-active slides
+        slides.forEach(function(s, i) {
+          if (i !== 0) s.style.pointerEvents = 'none';
+        });
+      })();
+    </script>
+
+    <script>
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          obs.unobserve(e.target);
+          const t = e.target.closest('section')?.querySelector('[data-underline]');
+          if (t) t.classList.add('underline-on');
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('[data-reveal]').forEach(el => obs.observe(el));
+      document.getElementById('y').textContent = new Date().getFullYear();
+    </script>
+
+  </body>
+</html>

@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome to All Purpose Car Dashboard — Carter Lynn</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --accent: #38BDF8;
+      --accent-dim: rgba(56,189,248,0.12);
+      --accent-border: rgba(56,189,248,0.25);
+      --bg: #050809;
+      --surface: #0e1214;
+      --surface-2: #141618;
+      --border: #1e2022;
+      --text: #d4d4d8;
+      --text-muted: #71717a;
+      --text-faint: #3f3f46;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding: 2.5rem 1rem;
+    }
+
+    /* Noise grain */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+
+    .email-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 620px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+    }
+
+    /* ── HEADER ── */
+    .email-header {
+      padding: 1.5rem 2rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .email-header .wordmark {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #e4e4e7;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .email-header .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      background: var(--accent-dim);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    /* ── HERO IMAGE ── */
+    .hero-image-wrap {
+      position: relative;
+      aspect-ratio: 16/8;
+      overflow: hidden;
+      background: #0a1214;
+    }
+    .hero-image-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      opacity: 0.9;
+    }
+    .hero-image-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 40%, var(--surface) 100%);
+      pointer-events: none;
+    }
+    .hero-overlay {
+      position: absolute;
+      bottom: 1.25rem; left: 1.75rem;
+      z-index: 2;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.04em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid #222426;
+      color: var(--text-muted);
+      background: rgba(5,8,9,0.75);
+    }
+
+    /* ── BODY CONTENT ── */
+    .email-body {
+      padding: 2.25rem 2rem 2rem;
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #f4f4f5;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+    h1 span { color: var(--accent); }
+
+    .intro {
+      margin-top: 1rem;
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 1.75rem 0;
+    }
+
+    /* Feature list */
+    .feature-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .feature-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 1rem 1.1rem;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.2s;
+    }
+    .feature-icon {
+      width: 38px; height: 38px;
+      border-radius: 9px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .feature-icon svg { display: block; }
+    .feature-text h4 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #e4e4e7;
+      margin: 0 0 0.25rem;
+    }
+    .feature-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    /* CTA */
+    .cta-block {
+      margin-top: 1.75rem;
+      background: linear-gradient(135deg, rgba(56,189,248,0.07) 0%, rgba(56,189,248,0.02) 100%);
+      border: 1px solid var(--accent-border);
+      border-radius: 14px;
+      padding: 1.5rem 1.75rem;
+      text-align: center;
+    }
+    .cta-block p {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1.1rem;
+    }
+    .cta-block p strong {
+      color: #e4e4e7;
+      font-weight: 500;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #080f10;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.875rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 9px;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: opacity 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      opacity: 0.9;
+      box-shadow: 0 6px 24px rgba(56,189,248,0.28);
+    }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Syne', sans-serif;
+      font-weight: 600;
+      font-size: 0.875rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 9px;
+      border: 1px solid #1c2a2c;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      margin-top: 0.6rem;
+    }
+    .btn-ghost:hover { border-color: #2e4446; color: #e4e4e7; }
+
+    /* Stat strip */
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 1.75rem;
+    }
+    .stat {
+      background: var(--surface-2);
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat .num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat .lbl {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      margin-top: 0.3rem;
+    }
+
+    /* Footer */
+    .email-footer {
+      padding: 1.25rem 2rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .email-footer p {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+    }
+    .email-footer a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: rgba(56,189,248,0.5);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .email-footer a:hover { color: var(--accent); }
+
+    /* Preheader (hidden preview text) */
+    .preheader {
+      display: none; max-height: 0; overflow: hidden; mso-hide: all;
+      font-size: 0; line-height: 0; color: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <span class="preheader">Real-time OBD-II data. RPM ladders. Shift lights. 0–60 tracking. Built in Unity, designed for drivers.</span>
+
+  <div class="email-wrap">
+
+    <!-- Header -->
+    <div class="email-header">
+      <a href="https://piplynn.com" class="wordmark">Carter Lynn</a>
+      <span class="label">WELCOME EMAIL</span>
+    </div>
+
+    <!-- Hero image -->
+    <div class="hero-image-wrap">
+      <img src="/assets/projects/cardash2.png" alt="All Purpose Car Dashboard screenshot" />
+      <div class="hero-overlay">
+        <span class="tag">Unity</span>
+        <span class="tag">C#</span>
+        <span class="tag">OBD-II</span>
+        <span class="tag">UI Toolkit</span>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="email-body">
+
+      <p class="eyebrow">Welcome</p>
+      <h1>Your car's data,<br/><span>finally on your dash.</span></h1>
+
+      <p class="intro">
+        The <strong style="color:#e4e4e7;font-weight:500;">All Purpose Car Dashboard</strong> is a real-time Unity application that connects directly to your vehicle via OBD-II. 
+        Whether you're tracking a 0–60 run, watching your RPM ladder climb, or monitoring gear shifts under load — 
+        this dashboard gives you a cockpit-grade view of every data point your car produces.
+      </p>
+
+      <div class="divider"></div>
+
+      <!-- Feature list -->
+      <div class="feature-list">
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg width="18" height="18" fill="none" stroke="#38BDF8" stroke-width="1.6" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Live OBD-II Data Stream</h4>
+            <p>Reads real-time engine data directly from your vehicle's ECU — RPM, speed, throttle, and more — rendered the moment your engine breathes.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg width="18" height="18" fill="none" stroke="#38BDF8" stroke-width="1.6" viewBox="0 0 24 24">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>RPM Ladder &amp; Shift Lights</h4>
+            <p>A segmented RPM ladder lights up as revs climb, with programmable shift-light triggers built for performance driving awareness.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg width="18" height="18" fill="none" stroke="#38BDF8" stroke-width="1.6" viewBox="0 0 24 24">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>0–60 MPH Timer</h4>
+            <p>Automatic launch detection and millisecond-accurate 0–60 tracking, so you always know where your car's performance stands.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg width="18" height="18" fill="none" stroke="#38BDF8" stroke-width="1.6" viewBox="0 0 24 24">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <div class="feature-text">
+            <h4>Custom UI Built in Unity</h4>
+            <p>Designed and coded from scratch using Unity UI Toolkit — clean, responsive, and tuned for high-contrast readability at a glance.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Stat strip -->
+      <div class="stat-strip">
+        <div class="stat">
+          <p class="num">OBD-II</p>
+          <p class="lbl">Hardware protocol</p>
+        </div>
+        <div class="stat">
+          <p class="num">C#</p>
+          <p class="lbl">Engine language</p>
+        </div>
+        <div class="stat">
+          <p class="num">60fps</p>
+          <p class="lbl">Target render rate</p>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-block">
+        <p>
+          <strong>Ready to see it running?</strong><br/>
+          Check out the full project breakdown — including build details, screenshots, and a live demo — on the project page.
+        </p>
+        <a href="https://bit.ly/carterdash" class="btn-primary">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          View the Project
+        </a>
+        <br/>
+        <a href="https://piplynn.com" class="btn-ghost">Browse the Portfolio</a>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="email-footer">
+      <p>© <span id="yr"></span> Carter Lynn · piplynn.com</p>
+      <a href="https://bit.ly/carterdash">bit.ly/carterdash</a>
+    </div>
+
+  </div>
+
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+</body>
+</html>
